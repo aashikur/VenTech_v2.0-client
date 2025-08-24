@@ -1,0 +1,260 @@
+Absolutely!  
+তোমার জন্য **BloodAid Project**-এর জন্য  
+একটি **complete, well-commented, summary documentation** দিলাম—  
+যা তুমি নতুন AI chat model-এ paste করলে,  
+ওই AI তোমার পুরো প্রজেক্টের context, structure, feature, API, এবং workflow বুঝে  
+তোমাকে বাকি কোড/feature/bug-fix-এ help করতে পারবে।
+
+---
+
+# 🚑 BloodAid Project: Full Documentation (Frontend + Backend)
+
+---
+
+## **Project Overview**
+BloodAid is a full-stack blood donation management platform built with the MERN stack (MongoDB, Express.js, React, Node.js) and Firebase Auth.  
+It supports **role-based dashboards** (admin, volunteer, donor),  
+public search, blog, funding (Stripe), and more.
+
+---
+
+## **Frontend Structure (React + Vite + Tailwind)**
+
+```
+src/
+├── assets/                        # Static images, logos, etc.
+├── components/
+│   ├── home/                      # Home page specific components
+│   ├── ui/                        # Reusable UI components (Button, Card, etc.)
+│   ├── shared/                    # Navbar, Footer, Social, Banner, etc.
+│   └── funding/                   # FundingForm, FundingTable, FundingStatCard
+├── hooks/                         # Custom hooks (useAxiosSecure, useRole, useDistrictUpazila, etc.)
+├── layouts/                       # RootLayout, DashboardLayout
+├── pages/
+│   ├── fronted/
+│   │   ├── home/                  # Home.jsx, HeroSection.jsx, etc.
+│   │   ├── blog/                  # Blog.jsx, BlogCard.jsx, BlogDetails.jsx, etc.
+│   │   ├── funding/               # FundingPage.jsx (public funding)
+│   │   ├── auth/                  # Login.jsx, Register.jsx, Error.jsx
+│   │   ├── contact/               # ContactUs.jsx
+│   │   └── shared/                # Navbar.jsx, Footer.jsx, etc.
+│   └── dashboard/
+│       ├── admin/                 # Admin-specific pages (HomeAdmin, AllUsersAdmin, etc.)
+│       ├── volunteer/             # Volunteer-specific pages
+│       ├── donor/                 # Donor-specific pages
+│       └── shared/                # ProfileDashboard, UserDetailsDashboard, MyDonationRequests, etc.
+├── providers/                     # AuthProvider.jsx
+├── routers/                       # mainRoutes.jsx, PrivateRoute.jsx
+├── utils/                         # bdLocationData.json, AllUser.txt
+├── firebase/                      # firebase.config.js
+├── index.css
+├── main.jsx
+└── ...
+```
+
+---
+
+## **Backend Structure (Express + MongoDB + Firebase Admin + Stripe)**
+
+- **Collections:**  
+  - `users` (user info, role, status, blood group, district, upazila, etc.)
+  - `donationRequests` (blood donation requests)
+  - `blogs` (blog posts)
+  - `fundings` (funding/donation records)
+  - `contacts` (contact messages)
+
+- **Key Middlewares:**  
+  - `verifyFirebaseToken` (JWT auth)
+  - `verifyAdmin` (role-based access)
+
+---
+
+## **Key Features & API Endpoints**
+
+### **Authentication & User Management**
+- **Registration:**  
+  - Firebase Auth + MongoDB (role: donor, status: active)
+- **Login:**  
+  - Firebase Auth
+- **Role-based access:**  
+  - Admin, Volunteer, Donor
+- **Block/Unblock user:**  
+  - PATCH `/update-status`
+- **Change role:**  
+  - PATCH `/update-role`
+
+### **Donation Requests**
+- **Create request:**  
+  - POST `/donation-request` (role: donor/volunteer/admin)
+- **My requests:**  
+  - GET `/my-donation-requests?email=...`
+- **All requests (admin/volunteer):**  
+  - GET `/all-donation-requests`
+- **Respond to request:**  
+  - PATCH `/donation-request/:id/respond` (status: inprogress, donorInfo)
+- **Edit/Delete request:**  
+  - PATCH/DELETE `/donation-request/:id`
+- **Request details:**  
+  - GET `/donation-request/:id`
+
+### **Public Search**
+- **Option-based search:**  
+  - GET `/search-donors?bloodGroup=...&district=...&upazila=...`
+- **Dynamic search:**  
+  - GET `/search-donors-dynamic?query=...`
+
+### **Blog**
+- **Add blog:**  
+  - POST `/blogs`
+- **Get all blogs:**  
+  - GET `/blogs`
+- **Edit/Delete blog:**  
+  - PATCH/DELETE `/blogs/:id`
+
+### **Funding (Stripe)**
+- **Create payment intent:**  
+  - POST `/create-payment-intent` (amount)
+- **Save funding record:**  
+  - POST `/fundings`
+- **Get all fundings:**  
+  - GET `/fundings?page=1&limit=10`
+- **Get total funding:**  
+  - GET `/fundings/total`
+
+### **Contact**
+- **Send message:**  
+  - POST `/contacts`
+- **View all messages (admin/volunteer):**  
+  - GET `/contacts`
+
+---
+
+## **Frontend Component/Feature Summary**
+
+- **Home page:**  
+  - Banner, Features, CTA, FAQ, Contact, Blog preview, Funding CTA
+- **Navbar/Footer:**  
+  - Responsive, theme-based, role-aware
+- **Dashboard:**  
+  - Role-based sidebar, stat cards, recent requests, profile, funding, blog management
+- **Search page:**  
+  - Option-based and dynamic search, grid/card result
+- **Funding page:**  
+  - Stripe payment, funding table, stat card
+- **Blog page:**  
+  - Blog list, details, category filter, add/edit (admin/volunteer)
+- **Contact page:**  
+  - Form, left-side icon (framer motion), backend save, login check
+
+---
+
+## **How to Use/Extend**
+
+- **Add new feature:**  
+  - Create new component/page in the right folder (admin/volunteer/donor/shared/fronted)
+  - Add backend route if needed
+  - Use absolute import for clean code
+- **Role-based UI:**  
+  - Sidebar, dashboard, and page access all depend on user role (from useRole hook)
+- **Public vs. Private:**  
+  - Public pages (home, blog, search, funding, contact) use `useAxiosPublic`
+  - Dashboard/private pages use `useAxiosSecure` (with JWT)
+
+---
+
+## **Best Practices**
+
+- **Absolute import (jsconfig.json + vite.config.js)**
+- **Reusable component (form, table, stat, card)**
+- **Role-based access (backend + frontend)**
+- **Clean, scalable folder structure**
+- **All sensitive API require JWT (verifyFirebaseToken)**
+- **All public API use public axios instance**
+
+---
+
+## **Sample Data Structure**
+
+**User:**
+```json
+{
+  "name": "Ashik Rahman",
+  "email": "ashik@gmail.com",
+  "avatar": "",
+  "bloodGroup": "A+",
+  "district": "Dhaka",
+  "upazila": "Dhamrai",
+  "status": "active",
+  "role": "donor",
+  "loginCount": 1,
+  "displayName": "Ashik",
+  "photoURL": "https://randomuser.me/api/portraits/men/11.jpg"
+}
+```
+
+**Donation Request:**
+```json
+{
+  "requesterName": "Ashik Rahman",
+  "requesterEmail": "ashik@gmail.com",
+  "recipientName": "Rafiq Rahman",
+  "recipientDistrict": "Dhaka",
+  "recipientUpazila": "Dhamrai",
+  "hospitalName": "Dhaka Medical",
+  "addressLine": "Dhamrai Main Road",
+  "bloodGroup": "A+",
+  "donationDate": "2024-06-01",
+  "donationTime": "10:00",
+  "requestMessage": "Need blood for surgery.",
+  "donationStatus": "pending",
+  "donorInfo": { "name": "Shila Akter", "email": "shila2@mailinator.com" }
+}
+```
+
+**Funding:**
+```json
+{
+  "userName": "Ashik Rahman",
+  "userEmail": "ashik@gmail.com",
+  "amount": 500,
+  "fundingDate": "2024-06-01T12:34:56.000Z",
+  "paymentId": "stripe_payment_id",
+  "status": "succeeded"
+}
+```
+
+**Blog:**
+```json
+{
+  "title": "Why Donate Blood?",
+  "thumbnail": "https://imgbb.com/your-image.png",
+  "content": "Blood donation saves lives...",
+  "author": "Ashik Rahman",
+  "authorPhoto": "https://randomuser.me/api/portraits/men/11.jpg",
+  "status": "published",
+  "createdAt": "2024-06-01T12:34:56.000Z",
+  "updatedAt": "2024-06-01T12:34:56.000Z"
+}
+```
+
+**Contact:**
+```json
+{
+  "name": "Ashik Rahman",
+  "email": "ashik@gmail.com",
+  "subject": "General Query",
+  "message": "How can I donate blood?",
+  "createdAt": "2024-06-01T12:34:56.000Z"
+}
+```
+
+---
+
+## **How to Extend/Ask AI for Help**
+
+- **"Show me how to add a new blog post page"**
+- **"How to add a new role (e.g. superadmin)?"**
+- **"How to add a new stat card to the dashboard?"**
+- **"How to add a new field to the donation request form?"**
+- **"How to add a new API for exporting funding data?"**
+

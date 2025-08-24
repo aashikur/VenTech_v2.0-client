@@ -1,0 +1,44 @@
+{
+  "bloodGroups": [
+    "A+",
+    "A-",
+    "B+",
+    "B-",
+    "AB+",
+    "AB-",
+    "O+",
+    "O-"
+  ],
+  "districts": [
+    "Dhaka",
+    "Chattogram",
+    "Rajshahi",
+    "Khulna"
+  ],
+  "upazilasByDistrict": {
+    "Dhaka": [
+      "Dhanmondi",
+      "Gulshan",
+      "Mirpur",
+      "Uttara"
+    ],
+    "Chattogram": [
+      "Pahartali",
+      "Kotwali",
+      "Panchlaish",
+      "Halishahar"
+    ],
+    "Rajshahi": [
+      "Boalia",
+      "Rajpara",
+      "Motihar",
+      "Shah Makhdum"
+    ],
+    "Khulna": [
+      "Khalishpur",
+      "Sonadanga",
+      "Daulatpur",
+      "Khan Jahan Ali"
+    ]
+  }
+}
