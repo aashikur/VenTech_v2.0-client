@@ -14,5 +14,6 @@
 }
 
 body {
-    @apply dark:bg-[#18122B]
+    @apply bg-transparent;
+    /* dark:bg-[#18122B] */
 }
