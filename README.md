@@ -69,7 +69,7 @@ It enables users to request and donate blood, manage their profiles, fund the or
 │   │   ├── Footer.jsx
 │   │   ├── Header.jsx
 │   │   ├── Social.jsx
-│   │   ├── SponsorBloodAid.jsx
+│   │   ├── Sponsor.jsx
 │   │   ├── StripeWrapper.jsx
 │   │   ├── Title.jsx
 │   │   ├── funding

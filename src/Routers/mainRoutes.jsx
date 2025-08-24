@@ -8,7 +8,7 @@ import Error from "@/pages/_fronted/home/Error";
 import Home from "@/pages/_fronted/home/Home";
 import Login from "@/pages/_fronted/home/Login";
 
-import SupportBloodAid from "@/components/SponsorBloodAid";
+import SupportBloodAid from "@/components/Sponsor";
 import ProfileDashboard from "@/pages/_dashboard/ProfileDashboard";
 import CreateDonationRequestDashboard from "@/pages/_dashboard/shared/requests/CreateDonationRequestDashboard";
 import MyDonationRequestsDashboard from "@/pages/_dashboard/shared/requests/MyDonationRequestsDashboard";

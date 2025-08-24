@@ -2,7 +2,7 @@ import FundingForm from "@/components/funding/FundingForm";
 import FundingTable from "@/components/funding/FundingTable";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import SupportBloodAid from "@/components/SponsorBloodAid";
+import SupportBloodAid from "@/components/Sponsor";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 // const stripePromise = 'code'
