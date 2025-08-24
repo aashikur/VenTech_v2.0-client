@@ -1,4 +1,4 @@
-# 🩸 BloodAid Client - Blood Donation Platform (React)
+# 🩸 VenTech Client
 
 ## 🚀 Live Site
 

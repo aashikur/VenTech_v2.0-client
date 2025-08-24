@@ -44,7 +44,7 @@ const Home = () => {
       {/* <Hero/> */}
       {/* <UrgentNearYou/> */}
       {/* <PartnersTestimonials/> */}
-      {/* <BlogHighlights /> */}
+      <BlogHighlights />
       {/* <FaqStrip /> */}
       {/* <SafetyEligibility /> */}
 
