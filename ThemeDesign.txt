@@ -1,0 +1,85 @@
+## 🎨 **Theme Guide (based on `Banner` component)**
+
+### 1. **Colors**
+
+* **Primary Gradient:** `from-pink-500 via-red-500 to-yellow-500`
+* **Accent (secondary):** `orange-500`
+* **Light Mode Background:** `white`
+* **Dark Mode Background:** `gray-900 / #0F172A`
+* **Text Colors:**
+
+  * Light mode: `gray-700` for body, `gray-900` for headings
+  * Dark mode: `gray-300` for body, `white` for headings
+
+---
+
+### 2. **Typography**
+
+* **Heading Font:** `font-extrabold`, tight tracking
+* **Headline Size:**
+
+  * `text-4xl` (mobile), `sm:text-5xl`, `lg:text-6xl`
+* **Body / Subheadline:** `text-base sm:text-lg md:text-xl`
+* **Highlight:** Gradient text (`bg-clip-text text-transparent`)
+
+---
+
+### 3. **Buttons**
+
+* **Primary Button (CTA):**
+
+  * Rounded: `rounded-full`
+  * Background: Gradient (`from-pink-500 via-red-500 to-yellow-500`)
+  * Text: `white`, `font-semibold`
+  * Hover: `opacity-90`
+  * Shadow: `shadow-lg`
+  * Size: `w-full sm:w-48 h-12`
+
+* **Secondary Button (Outline CTA):**
+
+  * Rounded: `rounded-full`
+  * Border: `border-orange-500` (light), `border-white/60` (dark)
+  * Text: `text-orange-500` (light), `text-white` (dark)
+  * Hover: `bg-orange-50` (light), `bg-gray-800` (dark)
+  * Size: `w-full sm:w-48 h-12`
+
+---
+
+### 4. **Forms / Inputs**
+
+* **Search Bar:**
+
+  * Container: Rounded full (`rounded-full`), `shadow-md`, border (`gray-200 / gray-700`)
+  * Input: `bg-transparent`, padding `px-4 py-3`, responsive font size
+  * Icon: `ml-4 text-gray-500 / gray-400`
+  * Button: Gradient background (same as primary), `rounded-r-full`
+
+---
+
+### 5. **Layout & Spacing**
+
+* Section height: `h-[90vh]` (hero height)
+* Content container: `max-w-5xl mx-auto px-6 py-20 sm:py-28`
+* Spacing between elements:
+
+  * Headline → subheadline: `mb-6`
+  * Subheadline → CTA buttons: `mb-10`
+  * Buttons → search: `mb-14`
+  * Search → featured heading: `sm:mt-12 sm:mb-8`
+
+---
+
+### 6. **Visual Style Keywords**
+
+* Rounded shapes (`rounded-full` for buttons, inputs)
+* Gradient highlights (headings, CTAs)
+* Soft shadows (`shadow-md / shadow-lg`)
+* Responsive typography and spacing
+* Strong **contrast** for light/dark modes
+
+---
+
+⚡ **Instruction Shortcut for AI:**
+“Use a **gradient-based theme** with `from-pink-500 via-red-500 to-yellow-500` as the primary color. Buttons and inputs are **rounded-full with shadows**. Headings are **bold gradient text**. Layout uses **large spacing** (`py-20`, `mb-10+`) and typography scales responsively (`text-4xl → text-6xl`). Background adapts to **light/dark**. Secondary accents use **orange-500**. Maintain a **modern marketplace look**.”
+
+---

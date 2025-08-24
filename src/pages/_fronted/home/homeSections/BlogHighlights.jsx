@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router"; // Standard for modern React Router
 import useAxiosPublic from "@/hooks/axiosPublic";
+import SectionTitle from "@/components/ui/SectionTitle";
 
 export default function Blog() {
   // Use a single state object to prevent UI flicker
@@ -58,18 +59,11 @@ export default function Blog() {
   }, [axiosPublic]); // axiosPublic from a hook is stable, so this is safe.
 
   return (
-    <main className="w-full">
+    <main className="w-full ">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         {/* Hero Header */}
-        <section className="w-full py-8 md:py-10 text-center">
-          <p className="text-xs uppercase tracking-wider text-neutral-600 dark:text-neutral-400">
-            Insights & Stories
-          </p>
-          <h1 className="text-3xl md:text-4xl font-semibold">Our Blog</h1>
-          <p className="mt-1 text-neutral-600 dark:text-neutral-300">
-            Education, community stories, and updates from the BloodAid team.
-          </p>
-        </section>
+
+        <SectionTitle topText={false}  title="Blog" subtitle="Check out our latest blog posts!"/>
 
         {/* Blog Grid */}
         <section className="w-full py-6">

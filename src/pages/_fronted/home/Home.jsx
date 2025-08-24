@@ -14,7 +14,7 @@ import SafetyEligibility from "./homeSections/SafetyEligibility";
 
 const Home = () => {
   return (
-    <div className="z-10">
+    <div className="">
 
       <Banner></Banner>
       {/* <StatsCards/> */}

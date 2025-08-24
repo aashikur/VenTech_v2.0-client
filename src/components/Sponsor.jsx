@@ -53,7 +53,18 @@ const contacts = [
 ];
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
+ 
+
 const Sponsor = () => {
+
+
+
+  const x = 1;
+  if (x == 1) return <div className="min-h-screen z-10 text-2xl py-100 bg-green-300">
+    
+    <div className="py-100 border bg-red-200"></div>
+    <div className="py-100 border bg-yellow-200"></div>
+  </div>
   return (
     <div className="min-h-screen   bg-gradient-to-br from-red-50 via-pink-100 to-white dark:from-[#18122B] dark:via-[#393053] dark:to-[#18122B] flex flex-col items-center py-12 px-2">
       {/* <h1 className="text-3xl md:text-5xl font-extrabold text-center text-[#c30027] mb-2"> */}

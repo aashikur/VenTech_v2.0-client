@@ -22,10 +22,10 @@ if(isLoading) return (
   </>
 )
   return (
-    <div>
+    <div className="relative">
             {/* Background Grid Pattern */}
       <div
-        className="absolute inset-0 z-0 opacity-70"
+        className="absolute inset-0 z-0 opacity-70 dark:hidden h-full"
         style={{
           background: "#ffffff",
           backgroundImage: `
@@ -36,7 +36,7 @@ if(isLoading) return (
         }}
       />
       <div
-        className="absolute inset-0 z-0 dark:block hidden"
+        className="absolute inset-0 z-0 dark:block hidden opacity-70 h-full"
         style={{
           background: "#0F172A",
           backgroundImage: `
@@ -50,7 +50,9 @@ if(isLoading) return (
       <main className="overflow-x-clip">
         <Outlet></Outlet>
       </main>
-      <Footer></Footer>
+      <div className=" z-10 relative">
+        <Footer></Footer>
+      </div>
       <ScrollToTop></ScrollToTop>
     </div>
   );

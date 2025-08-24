@@ -36,7 +36,7 @@ const Footer = () => (
       {/* Social / Connect */}
       <div className="flex flex-col gap-2">
         <h6 className="font-semibold text-gray-900 dark:text-gray-100 mb-2">Connect</h6>
-        <a href="mailto:info@bloodaid.com" className="hover:text-red-500 dark:hover:text-red-400 transition">info@bloodaid.com</a>
+        <a href="mailto:info@ventech.com" className="hover:text-red-500 dark:hover:text-red-400 transition">info@ventech.com</a>
         <div className="flex gap-4 mt-2">
           {/* Facebook */}
           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="hover:scale-110 transition-transform">
