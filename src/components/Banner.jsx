@@ -8,14 +8,14 @@ const Banner = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <section className="relative w-full z-10 flex flex-col justify-center items-center text-center overflow-hidden">
+    <section className="relative w-full z-10 flex flex-col justify-center items-center text-center h-[90vh] overflow-hidden">
 
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto px-6 py-20 sm:py-28 flex flex-col items-center">
         {/* Headline with Gradient */}
         <h1 className="block bg-clip-text text-transparent font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-center mb-6 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
-          VenderTech – Your Ultimate Multi-Vendor Marketplace
+          Ven<span className="">Tech</span> – Your Ultimate Multi-Vendor Marketplace
         </h1>
 
         {/* Subheadline */}
