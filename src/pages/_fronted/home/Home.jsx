@@ -23,7 +23,7 @@ const Home = () => {
       {/* <UrgentNearYou/> */}
       {/* <PartnersTestimonials/> */}
       <BlogHighlights />
-      {/* <FaqStrip /> */}
+      <FaqStrip />
       {/* <SafetyEligibility /> */}
 
       {/* <LiveImpact /> */}
@@ -32,8 +32,8 @@ const Home = () => {
 
       <div 
       className="bg-transparent">
-        <div className="py-100 bg-transparent text-center text-3xl font-bold">
-          Hello
+        <div className="py-100 bg-transparent text-center text-3xl font-bold max-w-2xl mx-auto">
+          Hello VenTech Community ~   👋 We are building An Amizing Business Solutions ~ this is only Fronted for now
         </div>
       </div>
 
