@@ -22,19 +22,17 @@ const AuthProvider = ({ children }) => {
   const axiosPublic = useAxiosPublic();
 
   const createUser = (email, password) => {
-    return;
+   
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
-    return;
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleProvider = new GoogleAuthProvider();
 
   const googleSignIn = () => {
-    return;
     return signInWithPopup(auth, googleProvider);
   };
 
