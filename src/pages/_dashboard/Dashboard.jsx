@@ -8,17 +8,17 @@ import DashboardLoading from "@/components/loading/DashboardLoading";
 export default function Dashboard() {
   const { role, loading } = useRole();
 
-  
-
   if (loading) {
     return <DashboardLoading/>
   }
 
-  if (role === "donor") {
-    return <DonorDashboardHome />;
+  // Map both old and new roles to appropriate dashboards
+  if (role === "donor" || role === "customer") {
+    return <DonorDashboardHome />; // Customer/Donor Dashboard
   }
-  if (role === "volunteer") {
-    return <VolunteerDashboard/>
+  
+  if (role === "volunteer" || role === "merchant") {
+    return <VolunteerDashboard />; // Merchant/Volunteer Dashboard
   }
 
   if (role === "admin") {
