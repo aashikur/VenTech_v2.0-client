@@ -163,7 +163,7 @@ const ProfileDashboard = () => {
     if (isVenTech) {
       return role === "customer" ? "Customer" : role === "merchant" ? "Merchant" : "Admin";
     }
-    return role === "donor" ? "Donor" : role === "volunteer" ? "Volunteer" : "Admin";
+    return role === "donor" ? "Customer" : role === "volunteer" ? "Marchent" : "Admin";
   };
 
   // Get status color
