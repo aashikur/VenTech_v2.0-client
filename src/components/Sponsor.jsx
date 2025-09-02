@@ -4,7 +4,7 @@ import { FaEnvelope, FaLinkedin, FaDiscord, FaFacebook, FaXTwitter, FaHeart } fr
 import FundingForm from "./funding/FundingForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import FundingPage from "@/pages/_fronted/funding/FundingPage";
+import FundingPage from "@/pages/frontend/funding/FundingPage";
 import { FaCcMastercard } from "react-icons/fa";
 import FundingTable from "./funding/FundingTable";
 import Swal from "sweetalert2";

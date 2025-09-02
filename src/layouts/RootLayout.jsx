@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 import Header from "@/components/Header";
 import ScrollToTop from "@/components/ui/ScrollToTop"
 import Footer from "@/components/Footer";
-import Loading from "@/pages/_fronted/home/Loading";
+import Loading from "@/pages/frontend/home/Loading";
 import { useEffect, useState } from "react";
 const RootLayout = () => {
 

@@ -2,35 +2,30 @@ import axios from "axios";
 import { createBrowserRouter } from "react-router";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import RootLayout from "@/layouts/RootLayout";
-import ManageUsers from "@/pages/_dashboard/shared/users/ManageUsers";
-import Dashboard from "@/pages/_dashboard/Dashboard";
-import Error from "@/pages/_fronted/home/Error";
-import Home from "@/pages/_fronted/home/Home";
-import Login from "@/pages/_fronted/home/Login";
+import ManageUsers from "@/pages/dashboard/shared/users/ManageUsers";
+import Dashboard from "@/pages/dashboard/Dashboard";
+import Error from "@/pages/frontend/home/Error";
+import Home from "@/pages/frontend/home/Home";
+import Login from "@/pages/frontend/auth/Login";
 
-import SupportBloodAid from "@/components/Sponsor";
-import ProfileDashboard from "@/pages/_dashboard/ProfileDashboard";
-import CreateDonationRequestDashboard from "@/pages/_dashboard/shared/requests/CreateDonationRequestDashboard";
-import MyDonationRequestsDashboard from "@/pages/_dashboard/shared/requests/MyDonationRequestsDashboard";
-import MyDonationRequestsDetails from "@/pages/_dashboard/shared/requests/MyDonationRequestsDetails";
-import MyDonationRequestsDetailsEdit from "@/pages/_dashboard/shared/requests/MyDonationRequestsDetailsEdit";
-import DonationRequestsPublic from "@/pages/_dashboard/DonationRequestsPublic";
+import Sponsor from "@/components/Sponsor";
+import ProfileDashboard from "@/pages/dashboard/ProfileDashboard";
+import CreateDonationRequestDashboard from "@/pages/dashboard/shared/requests/CreateDonationRequestDashboard";
+import MyDonationRequestsDashboard from "@/pages/dashboard/shared/requests/MyDonationRequestsDashboard";
+import MyDonationRequestsDetails from "@/pages/dashboard/shared/requests/MyDonationRequestsDetails";
+import MyDonationRequestsDetailsEdit from "@/pages/dashboard/shared/requests/MyDonationRequestsDetailsEdit";
 
-import ManageBlogs from "@/pages/_dashboard/admin/blogs/ManageBlogs";
-import Blog from "@/pages/_fronted/blog/Blog";
-import Search from "@/pages/_fronted/search/Search";
-import FundingPage from "@/pages/_fronted/funding/FundingPage";
-import ViewContactsDashboard from "@/pages/_dashboard/shared/contacts/ViewContactsDashboard";
-import ManageDonationsAdmin from "@/pages/_dashboard/admin/requests/ManageDonationsAdmin";
-import RegistrationPage from "@/pages/_fronted/home/Register";
-import AllFundingAdmin from "@/pages/_dashboard/admin/funding/AllFundingAdmin";
+import ManageBlogs from "@/pages/dashboard/admin/blogs/ManageBlogs";
+import Blog from "@/pages/frontend/blog/BlogPage";
+import FundingPage from "@/pages/frontend/funding/FundingPage";
+import ViewContactsDashboard from "@/pages/dashboard/shared/contacts/ViewContactsDashboard";
+import ManageDonationsAdmin from "@/pages/dashboard/admin/requests/ManageDonationsAdmin";
+import RegistrationPage from "@/pages/frontend/auth/Register";
+import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
-import AddBlogs from "@/pages/_dashboard/shared/AddBlogs";
-import Test from "@/pages/_fronted/test/Test";
-import Urgent from "@/pages/_fronted/urgent/Urgent";
-import Drives from "@/pages/_fronted/drives/Drives";
-import About from "@/pages/_fronted/about/About";
-import ContactUs from "@/components/home/ContactUs";
+import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
+import Test from "@/pages/frontend/test/Test";
+import ContactUs from "@/components/shared/ContactUs";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -43,17 +38,8 @@ const mainRoutes = createBrowserRouter([
         element: <Home></Home>,
       },
       {
-        path: "/donation-requests",
-        element: <DonationRequestsPublic />,
-      },
-      {
         path: "login",
         element: <Login></Login>,
-      },
-
-      {
-        path: "about",
-        element: <About></About>,
       },
       {
         path: "registration",
@@ -62,17 +48,6 @@ const mainRoutes = createBrowserRouter([
       {
         path: "blog",
         element: <Blog />,
-      },{
-        path: "donor",
-        element: <Search />,
-      },
-      {
-        path: "search",
-        element: <Search />,
-      },
-      {
-        path: "drives",
-        element: <Drives />,
       },
       {
         path: "contact",
@@ -80,7 +55,7 @@ const mainRoutes = createBrowserRouter([
       },
       {
         path: '/sponsor',
-        element: <SupportBloodAid></SupportBloodAid>
+        element: <Sponsor></Sponsor>
 
       },
       {

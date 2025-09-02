@@ -6,6 +6,7 @@ const SectionTitle = ({
     topText = "Discover More",
     title = "Section Title",
     subtitle = "This is a short description about the section content.",
+    viewAll,
 }) => {
     return (
         <section className="w-full py-10 text-left relative flex items-center">
@@ -38,7 +39,7 @@ const SectionTitle = ({
                 )}
             </div>
             <div>
-                <Button3> View Full FAQ</Button3>
+                {viewAll && <Button3> {viewAll}</Button3>}
             </div>
         </section>
     );

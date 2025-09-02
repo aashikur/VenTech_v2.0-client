@@ -1,11 +1,9 @@
 import { useNavigate } from "react-router";
 import { FaSearch, FaStore, FaShoppingCart } from "react-icons/fa";
-import { useContext } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 
 const Banner = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
 
   return (
     <section className="relative w-full z-10 flex flex-col justify-center items-center text-center h-[90vh] overflow-hidden">

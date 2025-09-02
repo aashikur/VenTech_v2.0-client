@@ -113,7 +113,7 @@ It enables users to request and donate blood, manage their profiles, fund the or
 │   │   └── RootLayout.jsx
 │
 │   ├── pages
-│   │   ├── _dashboard
+│   │   ├── dashboard
 │   │   │   ├── Dashboard.jsx
 │   │   │   ├── DashboardSidebar.jsx
 │   │   │   ├── DonationRequestsPublic.jsx
@@ -177,7 +177,7 @@ It enables users to request and donate blood, manage their profiles, fund the or
 │   │   │           ├── AllRequestsVolunteer.jsx
 │   │   │           ├── EditRequestVolunteer.jsx
 │   │   │           └── ViewRequestVolunteer.jsx
-│   │   └── _fronted
+│   │   └── frontend
 │   │       ├── about
 │   │       │   └── About.jsx
 │   │       ├── auth

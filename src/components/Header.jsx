@@ -4,7 +4,7 @@ import { AuthContext } from "@/providers/AuthProvider";
 import { FaTachometerAlt, FaSignOutAlt, FaUserCircle, FaSignInAlt, FaUserPlus, FaUser, FaTimes } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 import ToggleLightDark from "./ui/ToggleLightDark";
-import TopNotice from "./home/TopNotice";
+import TopNotice from "./shared/TopNotice";
 import { CiMenuFries } from "react-icons/ci";
 import Swal from "sweetalert2";
 import ThemeButton from "./ui/ThemeButton";

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router";
 import { AuthContext } from "@/providers/AuthProvider";
-import Loading from "@/pages/_fronted/home/Loading";
+import Loading from "@/pages/frontend/home/Loading";
 import Swal from "sweetalert2";
 
 const PrivateRoute = ({ children }) => {
