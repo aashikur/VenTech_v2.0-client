@@ -3,6 +3,9 @@
 // - Section wrapper pattern: w-full -> container -> content
 // - Next-level gradients, clean glow effects, consistent surfaces
 // - Works with your global dark mode (dark: classes), and DaisyUI components
+import { Button, Button1, Button2, Button3 } from "@/components/ui/Button";
+import ShinyButton from "@/components/ui/ShinyButton";
+import ThemeButton from "@/components/ui/ThemeButton";
 import { useEffect, useRef, useState } from "react";
 
 export default function Test() {
@@ -88,6 +91,13 @@ export default function Test() {
                       Create Request
                     </button>
                     <button className="btn btn-ghost btn-lg">Ghost</button>
+                 <Button>Button One</Button>
+                 <Button1>Button One</Button1>
+                 <Button2>Button One</Button2>
+                 <Button3>Button One</Button3>
+                 <ThemeButton variant="text">
+                  Read More 
+                 </ThemeButton>
                   </div>
 
                   <div className="mt-6 grid grid-cols-3 gap-3">

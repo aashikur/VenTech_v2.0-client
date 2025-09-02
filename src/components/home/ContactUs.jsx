@@ -4,6 +4,9 @@ import Swal from "sweetalert2";
 import { AuthContext } from "@/providers/AuthProvider";
 import { useNavigate } from "react-router";
 import useAxiosPublic from "@/hooks/axiosPublic";
+import { FcContacts } from "react-icons/fc";
+import { BiUserCheck } from "react-icons/bi";
+import ThemeButton from "../ui/ThemeButton";
 
 const subjects = [
   "General Query",
@@ -66,17 +69,20 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#FDEDF3] dark:bg-[#18122B] py-12">
+    <div className="relative min-h-screen flex items-center justify-center py-12">
       <div className="bg-white dark:bg-[#18122B] rounded-3xl shadow-lg max-w-[1500px] w-full flex flex-col md:flex-row overflow-hidden">
         {/* Left: Floating Icon */}
         <div className="flex-1 flex items-center justify-center bg-pink-100 dark:bg-[#393053] p-8">
-          <motion.img
+          <motion.div
             src="/logo/faq-5.png"
             alt="Contact Icon"
             className="w-72 h-72 object-contain"
             animate={{ y: [0, -20, 0, 20, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
+          >
+
+            <BiUserCheck className="w-72 h-72 object-contain text-orange-600"/>
+          </motion.div>
         </div>
         {/* Right: Form */}
         <div className="flex-1 flex flex-col justify-center p-8">
@@ -123,13 +129,14 @@ export default function ContactUs() {
               rows={4}
               className="px-4 py-3 rounded-2xl  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
             />
-            <button
+            <ThemeButton
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-full bg-gradient-to-r from-red-700 to-red-500 text-white font-semibold hover:bg-[#a80020] transition"
+              className="w-full"
+              
             >
               {loading ? "Sending..." : "Send Message"}
-            </button>
+            </ThemeButton>
           </form>
         </div>
       </div>

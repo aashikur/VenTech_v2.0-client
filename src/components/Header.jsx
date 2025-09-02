@@ -7,6 +7,7 @@ import ToggleLightDark from "./ui/ToggleLightDark";
 import TopNotice from "./home/TopNotice";
 import { CiMenuFries } from "react-icons/ci";
 import Swal from "sweetalert2";
+import ThemeButton from "./ui/ThemeButton";
 
 const navItems = [
   { name: "Home", path: "/" },
@@ -34,7 +35,7 @@ const Navbar = () => {
   return (
     <>
       <TopNotice />
-      <nav className="sticky top-0 z-[9999] w-full flex justify-center bg-white/80 dark:bg-[#18122B]/80 backdrop-blur-md border-b border-white/30 dark:border-gray-500/30 shadow-lg">
+      <nav className="sticky  top-0 z-[9999] w-full flex justify-center bg-white/80 dark:bg-[#18122B]/80 backdrop-blur-md border-b border-white/30 dark:border-gray-500/30 shadow-lg">
         <div className="max-w-[1500px] w-full flex items-center px-6 py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 mr-6">
@@ -53,10 +54,9 @@ const Navbar = () => {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `relative font-medium transition text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 ${
-                    isActive
-                      ? "text-red-500 border-b-2 border-red-500"
-                      : "border-b-2 border-transparent"
+                  `relative font-medium transition text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white py-2 ${isActive
+                    ? "text-red-500 border-b-2 border-red-500"
+                    : "border-b-2 border-transparent"
                   }`
                 }
               >
@@ -66,80 +66,80 @@ const Navbar = () => {
           </div>
 
           {/* Right side: Auth (Desktop) */}
-<div className="flex items-center gap-3 sm:ml-auto ml-auto">
-  <ToggleLightDark />
-  {!user ? (
-    <>
-      {/* Login Button */}
-      <NavLink
-        to="/login"
-        className="hidden sm:flex items-center justify-center px-8 py-2 gap-2 w-full  cursor-pointer rounded-full 
+          <div className="flex items-center gap-3 sm:ml-auto ml-auto">
+            <ToggleLightDark />
+            {!user ? (
+              <>
+                {/* Login Button */}
+                <NavLink
+                  to="/login"
+                  className="hidden sm:flex items-center justify-center px-8 py-2 gap-2 w-full  cursor-pointer rounded-full 
               border border-orange-500 text-orange-500 text-sm sm:text-base
               dark:text-white dark:border-white/60 
               hover:bg-orange-50 dark:hover:bg-gray-800 
               font-semibold transition"
-      >
-        <FaSignInAlt /> Login
-      </NavLink>
+                >
+                  <FaSignInAlt /> Login
+                </NavLink>
 
-      {/* Register Button */}
-      <NavLink
-        to="/registration"
-        className="hidden sm:flex items-center text-sm px-8 py-2 justify-center gap-2 w-full  cursor-pointer rounded-full 
+                {/* Register Button */}
+                <NavLink
+                  to="/registration"
+                  className="hidden sm:flex items-center text-sm px-8 py-2 justify-center gap-2 w-full  cursor-pointer rounded-full 
               bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500  sm:text-base
               text-white font-semibold shadow-lg hover:opacity-90 transition"
-      >
-        <FaUserPlus /> Register
-      </NavLink>
-    </>
-  ) : (
-    <div className="relative group hidden sm:block">
-      <button
-        className="flex items-center gap-2 font-semibold rounded-full
+                >
+                  <FaUserPlus /> Register
+                </NavLink>
+              </>
+            ) : (
+              <div className="relative group hidden sm:block">
+                <button
+                  className="flex items-center gap-2 font-semibold rounded-full
           bg-red-100 text-red-500 dark:bg-[#393053] dark:text-white
           shadow hover:bg-red-500 hover:text-white dark:hover:bg-red-500 transition"
-      >
-        {user.photoURL ? (
-          <img className="w-9 h-9 rounded-full" src={user.photoURL} alt="" />
-        ) : (
-          <FaUserCircle className="text-2xl" />
-        )}
-      </button>
+                >
+                  {user.photoURL ? (
+                    <img className="w-9 h-9 rounded-full" src={user.photoURL} alt="" />
+                  ) : (
+                    <FaUserCircle className="text-2xl" />
+                  )}
+                </button>
 
-      {/* Dropdown */}
-      <div
-        className="absolute right-0 mt-2 w-44 rounded-xl shadow-lg py-2 z-50
+                {/* Dropdown */}
+                <div
+                  className="absolute right-0 mt-2 w-44 rounded-xl shadow-lg py-2 z-50
           bg-white dark:bg-[#393053]
           opacity-0 group-hover:opacity-100 pointer-events-auto transition"
-      >
-        <Link
-          to="/dashboard"
-          className="block px-4 py-2
+                >
+                  <Link
+                    to="/dashboard"
+                    className="block px-4 py-2
             text-gray-700 dark:text-gray-200
             hover:text-red-500 hover:border-b-2 hover:border-red-500 transition"
-        >
-          <FaTachometerAlt className="inline mr-2" /> Dashboard
-        </Link>
+                  >
+                    <FaTachometerAlt className="inline mr-2" /> Dashboard
+                  </Link>
 
-        <button
-          className="block w-full text-left px-4 py-2
+                  <button
+                    className="block w-full text-left px-4 py-2
             text-red-500 dark:text-red-400
             hover:text-red-700 dark:hover:text-red-500 transition"
-          onClick={() => {
-            logOut().then(() => {
-              Swal.fire({
-                icon: "success",
-                title: "Logout Successful",
-              });
-            });
-          }}
-        >
-          <FaSignOutAlt className="inline mr-2" /> Logout
-        </button>
-      </div>
-    </div>
-  )}
-</div>
+                    onClick={() => {
+                      logOut().then(() => {
+                        Swal.fire({
+                          icon: "success",
+                          title: "Logout Successful",
+                        });
+                      });
+                    }}
+                  >
+                    <FaSignOutAlt className="inline mr-2" /> Logout
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
 
 
           {/* Mobile Menu Button */}
@@ -157,7 +157,7 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div
           id="mobileMenu"
-          className="fixed inset-0 z-[99999] bg-white dark:bg-[#18122B] flex flex-col items-center pt-10 px-4"
+          className="fixed  inset-0 z-[99999] bg-white dark:bg-[#18122B] flex flex-col items-center pt-10 px-4"
         >
           <button
             className="absolute top-4 right-4 text-3xl text-red-500 font-bold"
@@ -182,17 +182,22 @@ const Navbar = () => {
               <div className="flex gap-2">
                 <NavLink
                   to="/login"
-                  className="flex items-center gap-2 px-4 py-2 font-semibold rounded-full border-2 border-red-500 text-red-500 hover:bg-red-100 transition w-full justify-center"
-                  onClick={() => setMobileMenuOpen(false)}
                 >
-                  <FaSignInAlt /> Login
                 </NavLink>
+
+                <ThemeButton
+                  onClick={() => setMobileMenuOpen(false)}
+                  variant="outline" className="px-6 py-2  border-2  justify-center">
+                    <FaSignInAlt /> Login
+                </ThemeButton>
                 <NavLink
                   to="/registration"
-                  className="flex items-center gap-2 px-4 py-2 font-semibold rounded-full bg-red-500 text-white hover:bg-red-600 transition w-full justify-center"
+                  className=""
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <FaUserPlus /> Register
+                 <ThemeButton variant="primary" className="px-6 py-2 justify-center">
+                    <FaUserPlus /> Register
+                  </ThemeButton>
                 </NavLink>
               </div>
             )}
@@ -205,10 +210,9 @@ const Navbar = () => {
                 key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center px-4 py-3 rounded font-medium transition ${
-                    isActive
-                      ? "text-red-500 border-b-2 border-red-500"
-                      : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border-b-2 border-transparent"
+                  `flex items-center px-4 py-3 rounded font-medium transition ${isActive
+                    ? "text-red-500 border-b-2 border-red-500"
+                    : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white border-b-2 border-transparent"
                   }`
                 }
                 onClick={() => setMobileMenuOpen(false)}

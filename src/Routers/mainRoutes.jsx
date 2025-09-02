@@ -29,8 +29,8 @@ import AddBlogs from "@/pages/_dashboard/shared/AddBlogs";
 import Test from "@/pages/_fronted/test/Test";
 import Urgent from "@/pages/_fronted/urgent/Urgent";
 import Drives from "@/pages/_fronted/drives/Drives";
-import Hospitals from "@/pages/_fronted/hospitals/Hospitals";
 import About from "@/pages/_fronted/about/About";
+import ContactUs from "@/components/home/ContactUs";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -50,10 +50,7 @@ const mainRoutes = createBrowserRouter([
         path: "login",
         element: <Login></Login>,
       },
-      {
-        path: "hospitals",
-        element: <Hospitals></Hospitals>,
-      },
+
       {
         path: "about",
         element: <About></About>,
@@ -78,8 +75,8 @@ const mainRoutes = createBrowserRouter([
         element: <Drives />,
       },
       {
-        path: "urgent",
-        element: <Urgent />,
+        path: "contact",
+        element: <ContactUs />,
       },
       {
         path: '/sponsor',
