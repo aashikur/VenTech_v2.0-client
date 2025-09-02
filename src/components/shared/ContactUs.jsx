@@ -7,6 +7,9 @@ import useAxiosPublic from "@/hooks/axiosPublic";
 import { FcContacts } from "react-icons/fc";
 import { BiUserCheck } from "react-icons/bi";
 import ThemeButton from "../ui/ThemeButton";
+import Lottie from "lottie-react";
+import animationData from "../../assets/working"; // path to your JSON
+// import logoAnimaton from "../../assets/lottie/working";
 
 const subjects = [
   "General Query",
@@ -70,30 +73,34 @@ export default function ContactUs() {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center py-12">
-      <div className="bg-white dark:bg-[#18122B] rounded-3xl shadow-lg max-w-[1500px] w-full flex flex-col md:flex-row overflow-hidden">
+      <div className=" dark:bg-[#18122B]/10 backdrop-blur-[2px] border-gray-700 py-10 dark:border rounded-3xl shadow-lg max-w-[1500px] w-full flex flex-col md:flex-row overflow-hidden">
         {/* Left: Floating Icon */}
-        <div className="flex-1 flex items-center justify-center bg-pink-100 dark:bg-[#393053] p-8">
+        <div className="flex-1 flex items-center justify-center p-8">
           <motion.div
             src="/logo/faq-5.png"
             alt="Contact Icon"
-            className="w-72 h-72 object-contain"
+            className="w-full max-w-[500px]"
             animate={{ y: [0, -20, 0, 20, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-
-            <BiUserCheck className="w-72 h-72 object-contain text-orange-600"/>
+    <div className="w-full">
+      <Lottie animationData={animationData} loop={true} />
+    </div>
           </motion.div>
         </div>
         {/* Right: Form */}
         <div className="flex-1 flex flex-col justify-center p-8">
-          <h2 className="text-3xl font-bold text-[#c30027] mb-6">Contact us</h2>
+          <h2 className="
+          block bg-clip-text text-transparent font-extrabold text-4xl sm:text-5xl lg:text-6xl tracking-tight mb-6 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500
+          text-left
+          ">Contact us</h2>
           <form onSubmit={handleSubmit} className="flex flex-col gap-5 py-5">
             {/* Name (read-only) */}
             <input
               type="text"
               name="name"
-              value={user?.displayName || "your-name ~ please login first"}
-              readOnly
+              value={user?.displayName}
+              
               className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
               placeholder="Name"
             />
@@ -101,8 +108,8 @@ export default function ContactUs() {
             <input
               type="email"
               name="email"
-              value={user?.email || "your-email ~ please login first"}
-              readOnly
+              value={user?.email}
+             
               className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
               placeholder="Email"
             />

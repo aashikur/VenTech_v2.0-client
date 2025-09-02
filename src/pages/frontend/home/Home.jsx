@@ -28,7 +28,7 @@ const Home = () => {
       {/* <LiveImpact /> */}
       {/* <FAQAccordion /> */}
       {/* <ContactUs /> */}
-      <Section></Section>
+      {/* <Section></Section> */}
 
       <div 
       className="bg-transparent">

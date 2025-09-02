@@ -1,6 +1,7 @@
 import { useRouteError, Link } from "react-router";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import ThemeButton from "@/components/ui/ThemeButton";
 
 const Error = () => {
   const error = useRouteError();
@@ -27,22 +28,18 @@ const Error = () => {
         </p>
 
         {/* Back to Home Button */}
-        <Link
-          to="/"
-          className="mt-10 inline-flex items-center px-8 py-3 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold rounded-full shadow-lg hover:opacity-90 transition-opacity"
-        >
-          Back to Home
-        </Link>
-
-        {/* Secondary Action Button */}
-        <Link
-          to="/contact"
-          className="mt-4 inline-flex items-center px-8 py-3 border border-orange-500 dark:border-white/60 text-orange-500 dark:text-white font-semibold rounded-full hover:bg-orange-50 dark:hover:bg-gray-800 transition-colors"
-        >
-          Contact Support
-        </Link>
+        <div className="flex gap-2 sm:gap-4 py-8">
+          <Link to='/'>
+              <ThemeButton ton className="px-8 text-sm" >Back to Home</ThemeButton>
+          </Link>
+          <Link to='/contact'>
+              <ThemeButton variant="outline" className="px-8 text-sm ">
+                Contact Support
+              </ThemeButton>
+          </Link>
+        </div>
       </main>
-      <Footer/>
+      <Footer />
     </div>
   );
 };

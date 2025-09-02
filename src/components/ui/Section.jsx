@@ -4,7 +4,7 @@ import { Button3 } from './Button';
 
 const Section = ({ id, title, subtitle, children, className, viewAll = "View All" }) => {
     return (
-        <section id={id} className={`w-full border pb-18 text-gray-700 relative dark:text-gray-300  ${className}`}>
+        <section id={id} className={`w-full pb-18 text-gray-700 relative dark:text-gray-300  ${className}`}>
             <div className="mx-auto max-w-7xl px-4 md:px-6 py-12 relative">
                 {/* Hero Header */}
                 <SectionTitle
@@ -13,11 +13,9 @@ const Section = ({ id, title, subtitle, children, className, viewAll = "View All
                     subtitle="Education, community stories, and updates from the VenTech team."
                     viewAll={viewAll}
                 />
-
                 <div>
                     {children}
                 </div>
-
             </div>
 
             {viewAll &&
