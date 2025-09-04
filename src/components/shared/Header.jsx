@@ -3,11 +3,11 @@ import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "@/providers/AuthProvider";
 import { FaTachometerAlt, FaSignOutAlt, FaUserCircle, FaSignInAlt, FaUserPlus, FaUser, FaTimes } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
-import ToggleLightDark from "./ui/ToggleLightDark";
-import TopNotice from "./shared/TopNotice";
+import ToggleLightDark from "../ui/ToggleLightDark";
+import TopNotice from "./TopNotice";
 import { CiMenuFries } from "react-icons/ci";
 import Swal from "sweetalert2";
-import ThemeButton from "./ui/ThemeButton";
+import ThemeButton from "../ui/ThemeButton";
 
 const navItems = [
   { name: "Home", path: "/" },

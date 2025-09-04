@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { AuthContext } from "@/providers/AuthProvider";
 import { useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "@/hooks/axiosPublic";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 import BloodRequestCard from "@/components/home/BloodRequestCard";
 
 const statusColors = {

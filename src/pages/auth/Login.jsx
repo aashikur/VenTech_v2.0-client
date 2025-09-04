@@ -7,7 +7,7 @@ import loginAnimation from "@/assets/loginAnimation.json";
 import { AuthContext } from "@/providers/AuthProvider";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-import Loading from "../home/Loading";
+import Loading from "../../components/shared/Loading";
 import LottieIcon from "@/components/shared/LottiesPlayer";
 
 const Login = () => {

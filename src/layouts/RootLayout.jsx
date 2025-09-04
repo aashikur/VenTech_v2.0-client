@@ -1,8 +1,8 @@
 import { Outlet } from "react-router";
-import Header from "@/components/Header";
+import Header from "@/components/shared/Header";
 import ScrollToTop from "@/components/ui/ScrollToTop"
-import Footer from "@/components/Footer";
-import Loading from "@/pages/frontend/home/Loading";
+import Footer from "@/components/shared/Footer";
+import Loading from "@/components/shared/Loading";
 import { useEffect, useState } from "react";
 const RootLayout = () => {
 

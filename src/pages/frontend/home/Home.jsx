@@ -1,6 +1,6 @@
-import Banner from "@/components/Banner";
-import BlogHighlights from "./homeSections/BlogHighlights";
-import FaqStrip from "./homeSections/FaqStrip";
+import Banner from "@/components/shared/Banner";
+import BlogHighlights from "./section/BlogHighlights";
+import FaqStrip from "./section/FaqStrip";
 
 const Home = () => {
   return (

@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 const statusColors = {
   pending: "bg-yellow-100 text-yellow-700",

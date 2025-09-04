@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 const EditDonationRequest = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 export default function MyDonationRequestsDetails() {
 

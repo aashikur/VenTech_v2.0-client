@@ -5,7 +5,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 import useRole from "@/hooks/useRole";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 const ProfileDashboard = () => {
 

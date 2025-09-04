@@ -4,7 +4,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { AuthContext } from "@/providers/AuthProvider";
 import useRole from "@/hooks/useRole";
 import { useNavigate } from "react-router";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 
 const CreateDonationRequestDashboard = () => {

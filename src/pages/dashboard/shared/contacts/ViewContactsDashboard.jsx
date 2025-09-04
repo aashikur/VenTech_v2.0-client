@@ -3,7 +3,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { useState } from "react";
 import { FaEye } from "react-icons/fa";
 import { BiUser } from "react-icons/bi";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 export default function ViewContactsDashboard() {
   const axiosSecure = useAxiosSecure();

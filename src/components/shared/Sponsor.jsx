@@ -1,12 +1,12 @@
 import { BiArrowFromRight } from "react-icons/bi";
 import { BsArrowRight } from "react-icons/bs";
 import { FaEnvelope, FaLinkedin, FaDiscord, FaFacebook, FaXTwitter, FaHeart } from "react-icons/fa6";
-import FundingForm from "./funding/FundingForm";
+import FundingForm from "../funding/FundingForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import FundingPage from "@/pages/frontend/funding/FundingPage";
 import { FaCcMastercard } from "react-icons/fa";
-import FundingTable from "./funding/FundingTable";
+import FundingTable from "../funding/FundingTable";
 import Swal from "sweetalert2";
 
 const handleComingSoon = () => {

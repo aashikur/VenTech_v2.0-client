@@ -2,7 +2,7 @@ import useAxiosPublic from '@/hooks/axiosPublic';
 import React from 'react';
 import { useQuery } from "@tanstack/react-query";
 import Swal from 'sweetalert2';
-import Loading from '@/pages/frontend/home/Loading';
+import Loading from '@/components/shared/Loading';
 
 
 const BLOOD_GROUPS = ['All', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];

@@ -1,15 +1,15 @@
-import axios from "axios";
+// import axios from "axios";
 import { createBrowserRouter } from "react-router";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import RootLayout from "@/layouts/RootLayout";
 import ManageUsers from "@/pages/dashboard/shared/users/ManageUsers";
 import Dashboard from "@/pages/dashboard/Dashboard";
-import Error from "@/pages/frontend/home/Error";
+import Error from "@/components/shared/Error";
 import Home from "@/pages/frontend/home/Home";
-import Login from "@/pages/frontend/auth/Login";
+import Login from "@/pages/auth/Login";
 
-import Sponsor from "@/components/Sponsor";
-import ProfileDashboard from "@/pages/dashboard/ProfileDashboard";
+import Sponsor from "@/components/shared/Sponsor";
+import ProfileDashboard from "@/pages/dashboard/shared/ProfileDashboard";
 import CreateDonationRequestDashboard from "@/pages/dashboard/shared/requests/CreateDonationRequestDashboard";
 import MyDonationRequestsDashboard from "@/pages/dashboard/shared/requests/MyDonationRequestsDashboard";
 import MyDonationRequestsDetails from "@/pages/dashboard/shared/requests/MyDonationRequestsDetails";
@@ -19,7 +19,7 @@ import ManageBlogs from "@/pages/dashboard/admin/blogs/ManageBlogs";
 import FundingPage from "@/pages/frontend/funding/FundingPage";
 import ViewContactsDashboard from "@/pages/dashboard/shared/contacts/ViewContactsDashboard";
 import ManageDonationsAdmin from "@/pages/dashboard/admin/requests/ManageDonationsAdmin";
-import RegistrationPage from "@/pages/frontend/auth/Register";
+import RegistrationPage from "@/pages/auth/Register";
 import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
@@ -43,10 +43,7 @@ const mainRoutes = createBrowserRouter([
         path: "registration",
         element: <RegistrationPage></RegistrationPage>,
       },
-      {
-        path: "blog",
-        element: <div> Blog </div>,
-      },
+
       {
         path: "contact",
         element: <ContactUs />,
@@ -71,10 +68,6 @@ const mainRoutes = createBrowserRouter([
         index: true,
         element: <Dashboard />,
       },
-      // {
-      //   path: "all-users",
-      //   element: <AllUsers />,
-      // },
       {
         path: "manage-donations",
         element: <ManageDonationsAdmin />,

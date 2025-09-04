@@ -7,7 +7,7 @@ import { FaPlus, FaEdit, FaTrash, FaList, FaUser, FaBook, FaEllipsisV, FaGlobe, 
 import { AuthContext } from "@/providers/AuthProvider";
 import useRole from "@/hooks/useRole";
 import useDashboardStars from "@/hooks/useDashboardStars";
-import Loading from "@/pages/frontend/home/Loading";
+import Loading from "@/components/shared/Loading";
 
 export default function ManageBlogs() {
 
