@@ -7,13 +7,14 @@ import useAxiosPublic from "@/hooks/axiosPublic";
 import { FcContacts } from "react-icons/fc";
 import { BiUserCheck } from "react-icons/bi";
 import ThemeButton from "../ui/ThemeButton";
-import Lottie from "lottie-react";
+import Lottie, { LottiePlayer } from "lottie-react";
 import animationData from "../../assets/working"; // path to your JSON
+import LottieIcon from "./LottiesPlayer";
 // import logoAnimaton from "../../assets/lottie/working";
 
 const subjects = [
-  "General Query",
-  "Blood Request",
+  "General Enquiry",
+  "Request For Merchant",
   "Feedback",
   "Technical Issue",
   "Other"
@@ -40,29 +41,31 @@ export default function ContactUs() {
     e.preventDefault();
 
     // User login check
-    if (!user) {
-      Swal.fire({
-        icon: "warning",
-        title: "Please login first!",
-        text: "You need to login to send a message.",
-        confirmButtonColor: "#c30027",
-        confirmButtonText: "Go to Login"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          navigate("/login");
-        }
-      });
-      return;
-    }
+    // if (!user) {
+    //   Swal.fire({
+    //     icon: "warning",
+    //     title: "Please login first!",
+    //     text: "You need to login to send a message.",
+    //     confirmButtonColor: "#c30027",
+    //     confirmButtonText: "Go to Login"
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       navigate("/login");
+    //     }
+    //   });
+    //   return;
+    // }
 
     setLoading(true);
+    console.log("Message sent successfully\n", form);
     try {
-      await axiosPublic.post("/contacts", {
+      await axiosPublic.post("/contactForm", {
         name: user?.displayName || "",
         email: user?.email || "",
         subject: form.subject,
         message: form.message,
       });
+      
       Swal.fire("Success!", "Your message has been sent.", "success");
       setForm({ subject: "", message: "" });
     } catch {
@@ -84,9 +87,11 @@ export default function ContactUs() {
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
     <div className="w-full">
-      <Lottie animationData={animationData} loop={true} />
+          <LottieIcon name="working" />
+
     </div>
           </motion.div>
+
         </div>
         {/* Right: Form */}
         <div className="flex-1 flex flex-col justify-center p-8">

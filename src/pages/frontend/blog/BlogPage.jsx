@@ -12,28 +12,28 @@ export default function Blog() {
   const pageSize = 8;
 
   // Fetch all published blogs
-  const { data: blogs = [], isLoading } = useQuery({
-    queryKey: ["public-blogs"],
-    queryFn: async () => {
-      const { data } = await axiosPublic.get("/blogs?status=published");
-      return data;
-    },
-  });
+  // const { data: blogs = [], isLoading } = useQuery({
+  //   queryKey: ["public-blogs"],
+  //   queryFn: async () => {
+  //     const { data } = await axiosPublic.get("/blogs?status=published");
+  //     return data;
+  //   },
+  // });
 
-  // Filter by category
-  const filteredBlogs =
-    category === "All"
-      ? blogs
-      : blogs.filter((b) => b.category === category);
+  // // Filter by category
+  // const filteredBlogs =
+  //   category === "All"
+  //     ? blogs
+  //     : blogs.filter((b) => b.category === category);
 
-  // Pagination
-  const totalPages = Math.ceil(filteredBlogs.length / pageSize);
-  const paginatedBlogs = filteredBlogs.slice(
-    (page - 1) * pageSize,
-    page * pageSize
-  );
+  // // Pagination
+  // const totalPages = Math.ceil(filteredBlogs.length / pageSize);
+  // const paginatedBlogs = filteredBlogs.slice(
+  //   (page - 1) * pageSize,
+  //   page * pageSize
+  // );
 
-  if (isLoading) return <Loading></Loading>
+  // if (isLoading) return <Loading></Loading>
 
   return (
     <div className="min-h-screen bg-[#ffffff] dark:bg-[#18122B] pb-10">

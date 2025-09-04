@@ -8,6 +8,7 @@ import { AuthContext } from "@/providers/AuthProvider";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import Loading from "../home/Loading";
+import LottieIcon from "@/components/shared/LottiesPlayer";
 
 const Login = () => {
   const { signIn, googleSignIn, user } = useContext(AuthContext);
@@ -93,7 +94,7 @@ const Login = () => {
         transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
         className="flex gap-6 pb-10 opacity-80 hover:opacity-100 transition"
       >
-        <img className="rounded-2xl shadow-xl" src="/logo/ventech-banner.png" alt="VenTech" />
+        <LottieIcon name="working"  loop={true} />
       </motion.div>
     </div>
 
