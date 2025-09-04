@@ -16,7 +16,6 @@ import MyDonationRequestsDetails from "@/pages/dashboard/shared/requests/MyDonat
 import MyDonationRequestsDetailsEdit from "@/pages/dashboard/shared/requests/MyDonationRequestsDetailsEdit";
 
 import ManageBlogs from "@/pages/dashboard/admin/blogs/ManageBlogs";
-import Blog from "@/pages/frontend/blog/BlogPage";
 import FundingPage from "@/pages/frontend/funding/FundingPage";
 import ViewContactsDashboard from "@/pages/dashboard/shared/contacts/ViewContactsDashboard";
 import ManageDonationsAdmin from "@/pages/dashboard/admin/requests/ManageDonationsAdmin";
@@ -24,7 +23,6 @@ import RegistrationPage from "@/pages/frontend/auth/Register";
 import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
-import Test from "@/pages/frontend/test/Test";
 import ContactUs from "@/components/shared/ContactUs";
 
 const mainRoutes = createBrowserRouter([
@@ -47,7 +45,7 @@ const mainRoutes = createBrowserRouter([
       },
       {
         path: "blog",
-        element: <Blog />,
+        element: <div> Blog </div>,
       },
       {
         path: "contact",
@@ -62,10 +60,7 @@ const mainRoutes = createBrowserRouter([
         path: '/funding',
         element:  <PrivateRoute><FundingPage></FundingPage></PrivateRoute>
       },
-            {
-        path: "test",
-        element: <Test />,
-      },
+
     ],
   },
   {

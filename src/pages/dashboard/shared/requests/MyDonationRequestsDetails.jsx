@@ -1,10 +1,16 @@
 import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { bloodGroups, districts, upazilasByDistrict } from "@/utils/bdLocationData";
 import Loading from "@/pages/frontend/home/Loading";
 
 export default function MyDonationRequestsDetails() {
+
+  const bloodGroups = null
+  const district = null;
+  const getUpazilasByDistrict = null;
+
+
+
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
 

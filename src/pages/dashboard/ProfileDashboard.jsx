@@ -3,14 +3,18 @@ import { FaEdit, FaSave, FaTimes, FaUpload, FaStore, FaMapMarkerAlt } from "reac
 import { AuthContext } from "@/providers/AuthProvider";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import useDistrictUpazila from "@/hooks/useDistrictUpazila";
+
 import useRole from "@/hooks/useRole";
 import Loading from "@/pages/frontend/home/Loading";
 
 const ProfileDashboard = () => {
+
+
   const { user, updateUser } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
-  const { districts, getUpazilasByDistrict } = useDistrictUpazila();
+
+  const districts = null;
+  const getUpazilasByDistrict = null;
   const { role, status, isVenTech, userData } = useRole();
 
   const [profile, setProfile] = useState(null);

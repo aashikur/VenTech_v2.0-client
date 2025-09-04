@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-import useDistrictUpazila from "@/hooks/useDistrictUpazila";
 import Loading from "@/pages/frontend/home/Loading";
 
 const EditDonationRequest = () => {
@@ -13,7 +12,9 @@ const EditDonationRequest = () => {
   const queryClient = useQueryClient();
 
   // District/Upazila hook
-  const { bloodGroups, districts, getUpazilasByDistrict } = useDistrictUpazila();
+  const bloodGroup = null; 
+  const district = null;
+  const getUpazilasByDistrict = null;
 
   const [form, setForm] = useState(null);
 

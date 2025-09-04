@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { AuthContext } from "@/providers/AuthProvider";
-import useDistrictUpazila from "@/hooks/useDistrictUpazila";
 import useRole from "@/hooks/useRole";
 import { useNavigate } from "react-router";
 import Loading from "@/pages/frontend/home/Loading";
@@ -10,7 +9,10 @@ import Loading from "@/pages/frontend/home/Loading";
 
 const CreateDonationRequestDashboard = () => {
   // Custom hook থেকে data/function আনো
-  const { bloodGroups, districts, getUpazilasByDistrict } = useDistrictUpazila();
+    const bloodGroups = null;
+    const districts = null;
+    const getUpazilasByDistrict = null;
+
 
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
