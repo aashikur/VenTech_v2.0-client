@@ -112,17 +112,14 @@ const RegistrationPage = () => {
       const regUserData = { ...result.user, displayName: form.name };
       setUser(regUserData);
 
-      const backendRole = form.role === "customer" ? "customer" : "merchant";
 
       const userPayload = {
         name: form.name,
         email: form.email,
         phone: form.phone,
-        role: backendRole,
+        role: form.role === "customer" ? "customer" : "merchant",
         status: form.role === "customer" ? "active" : "pending",
         loginCount: 1,
-        ventech_user: true,
-        frontend_role: form.role,
       };
 
       if (form.role === "merchant") {
@@ -134,7 +131,13 @@ const RegistrationPage = () => {
         };
       }
 
-      await axiosPublic.post("/add-user", userPayload);
+      await axiosPublic.post("/api/v1/auth/add-user", {
+        name: user.displayName,
+        email: user.email,
+        phone: user.phoneNumber || "",
+        role: "customer",
+        status: "active",
+      });
 
       const message =
         form.role === "customer"
@@ -176,7 +179,6 @@ const RegistrationPage = () => {
         role: "customer",
       };
 
-      await axiosPublic.post("/api/register", userPayload);
 
       Swal.fire({
         icon: "success",
@@ -225,9 +227,8 @@ const RegistrationPage = () => {
         <div className="flex-1 flex items-center justify-center">
           <form
             onSubmit={handleSubmit}
-            className={`w-full bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-10 transition-all duration-300 ${
-              form.role === "merchant" ? "max-w-4xl" : "max-w-lg"
-            }`}
+            className={`w-full bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-10 transition-all duration-300 ${form.role === "merchant" ? "max-w-4xl" : "max-w-lg"
+              }`}
           >
             {/* Title */}
             <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent text-center mb-4">
@@ -246,11 +247,10 @@ const RegistrationPage = () => {
                     setForm({ ...form, role: "customer" });
                     setStep(1);
                   }}
-                  className={`px-6 py-2 rounded-full font-semibold transition ${
-                    form.role === "customer"
+                  className={`px-6 py-2 rounded-full font-semibold transition ${form.role === "customer"
                       ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white"
                       : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                  }`}
+                    }`}
                 >
                   🛍️ Customer
                 </button>
@@ -260,11 +260,10 @@ const RegistrationPage = () => {
                     setForm({ ...form, role: "merchant" });
                     setStep(1);
                   }}
-                  className={`px-6 py-2 rounded-full font-semibold transition ${
-                    form.role === "merchant"
+                  className={`px-6 py-2 rounded-full font-semibold transition ${form.role === "merchant"
                       ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white"
                       : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                  }`}
+                    }`}
                 >
                   🏪 Merchant
                 </button>

@@ -1,3 +1,4 @@
+// src/providers/AuthProvider.jsx
 import {
   createUserWithEmailAndPassword,
   deleteUser,
@@ -11,29 +12,30 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import app from "@/firebase/firebase.config";
-import useAxiosPublic from "@/hooks/axiosPublic";                         
+import useAxiosPublic from "@/hooks/axiosPublic";
 
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const auth = getAuth(app);
-  
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const axiosPublic = useAxiosPublic();
 
+  // ------------------ Auth Actions ------------------
   const createUser = (email, password) => {
-   
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
 
   const signIn = (email, password) => {
+    setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
   };
 
   const googleProvider = new GoogleAuthProvider();
-
   const googleSignIn = () => {
+    setLoading(true);
     return signInWithPopup(auth, googleProvider);
   };
 
@@ -46,34 +48,62 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
+    setLoading(true);
+    localStorage.removeItem("access-token"); // remove token when logging out
     return signOut(auth);
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log("🚀 ~ unsubscribe ~ currentUser:", currentUser);
-            setUser(currentUser);
+  // ------------------ Observer ------------------
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+  //     setUser(currentUser);
 
-      if (currentUser) {
-        axiosPublic
-          .post("/add-user", {
-            email: currentUser.email,
-            role: "donor",
-            // status: "active",
-            loginCount: 1,
-          })
-          .then((res) => {
-            // console.log('this is axios', res.data, currentUser.email);
-          });
-      }
+  //     if (currentUser) {
+  //       try {
+  //         // Get Firebase ID token
+  //         const token = await currentUser.getIdToken(true);
+  //         setUser({...currentUser, accessToken: token})
+  //         // console.log(currentUser)
 
-      setLoading(false);
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
+  //         // Save token in localStorage (or you can configure axios interceptor)
+  //         localStorage.setItem("access-token", token);
 
+  //         // Sync with backend
+  //         await axiosPublic.post(
+  //           "/api/v1/auth/sync",
+  //           {},
+  //           {
+  //             headers: { Authorization: `Bearer ${token}` },
+  //           }
+  //         );
+  //       } catch (err) {
+  //         console.error("❌ Error syncing user:", err);
+  //       }
+  //     } else {
+  //       localStorage.removeItem("access-token");
+  //     }
+
+  //     setLoading(false);
+  //   });
+
+  //   return () => unsubscribe();
+  // }, [auth, axiosPublic]);
+  // inside useEffect of AuthProvider
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (currentUser) {
+      const token = await currentUser.getIdToken(); // Firebase ID token
+      setUser({ ...currentUser, accessToken: token });
+    } else {
+      setUser(null);
+    }
+    setLoading(false);
+  });
+  return () => unsubscribe();
+}, []);
+
+
+  // ------------------ Context Value ------------------
   const authInfo = {
     user,
     loading,

@@ -1,8 +1,22 @@
 import Banner from "@/components/shared/Banner";
 import BlogHighlights from "./section/BlogHighlights";
 import FaqStrip from "./section/FaqStrip";
+import axios from 'axios';
 
 const Home = () => {
+
+
+
+
+axios.get('/get-user-role')
+  .then(function (response) {
+    // handle success
+    console.log(response);
+  })
+
+
+
+
   return (
     <div className="">
 
@@ -12,7 +26,7 @@ const Home = () => {
       {/* <Hero/> */}
       {/* <UrgentNearYou/> */}
       {/* <PartnersTestimonials/> */}
-      <BlogHighlights />
+      {/* <BlogHighlights /> */}
       <FaqStrip />
       {/* <SafetyEligibility /> */}
 

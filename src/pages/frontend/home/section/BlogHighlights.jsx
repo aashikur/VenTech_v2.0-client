@@ -29,7 +29,7 @@ export default function Blog() {
         if (active) setState({ loading: false, error: "Failed to load blog posts.", posts: [] });
       }
     };
-    fetchPosts();
+    // fetchPosts();
     return () => { active = false; };
   }, [axiosPublic]);
 

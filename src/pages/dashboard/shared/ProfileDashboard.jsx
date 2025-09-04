@@ -1,23 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { FaEdit, FaSave, FaTimes, FaUpload, FaStore, FaMapMarkerAlt } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import Swal from "sweetalert2";
-
 import useRole from "@/hooks/useRole";
 import Loading from "@/components/shared/Loading";
 
 const ProfileDashboard = () => {
-
-
   const { user, updateUser } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const { role, status, profile, setProfile, loading: roleLoading } = useRole();
 
-  const districts = null;
-  const getUpazilasByDistrict = null;
-  const { role, status, isVenTech, userData } = useRole();
-
-  const [profile, setProfile] = useState(null);
   const [edit, setEdit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
@@ -27,33 +19,30 @@ const ProfileDashboard = () => {
     phone: "",
     district: "",
     upazila: "",
-    // Merchant specific fields
     shopName: "",
     shopNumber: "",
     shopAddress: "",
     tradeLicense: "",
   });
 
+  // Sync form with profile data
   useEffect(() => {
-    if (user?.email && !edit) {
-      axiosSecure.get(`/get-user-by-email?email=${user.email}`).then(res => {
-        setProfile(res.data);
-        setForm({
-          name: res.data?.name || user.displayName || "",
-          email: res.data?.email || user.email || "",
-          avatar: res.data?.photoURL || user.photoURL || "",
-          phone: res.data?.phone || "",
-          district: res.data?.district || "",
-          upazila: res.data?.upazila || "",
-          // Merchant fields
-          shopName: res.data?.shopDetails?.shopName || "",
-          shopNumber: res.data?.shopDetails?.shopNumber || "",
-          shopAddress: res.data?.shopDetails?.shopAddress || "",
-          tradeLicense: res.data?.shopDetails?.tradeLicense || "",
-        });
+    if (profile && !edit) {
+      setForm({
+        name: profile.name || user.displayName || "",
+        email: profile.email || user.email || "",
+        avatar: profile.photoURL || user.photoURL || "",
+        phone: profile.phone || "",
+        photoURL: profile.photoURL || user.photoURL || "",
+        district: profile.district || "",
+        upazila: profile.upazila || "",
+        shopName: profile.shopDetails?.shopName || "",
+        shopNumber: profile.shopDetails?.shopNumber || "",
+        shopAddress: profile.shopDetails?.shopAddress || "",
+        tradeLicense: profile.shopDetails?.tradeLicense || "",
       });
     }
-  }, [user, axiosSecure, edit]);
+  }, [profile, user, edit]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,24 +56,23 @@ const ProfileDashboard = () => {
   const handleFileChange = async (e) => {
     const imageFile = e.target.files[0];
     if (!imageFile) return;
+
     const apiKey = "dff59569a81c30696775e74f040e20bb";
     const formData = new FormData();
     formData.append("image", imageFile);
 
     setLoading(true);
     try {
-      const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
-        method: "POST",
-        body: formData,
-      });
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=${apiKey}`,
+        { method: "POST", body: formData }
+      );
       const data = await res.json();
       if (data.success) {
         setForm((prev) => ({ ...prev, avatar: data.data.url }));
         Swal.fire("Uploaded!", "Image uploaded successfully.", "success");
-      } else {
-        Swal.fire("Error", "Image upload failed!", "error");
-      }
-    } catch (err) {
+      } else Swal.fire("Error", "Image upload failed!", "error");
+    } catch {
       Swal.fire("Error", "Image upload failed!", "error");
     } finally {
       setLoading(false);
@@ -94,359 +82,229 @@ const ProfileDashboard = () => {
   const handleEdit = () => setEdit(true);
 
   const handleCancel = () => {
-    setForm({
-      name: profile?.name || user.displayName || "",
-      email: profile?.email || user.email || "",
-      avatar: profile?.photoURL || user.photoURL || "",
-      phone: profile?.phone || "",
-      district: profile?.district || "",
-      upazila: profile?.upazila || "",
-      shopName: profile?.shopDetails?.shopName || "",
-      shopNumber: profile?.shopDetails?.shopNumber || "",
-      shopAddress: profile?.shopDetails?.shopAddress || "",
-      tradeLicense: profile?.shopDetails?.tradeLicense || "",
-    });
     setEdit(false);
+    if (profile) {
+      setForm({
+        name: profile.name || user.displayName || "",
+        email: profile.email || user.email || "",
+        avatar: profile.photoURL || user.photoURL || "",
+        phone: profile.phone || "",
+        photoURL: profile.photoURL || user.photoURL || "",
+
+        district: profile.district || "",
+        upazila: profile.upazila || "",
+        shopName: profile.shopDetails?.shopName || "",
+        shopNumber: profile.shopDetails?.shopNumber || "",
+        shopAddress: profile.shopDetails?.shopAddress || "",
+        tradeLicense: profile.shopDetails?.tradeLicense || "",
+      });
+    }
   };
 
   const handleSave = async () => {
     setLoading(true);
     try {
-      await updateUser({
-        displayName: form.name,
-        photoURL: form.avatar,
-      });
+      await updateUser({ displayName: form.name, photoURL: form.avatar });
 
       const updateData = {
         name: form.name,
-        photoURL: form.avatar,
+        avatar: form.avatar, // ✅ match DB schema
         phone: form.phone,
+        photoURL: form.photoURL,
+
         district: form.district,
         upazila: form.upazila,
+        ...(role === "merchant"
+          ? {
+            shopDetails: {
+              shopName: form.shopName,
+              shopNumber: form.shopNumber,
+              shopAddress: form.shopAddress,
+              tradeLicense: form.tradeLicense,
+            },
+          }
+          : {}),
       };
 
-      // Add shop details for merchants
-      if (isVenTech && role === "merchant") {
-        updateData.shopDetails = {
-          shopName: form.shopName,
-          shopNumber: form.shopNumber,
-          shopAddress: form.shopAddress,
-          tradeLicense: form.tradeLicense,
-        };
-      }
+      await axiosSecure.patch("/api/v1/auth/update-profile", updateData);
 
-      await axiosSecure.patch("/update-user", updateData);
-      setEdit(false);
-      
-      const res = await axiosSecure.get(`/get-user-by-email?email=${user.email}`);
-      setProfile(res.data);
-      setForm({
-        name: res.data?.name || user.displayName || "",
-        email: res.data?.email || user.email || "",
-        avatar: res.data?.photoURL || user.photoURL || "",
-        phone: res.data?.phone || "",
-        district: res.data?.district || "",
-        upazila: res.data?.upazila || "",
-        shopName: res.data?.shopDetails?.shopName || "",
-        shopNumber: res.data?.shopDetails?.shopNumber || "",
-        shopAddress: res.data?.shopDetails?.shopAddress || "",
-        tradeLicense: res.data?.shopDetails?.tradeLicense || "",
-      });
-      
+      const refreshed = await axiosSecure.get("/api/v1/auth/me");
       Swal.fire("Success!", "Profile updated successfully.", "success");
-    } catch (err) {
+      setEdit(false);
+
+      // sync form with updated user
+      const refreshedUser = refreshed.data.user;
+      setForm({
+        name: refreshedUser.name || "",
+        email: refreshedUser.email || "",
+        avatar: refreshedUser.photoURL || "",
+        phone: refreshedUser.phone || "",
+        district: refreshedUser.district || "",
+        photoURL: refreshedUser.photoURL || "",
+        upazila: refreshedUser.upazila || "",
+        shopName: refreshedUser.shopDetails?.shopName || "",
+        shopNumber: refreshedUser.shopDetails?.shopNumber || "",
+        shopAddress: refreshedUser.shopDetails?.shopAddress || "",
+        tradeLicense: refreshedUser.shopDetails?.tradeLicense || "",
+      });
+    } catch {
       Swal.fire("Error!", "Failed to update profile.", "error");
     }
     setLoading(false);
   };
 
-  const upazilaOptions = getUpazilasByDistrict(form.district);
+  const handleRequestMerchant = async () => {
+    try {
+      setLoading(true);
+      const res = await axiosSecure.post("/api/v1/auth/request-merchant");
+      Swal.fire("Success!", "Request sent to admin for approval.", "success");
 
-  // Get display role
-  const getDisplayRole = () => {
-    if (isVenTech) {
-      return role === "customer" ? "Customer" : role === "merchant" ? "Merchant" : "Admin";
+      // Update local profile state in real-time
+      setProfile(prev => ({
+        ...prev,
+        roleRequest: "merchant",
+        status: "pending",
+      }));
+    } catch (err) {
+      console.error("Request merchant error:", err.response?.data || err.message);
+      Swal.fire("Error!", err.response?.data?.message || "Failed to send request.", "error");
+    } finally {
+      setLoading(false);
     }
-    return role === "donor" ? "Customer" : role === "volunteer" ? "Marchent" : "Admin";
   };
 
-  // Get status color
-  const getStatusColor = () => {
-    if (status === "active") return "text-green-600 bg-green-50 border-green-200 dark:bg-green-900/20 dark:border-green-700";
-    if (status === "pending") return "text-orange-600 bg-orange-50 border-orange-200 dark:bg-orange-900/20 dark:border-orange-700";
-    if (status === "blocked") return "text-red-600 bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-700";
-    return "text-gray-600 bg-gray-50 border-gray-200 dark:bg-gray-900/20 dark:border-gray-700";
-  };
-
-  if (!profile) return <Loading></Loading>;
+  if (roleLoading) return <Loading />;
 
   return (
     <div className="w-full max-w-4xl mx-auto bg-white dark:bg-[#18122B] rounded-2xl shadow-xl p-6 mt-8">
       <div className="flex flex-col items-center gap-6">
-        {/* Profile Image */}
         <div className="relative">
           <img
-            src={form?.avatar || "/logo/logo-V.png"}
+            src={form.avatar || "/logo/logo-V.png"}
             alt="Profile"
             className="w-32 h-32 rounded-full border-4 border-gradient-to-r from-pink-500 to-yellow-500 object-cover shadow-lg"
           />
-          {isVenTech && (
-            <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-pink-500 to-yellow-500 text-white px-2 py-1 rounded-full text-xs font-bold">
-              VenTech
-            </div>
-          )}
         </div>
 
         <div className="w-full">
-          {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-            <div>
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
-                {isVenTech ? (role === "merchant" ? "Shop Profile" : "My Profile") : "My Profile"}
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mt-1">
-                {isVenTech ? "Manage your VenTech marketplace profile" : "Manage your profile information"}
-              </p>
-            </div>
-            
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold">
+              {role === "merchant" ? "Shop Profile" : "My Profile"}
+            </h2>
             {!edit ? (
-              <button
-                onClick={handleEdit}
-                className="flex items-center gap-2 px-6 py-3 rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold hover:opacity-90 transition shadow-lg"
-              >
-                <FaEdit /> Edit Profile
+              <button onClick={handleEdit} className="btn btn-primary">
+                Edit Profile
               </button>
             ) : (
               <div className="flex gap-2">
                 <button
                   onClick={handleSave}
                   disabled={loading}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-green-600 text-white font-semibold hover:bg-green-700 transition shadow-lg disabled:opacity-50"
+                  className="btn btn-success"
                 >
-                  <FaSave /> {loading ? "Saving..." : "Save"}
+                  {loading ? "Saving..." : "Save"}
                 </button>
-                <button
-                  onClick={handleCancel}
-                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-gray-300 text-gray-700 font-semibold hover:bg-gray-400 transition shadow-lg"
-                >
-                  <FaTimes /> Cancel
+                <button onClick={handleCancel} className="btn btn-secondary">
+                  Cancel
                 </button>
               </div>
             )}
           </div>
 
-          {/* Status Badges */}
           <div className="flex flex-wrap gap-3 mb-6">
-            <span className="inline-flex items-center px-4 py-2 text-sm rounded-full border bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold">
-              <FaStore className="mr-2" />
-              {getDisplayRole()}
+            <span className="badge badge-info">{role}</span>
+            <span
+              className={`badge ${status === "active"
+                  ? "badge-success"
+                  : status === "pending"
+                    ? "badge-warning"
+                    : "badge-error"
+                }`}
+            >
+              Status: {status}
             </span>
-            <span className={`inline-flex items-center px-4 py-2 text-sm rounded-full border font-semibold ${getStatusColor()}`}>
-              Status: {status || "Active"}
-            </span>
-            {isVenTech && role === "merchant" && status === "pending" && (
-              <span className="inline-flex items-center px-4 py-2 text-sm rounded-full border border-orange-300 bg-orange-100 text-orange-700 dark:bg-orange-900/20 dark:border-orange-700 dark:text-orange-400 font-semibold">
-                ⏳ Waiting for Admin Approval
-              </span>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Personal Info */}
+            <div className="space-y-4">
+              <label>Name</label>
+              <input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                disabled={!edit}
+                className="input input-bordered w-full"
+              />
+              <label>Email</label>
+              <input
+                name="email"
+                value={form.email}
+                disabled
+                className="input input-bordered w-full"
+              />
+              <label>Phone</label>
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                disabled={!edit}
+                className="input input-bordered w-full"
+              />
+              <label>Profile Photo</label>
+              <input type="file" onChange={handleFileChange} disabled={!edit} />
+            </div>
+
+            {/* Merchant Info */}
+            {role === "merchant" && (
+              <div className="space-y-4">
+                <label>Shop Name</label>
+                <input
+                  name="shopName"
+                  value={form.shopName}
+                  onChange={handleChange}
+                  disabled={!edit}
+                  className="input input-bordered w-full"
+                />
+                <label>Shop Number</label>
+                <input
+                  name="shopNumber"
+                  value={form.shopNumber}
+                  onChange={handleChange}
+                  disabled={!edit}
+                  className="input input-bordered w-full"
+                />
+                <label>Shop Address</label>
+                <textarea
+                  name="shopAddress"
+                  value={form.shopAddress}
+                  onChange={handleChange}
+                  disabled={!edit}
+                  className="textarea textarea-bordered w-full"
+                ></textarea>
+                <label>Trade License</label>
+                <input
+                  name="tradeLicense"
+                  value={form.tradeLicense}
+                  onChange={handleChange}
+                  disabled={!edit}
+                  className="input input-bordered w-full"
+                />
+              </div>
             )}
           </div>
 
-          {/* Form */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Personal Information */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                👤 Personal Information
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Full Name</label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    disabled={!edit}
-                    className={`w-full px-4 py-3 rounded-lg border transition ${
-                      edit 
-                        ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                        : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                    } outline-none`}
-                  />
-                </div>
+          {/* Request Merchant */}
+          {!edit && role === "customer" && (
+            <button
+              onClick={handleRequestMerchant}
+              className="btn btn-warning mt-4"
+              disabled={profile?.status === "pending"}
+            >
+              {profile?.status === "pending" ? "Request Pending" : "Request to Become Merchant"}
+            </button>
+          )}
 
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={form.email}
-                    disabled
-                    className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-600 outline-none"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Phone Number</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    disabled={!edit}
-                    placeholder="Enter your phone number"
-                    className={`w-full px-4 py-3 rounded-lg border transition ${
-                      edit 
-                        ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                        : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                    } outline-none`}
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Profile Photo</label>
-                  <label className={`flex items-center gap-2 cursor-pointer px-4 py-3 rounded-lg font-semibold transition ${
-                    edit 
-                      ? "bg-gradient-to-r from-pink-500 to-yellow-500 text-white hover:opacity-90" 
-                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                  }`}>
-                    <FaUpload /> Choose New Photo
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleFileChange}
-                      disabled={!edit}
-                      className="hidden"
-                    />
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            {/* Location & Business Information */}
-            <div className="space-y-6">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
-                <FaMapMarkerAlt /> Location & {isVenTech && role === "merchant" ? "Business" : "Additional"} Information
-              </h3>
-              
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">District</label>
-                  <select
-                    name="district"
-                    value={form.district}
-                    onChange={handleChange}
-                    disabled={!edit}
-                    className={`w-full px-4 py-3 rounded-lg border transition ${
-                      edit 
-                        ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                        : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                    } outline-none`}
-                  >
-                    <option value="">Select District</option>
-                    {districts.map((d) => (
-                      <option key={d.id} value={d.name}>{d.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Upazila</label>
-                  <select
-                    name="upazila"
-                    value={form.upazila}
-                    onChange={handleChange}
-                    disabled={!edit}
-                    className={`w-full px-4 py-3 rounded-lg border transition ${
-                      edit 
-                        ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                        : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                    } outline-none`}
-                  >
-                    <option value="">Select Upazila</option>
-                    {upazilaOptions.map((u) => (
-                      <option key={u.id} value={u.name}>{u.name}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Merchant-specific fields */}
-                {isVenTech && role === "merchant" && (
-                  <>
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Shop Name</label>
-                      <input
-                        type="text"
-                        name="shopName"
-                        value={form.shopName}
-                        onChange={handleChange}
-                        disabled={!edit}
-                        placeholder="Enter your shop name"
-                        className={`w-full px-4 py-3 rounded-lg border transition ${
-                          edit 
-                            ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                            : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                        } outline-none`}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Shop Number</label>
-                      <input
-                        type="text"
-                        name="shopNumber"
-                        value={form.shopNumber}
-                        onChange={handleChange}
-                        disabled={!edit}
-                        placeholder="Unique shop identifier"
-                        className={`w-full px-4 py-3 rounded-lg border transition ${
-                          edit 
-                            ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                            : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                        } outline-none`}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Shop Address</label>
-                      <textarea
-                        name="shopAddress"
-                        value={form.shopAddress}
-                        onChange={handleChange}
-                        disabled={!edit}
-                        placeholder="Enter your shop address"
-                        rows="3"
-                        className={`w-full px-4 py-3 rounded-lg border transition ${
-                          edit 
-                            ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                            : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                        } outline-none resize-none`}
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold mb-2 text-gray-700 dark:text-gray-300">Trade License (Optional)</label>
-                      <input
-                        type="text"
-                        name="tradeLicense"
-                        value={form.tradeLicense}
-                        onChange={handleChange}
-                        disabled={!edit}
-                        placeholder="Trade license number"
-                        className={`w-full px-4 py-3 rounded-lg border transition ${
-                          edit 
-                            ? "bg-pink-50 dark:bg-pink-900/20 border-pink-300 dark:border-pink-700 focus:ring-2 focus:ring-pink-500" 
-                            : "bg-gray-100 dark:bg-gray-800 border-gray-300 dark:border-gray-600"
-                        } outline-none`}
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
