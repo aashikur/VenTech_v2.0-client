@@ -24,6 +24,7 @@ import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import ContactUs from "@/components/shared/ContactUs";
+import ManageAllUsers from "@/pages/dashboard/admin/users/ManageAllUser";
 
 
 const mainRoutes = createBrowserRouter([
@@ -82,7 +83,8 @@ const mainRoutes = createBrowserRouter([
 
       {
         path: "manage-users",
-        element: <ManageUsers />,
+        // element: <ManageUsers />,
+        element: <ManageAllUsers />,
       },
       {
         path: "profile",

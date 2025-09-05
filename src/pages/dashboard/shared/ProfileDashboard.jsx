@@ -162,8 +162,8 @@ const ProfileDashboard = () => {
       // Update local profile state in real-time
       setProfile(prev => ({
         ...prev,
-        roleRequest: "merchant",
-        status: "pending",
+        roleRequest: { type: "merchant", status: "pending", requestedAt: new Date() },
+        status: "active" // keep account active while waiting
       }));
     } catch (err) {
       console.error("Request merchant error:", err.response?.data || err.message);
@@ -301,16 +301,18 @@ const ProfileDashboard = () => {
           </div>
 
           {/* Request Merchant */}
-          {!edit && role === "customer" && (
+         {
+          profile?.roleRequest?.status != "approved" &&  (!edit && role === "customer" && (
             <button
               onClick={handleRequestMerchant}
               className="btn btn-warning mt-4"
-              disabled={profile?.status === "pending"}
+              disabled={profile?.roleRequest?.type === "merchant" && profile?.roleRequest?.status === "pending"}
             >
               {profile?.status === "pending" ? "Request Pending" : "Request to Become Merchant"}
             </button>
-          )}
-
+          ))
+         }
+        { profile?.roleRequest?.type === "merchant" && <p className={`text-sm mt-5 ${profile?.roleRequest?.status != "approved" ? "animate-bounce text-orange-400" : " text-green-500"}`} >Your request status to be become merchant: <span className="font-semibold">{profile?.roleRequest?.status}</span></p>}
         </div>
       </div>
     </div>
