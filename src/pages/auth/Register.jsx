@@ -129,6 +129,7 @@ useEffect(() => {
       };
 
       if (form.role === "merchant") {
+        userPayload.roleRequest = { type: "merchant", status: "pending", requestedAt: new Date() };
         userPayload.shopDetails = {
           shopName: form.shopName,
           shopNumber: form.shopNumber,

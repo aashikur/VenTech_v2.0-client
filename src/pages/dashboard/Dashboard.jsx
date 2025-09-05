@@ -1,4 +1,5 @@
 import useRole from "@/hooks/useRole";
+import AdminDashboard from "./AdminDashboard";
 
 export default function Dashboard() {
   const { role, loading } = useRole();
@@ -8,7 +9,7 @@ export default function Dashboard() {
   return (
     <div>
       {role === "admin" && <AdminDashboard />}
-      {role === "merchant" && <MerchantDashboard />}
+      {role === "merchant" && <AdminDashboard />}
       {role === "customer" && <CustomerDashboard />}
       {!role && <div>Unauthorized</div>}
     </div>
@@ -16,6 +17,4 @@ export default function Dashboard() {
 }
 
 // Example Components
-const AdminDashboard = () => <div>Welcome Admin</div>;
-const MerchantDashboard = () => <div>Welcome Merchant</div>;
 const CustomerDashboard = () => <div>Welcome Customer</div>;

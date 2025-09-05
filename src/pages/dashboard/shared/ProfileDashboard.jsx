@@ -301,18 +301,33 @@ const ProfileDashboard = () => {
           </div>
 
           {/* Request Merchant */}
-         {
-          profile?.roleRequest?.status != "approved" &&  (!edit && role === "customer" && (
-            <button
-              onClick={handleRequestMerchant}
-              className="btn btn-warning mt-4"
-              disabled={profile?.roleRequest?.type === "merchant" && profile?.roleRequest?.status === "pending"}
+          {
+            profile?.roleRequest?.status != "approved" && (!edit && role === "customer" && (
+              <button
+                onClick={handleRequestMerchant}
+                className="btn btn-warning mt-4"
+                disabled={profile?.roleRequest?.type === "merchant" && profile?.roleRequest?.status === "pending"}
+              >
+                {profile?.status === "pending" ? "Request Pending" : "Request to Become Merchant"}
+              </button>
+            ))
+          }
+          {profile?.roleRequest?.type === "merchant" && (
+            <p
+              className={`text-sm mt-5 ${profile?.roleRequest?.status === "pending"
+                  ? "animate-bounce text-orange-400"
+                  : profile?.roleRequest?.status === "approved"
+                    ? "text-green-500"
+                    : profile?.roleRequest?.status === "rejected"
+                      ? "text-red-500"
+                      : ""
+                }`}
             >
-              {profile?.status === "pending" ? "Request Pending" : "Request to Become Merchant"}
-            </button>
-          ))
-         }
-        { profile?.roleRequest?.type === "merchant" && <p className={`text-sm mt-5 ${profile?.roleRequest?.status != "approved" ? "animate-bounce text-orange-400" : " text-green-500"}`} >Your request status to be become merchant: <span className="font-semibold">{profile?.roleRequest?.status}</span></p>}
+              Your request status to become merchant:{" "}
+              <span className="font-semibold">{profile?.roleRequest?.status}</span>
+            </p>
+          )}
+
         </div>
       </div>
     </div>

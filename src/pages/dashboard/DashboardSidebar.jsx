@@ -14,8 +14,9 @@ const LINKS = {
   admin: [
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/manage-users", icon: <FaUsers />, label: "Manage Users" },
-    { to: "/dashboard/manage-products", icon: <FaBoxOpen />, label: "Manage Products" },
-    { to: "/dashboard/manage-orders", icon: <FaShoppingCart />, label: "Manage Orders" },
+    { to: "/dashboard/pending-merchant", icon: <FaBoxOpen />, label: "Pending Merchants" },
+    // { to: "/dashboard/manage-orders", icon: <FaShoppingCart />, label: "Manage Orders" },
+    { to: "/dashboard/mailbox", icon: <FaShoppingCart />, label: "Mail Box" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Analytics" },
   ],
   merchant: [
@@ -23,7 +24,7 @@ const LINKS = {
     { to: "/dashboard/my-products", icon: <FaBoxOpen />, label: "My Products" },
     { to: "/dashboard/add-product", icon: <FaPlus />, label: "Add Product" },
     { to: "/dashboard/my-orders", icon: <FaShoppingCart />, label: "My Orders" },
-    { to: "/dashboard/shop-analytics", icon: <FaChartBar />, label: "Shop Analytics" },
+    { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
   ],
   customer: [

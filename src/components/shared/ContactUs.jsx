@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { AuthContext } from "@/providers/AuthProvider";
@@ -13,15 +13,15 @@ import LottieIcon from "./LottiesPlayer";
 // import logoAnimaton from "../../assets/lottie/working";
 
 const subjects = [
-  "General Enquiry",
-  "Request For Merchant",
-  "Feedback",
-  "Technical Issue",
+  "Merchant Pending",
+  "Report a Merchant",
+  "Report a Product",
+  "Report a Bug",
   "Other"
 ];
 
 export default function ContactUs() {
-//   const axiosSecure = useAxiosSecure();
+  //   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic()
   const { user } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -29,6 +29,8 @@ export default function ContactUs() {
   const [form, setForm] = useState({
     subject: "",
     message: "",
+    name: "",
+    email: "",
   });
   const [loading, setLoading] = useState(false);
 
@@ -36,36 +38,32 @@ export default function ContactUs() {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({
+        ...prev,
+        name: user.displayName || "",
+        email: user.email || "",
+      }));
+    }
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // User login check
-    // if (!user) {
-    //   Swal.fire({
-    //     icon: "warning",
-    //     title: "Please login first!",
-    //     text: "You need to login to send a message.",
-    //     confirmButtonColor: "#c30027",
-    //     confirmButtonText: "Go to Login"
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       navigate("/login");
-    //     }
-    //   });
-    //   return;
-    // }
+
+    console.log(form)
 
     setLoading(true);
     console.log("Message sent successfully\n", form);
     try {
-      await axiosPublic.post("/contactForm", {
-        name: user?.displayName || "",
-        email: user?.email || "",
+      await axiosPublic.post("api/public/mailbox", {
+        name: form.name,
+        email: form.email,
         subject: form.subject,
         message: form.message,
       });
-      
+
       Swal.fire("Success!", "Your message has been sent.", "success");
       setForm({ subject: "", message: "" });
     } catch {
@@ -86,10 +84,10 @@ export default function ContactUs() {
             animate={{ y: [0, -20, 0, 20, 0] }}
             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
-    <div className="w-full">
-          <LottieIcon name="working" />
+            <div className="w-full">
+              <LottieIcon name="working" />
 
-    </div>
+            </div>
           </motion.div>
 
         </div>
@@ -104,20 +102,21 @@ export default function ContactUs() {
             <input
               type="text"
               name="name"
-              value={user?.displayName}
-              
-              className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
-              placeholder="Name"
+              value={form.name || user?.displayName || ""}
+              onChange={handleChange}
+              className="px-4 py-3 rounded-full bg-[#FDEDF3] dark:bg-[#393053] outline-none"
+              placeholder="Your Name"
             />
-            {/* Email (read-only) */}
+
             <input
               type="email"
               name="email"
-              value={user?.email}
-             
-              className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
-              placeholder="Email"
+              value={form.email || user?.email || ""}
+              onChange={handleChange}
+              className="px-4 py-3 rounded-full bg-[#FDEDF3] dark:bg-[#393053] outline-none"
+              placeholder="example@gmail.com"
             />
+
             {/* Subject Dropdown */}
             <select
               name="subject"
@@ -126,7 +125,7 @@ export default function ContactUs() {
               required
               className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
             >
-              <option value="">Select Subject</option>
+              <option className="text-gray-500" value="">mail subject</option>
               {subjects.map((subj) => (
                 <option key={subj} value={subj}>{subj}</option>
               ))}
@@ -137,7 +136,7 @@ export default function ContactUs() {
               value={form.message}
               onChange={handleChange}
               required
-              placeholder="Message"
+              placeholder="Message : I would like to talk about..."
               rows={4}
               className="px-4 py-3 rounded-2xl  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
             />
@@ -145,7 +144,7 @@ export default function ContactUs() {
               type="submit"
               disabled={loading}
               className="w-full"
-              
+
             >
               {loading ? "Sending..." : "Send Message"}
             </ThemeButton>

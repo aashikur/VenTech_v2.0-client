@@ -2,7 +2,6 @@
 import { createBrowserRouter } from "react-router";
 import DashboardLayout from "@/layouts/DashboardLayout";
 import RootLayout from "@/layouts/RootLayout";
-import ManageUsers from "@/pages/dashboard/shared/users/ManageUsers";
 import Dashboard from "@/pages/dashboard/Dashboard";
 import Error from "@/components/shared/Error";
 import Home from "@/pages/frontend/home/Home";
@@ -10,21 +9,18 @@ import Login from "@/pages/auth/Login";
 
 import Sponsor from "@/components/shared/Sponsor";
 import ProfileDashboard from "@/pages/dashboard/shared/ProfileDashboard";
-import CreateDonationRequestDashboard from "@/pages/dashboard/shared/requests/CreateDonationRequestDashboard";
-import MyDonationRequestsDashboard from "@/pages/dashboard/shared/requests/MyDonationRequestsDashboard";
-import MyDonationRequestsDetails from "@/pages/dashboard/shared/requests/MyDonationRequestsDetails";
-import MyDonationRequestsDetailsEdit from "@/pages/dashboard/shared/requests/MyDonationRequestsDetailsEdit";
-
 import ManageBlogs from "@/pages/dashboard/admin/blogs/ManageBlogs";
 import FundingPage from "@/pages/frontend/funding/FundingPage";
-import ViewContactsDashboard from "@/pages/dashboard/shared/contacts/ViewContactsDashboard";
-import ManageDonationsAdmin from "@/pages/dashboard/admin/requests/ManageDonationsAdmin";
 import RegistrationPage from "@/pages/auth/Register";
 import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import ContactUs from "@/components/shared/ContactUs";
 import ManageAllUsers from "@/pages/dashboard/admin/users/ManageAllUser";
+import PendingMerchants from "@/pages/dashboard/admin/users/PendingMerchants";
+import MailBox from "@/pages/dashboard/admin/MailBox";
+import Analytics from "@/pages/dashboard/admin/analytics/analytics";
+import AddProducts from "@/pages/dashboard/merchant/AddProducts";
 
 
 const mainRoutes = createBrowserRouter([
@@ -77,34 +73,12 @@ const mainRoutes = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "manage-donations",
-        element: <ManageDonationsAdmin />,
-      },
-
-      {
         path: "manage-users",
-        // element: <ManageUsers />,
         element: <ManageAllUsers />,
       },
       {
         path: "profile",
         element: <ProfileDashboard />,
-      },
-      {
-        path: "donation-request-details/:id",
-        element: <MyDonationRequestsDetails />,
-      },
-      {
-        path: "donation-request-details-edit/:id",
-        element: <MyDonationRequestsDetailsEdit />,
-      },
-      {
-        path: "create-donation-request",
-        element: <CreateDonationRequestDashboard />,
-      },
-      {
-        path: "my-donation-requests",
-        element: <MyDonationRequestsDashboard />,
       },
       {
         path: "add-blog",
@@ -117,12 +91,25 @@ const mainRoutes = createBrowserRouter([
         element: <ManageBlogs />,
       },
       {
-        path: "/dashboard/contacts",
-        element: <ViewContactsDashboard />,
+        path: "add-product",
+        element: <AddProducts />,
+      },
+      
+      {
+        path: "/dashboard/mailbox",
+        element: <MailBox />,
+      },
+      {
+        path: "/dashboard/analytics",
+        element: <Analytics />,
       },
       {
         path: "/dashboard/funding",
         element: <AllFundingAdmin />,
+      },
+      {
+        path: "/dashboard/pending-merchant",
+        element: <PendingMerchants/>,
       },
       {
         path: "*",
