@@ -93,12 +93,35 @@ useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
     if (currentUser) {
       const token = await currentUser.getIdToken(); // Firebase ID token
-      setUser({ ...currentUser, accessToken: token });
+      localStorage.setItem("access-token", token);
+
+      try {
+        // 🔑 Sync with backend
+        const { data } = await axiosPublic.get("/api/v1/auth/me", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Store both Firebase & backend user info
+        setUser({
+          ...currentUser,
+          accessToken: token,
+          role: data.user.role,
+          status: data.user.status,
+          loginCount: data.user.loginCount,
+        });
+
+        console.log("✅ Synced user:", data.user);
+      } catch (err) {
+        console.error("Auth sync error:", err);
+        setUser(null);
+      }
     } else {
+      localStorage.removeItem("access-token");
       setUser(null);
     }
     setLoading(false);
   });
+
   return () => unsubscribe();
 }, []);
 

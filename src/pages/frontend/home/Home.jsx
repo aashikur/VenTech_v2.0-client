@@ -8,11 +8,11 @@ const Home = () => {
 
 
 
-axios.get('/get-user-role')
-  .then(function (response) {
-    // handle success
-    console.log(response);
-  })
+// axios.get('/get-user-role')
+//   .then(function (response) {
+//     // handle success
+//     console.log(response);
+//   })
 
 
 

@@ -24,8 +24,7 @@ import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import ContactUs from "@/components/shared/ContactUs";
-import Register from "@/pages/auth/Register2";
-import Login2 from "@/pages/auth/Login2";
+
 
 const mainRoutes = createBrowserRouter([
   {
@@ -55,16 +54,7 @@ const mainRoutes = createBrowserRouter([
         element: <Sponsor></Sponsor>
 
       },
-      {
-        path: '/register2',
-        element: <Register></Register>
 
-      },
-      {
-        path: '/login2',
-        element: <Login2></Login2>
-
-      },
       {
         path: '/sponsor',
         element: <Sponsor></Sponsor>

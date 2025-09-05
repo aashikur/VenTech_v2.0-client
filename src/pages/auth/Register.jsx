@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router";
 import { BiUser, BiEnvelope, BiKey, BiStore, BiMap, BiCreditCard, BiPhone } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
@@ -7,197 +7,37 @@ import { AuthContext } from "@/providers/AuthProvider";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import Swal from "sweetalert2";
 import LottieIcon from "@/components/shared/LottiesPlayer";
+import InputField from "@/components/auth/shared/inputField";
+import RoleSelector from "@/components/auth/shared/RoleSelector";
+import StepPersonalInfo from "@/components/auth/StepPersonalInfo";
+import StepShopInfo from "@/components/auth/StepShopInfo";
+import SubmitButton from "@/components/auth/shared/SubmitButton";
+import useRegistrationForm from "@/hooks/auth/useRegistrationForm";
+import GoogleButton from "@/components/auth/shared/GoogleButton";
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
-  const { createUser, updateUser, setUser, googleSignIn, user } = useContext(AuthContext);
-  const axiosPublic = useAxiosPublic();
+  const { user } = useContext(AuthContext);
 
-  if (user?.email) {
-    navigate("/dashboard");
-    return null;
-  }
+  // if already logged in → redirect
+  useEffect(() => {
+    if (user?.email) navigate("/dashboard");
+  }, [user, navigate]);
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    pass: "",
-    confirmPass: "",
-    role: "customer",
-    shopName: "",
-    shopNumber: "",
-    shopAddress: "",
-    tradeLicense: "",
-    terms: false,
-  });
+   const {
+       form,
+    setForm,
+    step,
+    setStep,
+    error,
+    setError,
+    loading,
+    handleChange,
+    handleNext,
+    handleBack,
+    handleSubmit,
+   } = useRegistrationForm();
 
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [step, setStep] = useState(1); // New step state
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    if (type === "checkbox") {
-      setForm({ ...form, [name]: checked });
-    } else {
-      setForm({ ...form, [name]: value });
-    }
-  };
-
-  const validatePassword = (pass) =>
-    /[A-Z]/.test(pass) && /[a-z]/.test(pass) && /[0-9]/.test(pass) && /[^A-Za-z0-9]/.test(pass) && pass.length >= 6;
-
-  const validateMerchantFields = () => {
-    if (form.role === "merchant") {
-      if (!form.shopName.trim()) {
-        setError("Shop name is required for merchants.");
-        return false;
-      }
-      if (!form.shopNumber.trim()) {
-        setError("Shop number is required for merchants.");
-        return false;
-      }
-      if (!form.shopAddress.trim()) {
-        setError("Shop address is required for merchants.");
-        return false;
-      }
-    }
-    return true;
-  };
-
-  const handleNext = () => {
-    setError("");
-    // For Merchant, step 1 is personal info, step 2 is shop info
-    if (form.role === "merchant" && step === 1) {
-      setStep(2);
-    }
-  };
-
-  const handleBack = () => {
-    if (step > 1) setStep(step - 1);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    if (!validatePassword(form.pass)) {
-      setError("Password must include uppercase, lowercase, number, symbol, and be at least 6 characters.");
-      setLoading(false);
-      return;
-    }
-
-    if (form.pass !== form.confirmPass) {
-      setError("Passwords do not match.");
-      setLoading(false);
-      return;
-    }
-
-    if (!form.terms) {
-      setError("You must accept the terms and conditions.");
-      setLoading(false);
-      return;
-    }
-
-    if (!validateMerchantFields()) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const result = await createUser(form.email, form.pass);
-      await updateUser({ displayName: form.name });
-      const regUserData = { ...result.user, displayName: form.name };
-      setUser(regUserData);
-
-
-      const userPayload = {
-        name: form.name,
-        email: form.email,
-        phone: form.phone,
-        role: form.role === "customer" ? "customer" : "merchant",
-        status: form.role === "customer" ? "active" : "pending",
-        loginCount: 1,
-      };
-
-      if (form.role === "merchant") {
-        userPayload.shopDetails = {
-          shopName: form.shopName,
-          shopNumber: form.shopNumber,
-          shopAddress: form.shopAddress,
-          tradeLicense: form.tradeLicense || "",
-        };
-      }
-
-      await axiosPublic.post("/api/v1/auth/add-user", {
-        name: user.displayName,
-        email: user.email,
-        phone: user.phoneNumber || "",
-        role: "customer",
-        status: "active",
-      });
-
-      const message =
-        form.role === "customer"
-          ? "Welcome to VenTech! You can start shopping now."
-          : "Application submitted successfully! Please wait for admin approval to start selling.";
-
-      Swal.fire({
-        icon: "success",
-        title: "Registration Successful!",
-        text: message,
-        timer: 3000,
-        showConfirmButton: false,
-      });
-
-      setTimeout(() => navigate("/dashboard"), 3000);
-    } catch (error) {
-      console.error("Registration error:", error);
-      setError(error.message || "Registration failed. Please try again.");
-
-      Swal.fire({
-        icon: "error",
-        title: "Registration Failed",
-        text: error.message || "Something went wrong. Please try again.",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleGoogle = async () => {
-    try {
-      const result = await googleSignIn();
-      const user = result.user;
-
-      const userPayload = {
-        name: user.displayName,
-        email: user.email,
-        phone: user.phoneNumber || "",
-        role: "customer",
-      };
-
-
-      Swal.fire({
-        icon: "success",
-        title: `Welcome, ${user.displayName}!`,
-        text: "You have successfully signed up with Google.",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Google sign-in error:", error);
-      Swal.fire({
-        icon: "error",
-        title: "Sign-in Failed",
-        text: error.message,
-      });
-    }
-  };
 
   return (
     <div className="relative bg-gradient-to-br from-pink-50 via-red-50 to-white dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
@@ -239,45 +79,10 @@ const RegistrationPage = () => {
             </p>
 
             {/* Role Selection */}
-            <div className="flex justify-center mb-8">
-              <div className="flex bg-gray-100 dark:bg-gray-800 rounded-full p-1">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm({ ...form, role: "customer" });
-                    setStep(1);
-                  }}
-                  className={`px-6 py-2 rounded-full font-semibold transition ${form.role === "customer"
-                      ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                    }`}
-                >
-                  🛍️ Customer
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setForm({ ...form, role: "merchant" });
-                    setStep(1);
-                  }}
-                  className={`px-6 py-2 rounded-full font-semibold transition ${form.role === "merchant"
-                      ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white"
-                      : "text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
-                    }`}
-                >
-                  🏪 Merchant
-                </button>
-              </div>
-            </div>
 
+            <RoleSelector form={form} setForm={setForm} setStep={setStep} />
             {/* Google */}
-            <button
-              type="button"
-              onClick={handleGoogle}
-              className="w-full mb-6 py-3 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold flex items-center justify-center gap-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            >
-              <FcGoogle className="text-xl" /> Continue with Google
-            </button>
+            <GoogleButton/>
 
             <div className="flex items-center my-6">
               <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
@@ -285,25 +90,14 @@ const RegistrationPage = () => {
               <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600"></div>
             </div>
 
+
             {/* Step Form */}
             {step === 1 && (
-              <div className="space-y-5">
-                <InputField icon={<BiUser />} label="Full Name" name="name" value={form.name} onChange={handleChange} placeholder="Enter your full name" />
-                <InputField icon={<BiEnvelope />} label="Email" name="email" value={form.email} onChange={handleChange} placeholder="Enter your email" type="email" />
-                <InputField icon={<BiPhone />} label="Phone Number" name="phone" value={form.phone} onChange={handleChange} placeholder="Enter your phone number" />
-                <InputField icon={<BiKey />} label="Password" name="pass" value={form.pass} onChange={handleChange} placeholder="Enter your password" type="password" />
-                <InputField icon={<BiKey />} label="Confirm Password" name="confirmPass" value={form.confirmPass} onChange={handleChange} placeholder="Confirm your password" type="password" />
-              </div>
+              <StepPersonalInfo form={form} setForm={setForm} onChange={handleChange} />
             )}
 
             {step === 2 && form.role === "merchant" && (
-              <div className="space-y-5">
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">🏪 Shop Information</h3>
-                <InputField icon={<BiStore />} label="Shop Name *" name="shopName" value={form.shopName} onChange={handleChange} placeholder="Enter your shop name" />
-                <InputField icon={<BiCreditCard />} label="Shop Number *" name="shopNumber" value={form.shopNumber} onChange={handleChange} placeholder="Unique shop identifier" />
-                <InputField icon={<BiMap />} label="Shop Address *" name="shopAddress" value={form.shopAddress} onChange={handleChange} placeholder="Enter your shop address" />
-                <InputField icon={<BiCreditCard />} label="Trade License" name="tradeLicense" value={form.tradeLicense} onChange={handleChange} placeholder="Trade license number (optional)" required={false} />
-              </div>
+              <StepShopInfo form={form} onChange={handleChange} />
             )}
 
             {/* Terms */}
@@ -319,26 +113,7 @@ const RegistrationPage = () => {
             {error && <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-sm p-3 rounded-lg mb-4">{error}</div>}
 
             {/* Navigation Buttons */}
-            <div className="flex justify-between items-center gap-4 mt-4">
-              {step > 1 && <button type="button" onClick={handleBack} className="px-6 py-2 rounded-full border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 transition">Back</button>}
-              {step < (form.role === "merchant" ? 2 : 1) ? (
-                <button type="button" onClick={handleNext} className="ml-auto w-full py-3 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-lg hover:opacity-90 transition">Next</button>
-              ) : (
-                <button type="submit" disabled={loading} className="ml-auto w-full py-3 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-lg hover:opacity-90 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                  {loading ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Creating Account...
-                    </>
-                  ) : (
-                    `Register as ${form.role === "customer" ? "Customer" : "Merchant"}`
-                  )}
-                </button>
-              )}
-            </div>
+            <SubmitButton handleNext={handleNext} handleBack={handleBack} step={step} form={form} loading={loading} />
 
             {/* Status Note for Merchant */}
             {form.role === "merchant" && step === 2 && (
@@ -360,22 +135,5 @@ const RegistrationPage = () => {
   );
 };
 
-const InputField = ({ icon, label, name, value, onChange, placeholder, type = "text", required = true }) => (
-  <div>
-    <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300 text-sm">{label}</label>
-    <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner border border-gray-200 dark:border-gray-700 focus-within:border-orange-500 transition">
-      {icon}
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-        placeholder={placeholder}
-        className="bg-transparent flex-1 py-3 outline-none text-gray-700 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
-      />
-    </div>
-  </div>
-);
 
 export default RegistrationPage;
