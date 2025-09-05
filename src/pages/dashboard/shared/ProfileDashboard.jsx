@@ -215,10 +215,10 @@ const ProfileDashboard = () => {
             <span className="badge badge-info">{role}</span>
             <span
               className={`badge ${status === "active"
-                  ? "badge-success"
-                  : status === "pending"
-                    ? "badge-warning"
-                    : "badge-error"
+                ? "badge-success"
+                : status === "pending"
+                  ? "badge-warning"
+                  : "badge-error"
                 }`}
             >
               Status: {status}
@@ -251,8 +251,14 @@ const ProfileDashboard = () => {
                 disabled={!edit}
                 className="input input-bordered w-full"
               />
-              <label>Profile Photo</label>
-              <input type="file" onChange={handleFileChange} disabled={!edit} />
+              <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Profile Photo</label>
+              <input
+                type="file"
+                onChange={handleFileChange}
+                disabled={!edit}
+                className="w-full  py-2 px-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-50 disabled:cursor-not-allowed transition"
+              />
+
             </div>
 
             {/* Merchant Info */}

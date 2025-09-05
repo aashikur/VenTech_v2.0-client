@@ -6,7 +6,7 @@ import useAxiosPublic from "@/hooks/axiosPublic";
 
 export default function useRegistrationForm() {
   const navigate = useNavigate();
-  const { createUser, updateUser, setUser, googleSignIn, user } = useContext(AuthContext);
+  const { createUser, updateUser, setUser } = useContext(AuthContext);
   const axiosPublic = useAxiosPublic();
 
   // -------------------- State --------------------
@@ -31,6 +31,8 @@ export default function useRegistrationForm() {
   // -------------------- Handlers --------------------
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+      console.log("handleChange called:", name, value);
+
     setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
   };
 
@@ -62,6 +64,7 @@ export default function useRegistrationForm() {
 
   // -------------------- Submit --------------------
   const handleSubmit = async (e) => {
+    console.log("handleSubmit", form);
     e.preventDefault();
     setError("");
     setLoading(true);
@@ -106,7 +109,7 @@ export default function useRegistrationForm() {
         loginCount: 1,
       };
       if (form.role === "merchant") {
-        payload.shopDetails = {
+          payload.shopDetails = {
           shopName: form.shopName,
           shopNumber: form.shopNumber,
           shopAddress: form.shopAddress,
