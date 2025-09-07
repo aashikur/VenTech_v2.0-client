@@ -4,6 +4,7 @@ import { AuthContext } from "@/providers/AuthProvider";
 
 export default function useRole() {
   const { user, loading: authLoading } = useContext(AuthContext);
+  const [userID, setUserID] =  useState(null);
   const [role, setRole] = useState(null);
   const [status, setStatus] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -28,6 +29,7 @@ export default function useRole() {
         setRole(dbUser.role);
         setStatus(dbUser.status);
         setProfile(dbUser);
+        setUserID(dbUser._id);
       } catch (err) {
         console.error("Error fetching role:", err.response?.data || err.message);
         setRole(null);

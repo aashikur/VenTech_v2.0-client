@@ -21,6 +21,7 @@ import PendingMerchants from "@/pages/dashboard/admin/users/PendingMerchants";
 import MailBox from "@/pages/dashboard/admin/MailBox";
 import Analytics from "@/pages/dashboard/admin/analytics/analytics";
 import AddProducts from "@/pages/dashboard/merchant/AddProducts";
+import MyProductsMerchant from "@/pages/dashboard/merchant/ProductsMerchant";
 
 
 const mainRoutes = createBrowserRouter([
@@ -110,6 +111,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: "/dashboard/pending-merchant",
         element: <PendingMerchants/>,
+      },
+      {
+        path: "/dashboard/my-products",
+        element: <MyProductsMerchant/>,
       },
       {
         path: "*",
