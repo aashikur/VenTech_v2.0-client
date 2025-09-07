@@ -69,6 +69,7 @@ const mainRoutes = createBrowserRouter([
         element: <Sponsor></Sponsor>
 
       },
+
       {
         path: '/funding',
         element:  <PrivateRoute><FundingPage></FundingPage></PrivateRoute>

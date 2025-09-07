@@ -3,6 +3,7 @@ import BlogHighlights from "./section/BlogHighlights";
 import FaqStrip from "./section/FaqStrip";
 import axios from 'axios';
 import ContactUs from "@/components/shared/ContactUs";
+import CategoriesHighlight from "./section/CategoriesHighlight";
 
 const Home = () => {
 
@@ -21,13 +22,15 @@ const Home = () => {
   return (
     <div className="">
 
-      <Banner></Banner>
+      <Banner></Banner> 
+            <CategoriesHighlight />
+
+      <BlogHighlights/>
       {/* <StatsCards/> */}
       {/* <ShortageTicker sticky/> */}
       {/* <Hero/> */}
       {/* <UrgentNearYou/> */}
       {/* <PartnersTestimonials/> */}
-      <BlogHighlights />
       <FaqStrip />
       {/* <SafetyEligibility /> */}
 

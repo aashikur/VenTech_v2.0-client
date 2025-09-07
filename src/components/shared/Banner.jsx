@@ -68,7 +68,7 @@ const Banner = () => {
 
         {/* Featured Products */}
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-          Trending Products of the Week –{" "}
+          Trending Categories of the Week –{" "}
           <span className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent">
             Handpicked for You
           </span>
