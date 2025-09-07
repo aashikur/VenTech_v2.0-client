@@ -1,5 +1,5 @@
 import { useState, useContext, useEffect } from "react";
-import { NavLink, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import {
   FaHome,
   FaUser,
@@ -8,6 +8,7 @@ import {
   FaShoppingCart,
   FaPlus,
   FaChartBar,
+  FaListAlt,
 } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
@@ -20,8 +21,11 @@ import Swal from "sweetalert2";
 
 const LINKS = {
   admin: [
+    
+    
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/manage-users", icon: <FaUsers />, label: "Manage Users" },
+    { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
     { to: "/dashboard/pending-merchant", icon: <FaBoxOpen />, label: "Pending Merchants" },
     { to: "/dashboard/mailbox", icon: <FaShoppingCart />, label: "Mail Box" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Analytics" },
@@ -30,7 +34,8 @@ const LINKS = {
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/my-products", icon: <FaBoxOpen />, label: "My Products" },
     { to: "/dashboard/add-product", icon: <FaPlus />, label: "Add Product" },
-    { to: "/dashboard/my-orders", icon: <FaShoppingCart />, label: "My Orders" },
+    { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
+    { to: "/dashboard/my-requests", icon: <FaShoppingCart />, label: "My Request" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
   ],
@@ -111,12 +116,24 @@ export default function DashboardSidebar() {
         {!isMobile && (
           <button
             onClick={toggleSidebar}
-            className="absolute top-4 right-[-12px] p-1 rounded-full shadow text-white bg-gradient-to-r from-pink-500 to-yellow-500 hover:shadow-lg z-50"
+            className="absolute transition-all duration-300 cursor-pointer hover:scale-110 focus:scale-95 top-4 right-[17px] p-1 rounded-full shadow text-white bg-gradient-to-r from-pink-500 to-yellow-500 hover:shadow-lg z-50"
           >
             {open ? <BsArrowLeft /> : <BsArrowRight />}
           </button>
         )}
-
+      {/* Back To VenTech Website */}
+      { (
+        <div className="m-4 translate-y-12">
+          <Link className=" inline-flex border-pink-500/10 items-center border rounded-full  gap-1 text-sm font-bold" to="/">
+            <img
+              src="/logo/logo-V.png"
+              alt="Logo"
+              className="w-8 h-8 rounded object-cover"
+            /> 
+           {open && <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 pr-4 pl-1">VenTech</span>}
+          </Link> 
+        </div>
+      )}
         {/* Links */}
         <nav className="flex flex-col gap-1 mt-16 px-2">{renderLinks()}</nav>
 

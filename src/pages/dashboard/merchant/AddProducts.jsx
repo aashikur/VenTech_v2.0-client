@@ -8,8 +8,39 @@ const AddProductForm = () => {
   const { role, profile } = useRole();
   const axiosSecure = useAxiosSecure();
 
+
   // Default placeholder image
   const defaultImage = "https://i.ibb.co/jvyTg6vQ/category-product-2.jpg";
+const showInactiveAccountAlert = () => {
+  Swal.fire({
+    title: "⚠️ Account Not Active",
+    html: `
+      <p class="text-gray-700 dark:text-gray-300 mb-3">
+        Your profile is not active yet.<br/> Please contact the admin.
+      </p>
+      <a href="/contact" 
+         class="px-4 py-2 rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-md hover:opacity-90 transition">
+         📩 Contact Admin
+      </a>
+    `,
+    icon: "error",
+    showCancelButton: true,
+    confirmButtonText: "OK",
+    cancelButtonText: "Close",
+    background: "#18122B", // dark theme background
+    color: "#fff",          // text color
+    customClass: {
+      popup: "rounded-2xl shadow-lg border border-gray-700",
+      confirmButton:
+        "px-5 py-2 rounded-lg bg-pink-500 hover:bg-pink-600 text-white font-semibold ml-3",
+      cancelButton:
+        "px-5 py-2 rounded-lg bg-gray-300 hover:bg-gray-400 text-gray-900 font-semibold",
+    },
+    buttonsStyling: false,
+  });
+};
+  // 🔑 replace with your imgbb API key
+  const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
 
   const pcCategories = [
     { id: 1, name: "Processor (CPU)" },
@@ -36,8 +67,10 @@ const AddProductForm = () => {
     merchantPrice: "",
     quantity: "",
     stockStatus: "in-stock",
-    imageUrl: "",
   });
+
+  const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const user = profile?._id;
   if (!user) return <div>Loading...</div>;
@@ -47,14 +80,45 @@ const AddProductForm = () => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    if(profile.status !== "active"){
+      showInactiveAccountAlert();
+      setLoading(false);
+      return;
+    }
 
     try {
+      let imageUrl = defaultImage;
+
+      // ✅ If user uploaded an image → upload to imgbb
+      if (imageFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile);
+
+        const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
+          method: "POST",
+          body: formData,
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          imageUrl = data.data.url;
+        } else {
+          throw new Error("Image upload failed");
+        }
+      }
+
       const payload = {
         ...form,
         merchantId: user,
-        images: [form.imageUrl || defaultImage],
+        images: [imageUrl],
         categoryImage: null,
       };
 
@@ -72,11 +136,13 @@ const AddProductForm = () => {
         merchantPrice: "",
         quantity: "",
         stockStatus: "in-stock",
-        imageUrl: "",
       });
+      setImageFile(null);
     } catch (err) {
       console.error("❌ Add Product Error:", err);
-      Swal.fire("Error", err.response?.data?.message || "Failed to add product", "error");
+      Swal.fire("Error", err.message || "Failed to add product", "error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -137,7 +203,7 @@ const AddProductForm = () => {
             />
           </div>
 
-          {/* Category + Image */}
+          {/* Category + Image Upload */}
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-500">
@@ -159,14 +225,12 @@ const AddProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-1 text-gray-700 dark:text-gray-300">
-                Image URL (optional)
+                Upload Image (optional)
               </label>
               <input
-                type="text"
-                name="imageUrl"
-                value={form.imageUrl}
-                onChange={handleChange}
-                placeholder="https://example.com/product.jpg"
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
                 className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-pink-500 outline-none"
               />
             </div>
@@ -239,9 +303,10 @@ const AddProductForm = () => {
             type="submit"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-3 mt-4 rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-lg hover:opacity-90 transition"
+            disabled={loading}
+            className="w-full py-3 mt-4 rounded-lg bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-lg hover:opacity-90 transition disabled:opacity-60"
           >
-            Add Product
+            {loading ? "Uploading..." : "Add Product"}
           </motion.button>
         </form>
       </motion.div>

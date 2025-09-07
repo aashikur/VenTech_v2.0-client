@@ -22,6 +22,8 @@ import MailBox from "@/pages/dashboard/admin/MailBox";
 import Analytics from "@/pages/dashboard/admin/analytics/analytics";
 import AddProducts from "@/pages/dashboard/merchant/AddProducts";
 import MyProductsMerchant from "@/pages/dashboard/merchant/ProductsMerchant";
+import SingleBlog from "@/pages/frontend/home/section/SingleBlog";
+import Categories from "@/pages/dashboard/merchant/Categories";
 
 
 const mainRoutes = createBrowserRouter([
@@ -52,6 +54,15 @@ const mainRoutes = createBrowserRouter([
         element: <Sponsor></Sponsor>
 
       },
+      {
+        path: '/single-blog/:id',
+        element: <SingleBlog></SingleBlog>
+
+      },
+      {
+        path: '/categories',
+        element: <div>go create component</div>
+      },
 
       {
         path: '/sponsor',
@@ -80,6 +91,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: "profile",
         element: <ProfileDashboard />,
+      },
+      {
+        path: "categories",
+        element: <Categories />,
       },
       {
         path: "add-blog",

@@ -18,7 +18,7 @@ export default function Blog() {
     let active = true;
     const fetchPosts = async () => {
       try {
-        const { data } = await axiosPublic.get("/blogs");
+        const { data } = await axiosPublic.get("/api/v1/blogs");
         if (active) {
           const publishedPosts = (Array.isArray(data) ? data : [])
             .filter(post => post.status === 'published')
@@ -29,9 +29,9 @@ export default function Blog() {
         if (active) setState({ loading: false, error: "Failed to load blog posts.", posts: [] });
       }
     };
-    // fetchPosts();
+    fetchPosts();
     return () => { active = false; };
-  }, [axiosPublic]);
+  }, []);
 
   return (
     <Section
@@ -85,12 +85,12 @@ function BlogCard({ post }) {
           <span>{formatDate(post.createdAt)}</span> 
         </div>
         <h3 className="text-lg font-extrabold text-gray-700 dark:text-white mb-2 group-hover:text-orange-400 group-dark:hover:dark:text-orange-400  transition">
-          <Link to={`/blog/${post._id}`}>{truncateText(post.title, 60)}</Link>
+          <Link to={`/single-blog/${post._id}`}>{truncateText(post.title, 60)}</Link>
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">{truncateText(stripHtml(post.content), 100)}</p>
         <div className="mt-auto flex justify-end ">
           <Button3 className=" transition">
-            <Link to={`/blog/${post._id}`} className="block">Read More</Link>
+            <Link to={`/single-blog/${post._id}`} className="block">Read More</Link>
           </Button3> 
         </div>
       </div>

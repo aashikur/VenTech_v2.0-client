@@ -2,6 +2,7 @@ import Banner from "@/components/shared/Banner";
 import BlogHighlights from "./section/BlogHighlights";
 import FaqStrip from "./section/FaqStrip";
 import axios from 'axios';
+import ContactUs from "@/components/shared/ContactUs";
 
 const Home = () => {
 
@@ -26,7 +27,7 @@ const Home = () => {
       {/* <Hero/> */}
       {/* <UrgentNearYou/> */}
       {/* <PartnersTestimonials/> */}
-      {/* <BlogHighlights /> */}
+      <BlogHighlights />
       <FaqStrip />
       {/* <SafetyEligibility /> */}
 
@@ -35,6 +36,7 @@ const Home = () => {
       {/* <ContactUs /> */}
       {/* <Section></Section> */}
 
+      <ContactUs/>
       <div 
       className="bg-transparent">
         <div className="py-100 bg-transparent text-center text-3xl font-bold max-w-2xl mx-auto">
