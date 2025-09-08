@@ -4,6 +4,7 @@ import FaqStrip from "./section/FaqStrip";
 import axios from 'axios';
 import ContactUs from "@/components/shared/ContactUs";
 import CategoriesHighlight from "./section/CategoriesHighlight";
+import ProductHighlight from "./section/ProductHighlight";
 
 const Home = () => {
 
@@ -24,6 +25,7 @@ const Home = () => {
 
       <Banner></Banner> 
             <CategoriesHighlight />
+            <ProductHighlight/>
 
       <BlogHighlights/>
       {/* <StatsCards/> */}

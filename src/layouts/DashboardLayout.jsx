@@ -20,7 +20,7 @@ const DashboardLayout = () => {
         <DashboardNavbar setSidebarOpen={setSidebarOpen} />
 
         {/* Main Content */}
-        <main className="flex-1 w-full max-w-7xl md:ml-12 xl:mx-auto">
+        <main className="flex-1 w-full max-w-6xl   md:ml-12 xl:mx-auto">
           <Outlet />
         </main>
       </div>
