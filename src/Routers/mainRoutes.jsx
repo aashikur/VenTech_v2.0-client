@@ -26,6 +26,7 @@ import SingleBlog from "@/pages/frontend/home/section/SingleBlog";
 import Categories from "@/pages/dashboard/merchant/Categories";
 import CategoriesPage from "@/pages/frontend/categories/CategoriesPage";
 import ProductsPage from "@/pages/frontend/product/ProductsPage";
+import BlogsPage from "@/pages/frontend/blogs/BlogsPage";
 
 
 const mainRoutes = createBrowserRouter([
@@ -68,6 +69,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: '/categories',
         element: <CategoriesPage/>
+      },
+      {
+        path: '/blogs',
+        element: <BlogsPage/>
       },
 
       {

@@ -1,5 +1,6 @@
 import useRole from "@/hooks/useRole";
 import AdminDashboard from "./AdminDashboard";
+import CustomerDashboard from "./customer/CustomerDashboard";
 
 export default function Dashboard() {
   const { role, loading } = useRole();
@@ -17,4 +18,3 @@ export default function Dashboard() {
 }
 
 // Example Components
-const CustomerDashboard = () => <div>Welcome Customer</div>;

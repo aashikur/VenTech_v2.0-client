@@ -5,6 +5,7 @@ import axios from 'axios';
 import ContactUs from "@/components/shared/ContactUs";
 import CategoriesHighlight from "./section/CategoriesHighlight";
 import ProductHighlight from "./section/ProductHighlight";
+import ProductArchive from "@/components/archive/ProductArchive";
 
 const Home = () => {
 
@@ -22,12 +23,13 @@ const Home = () => {
 
   return (
     <div className="">
+      <ProductArchive/>
 
       <Banner></Banner> 
             <CategoriesHighlight />
             <ProductHighlight/>
-
       <BlogHighlights/>
+
       {/* <StatsCards/> */}
       {/* <ShortageTicker sticky/> */}
       {/* <Hero/> */}
