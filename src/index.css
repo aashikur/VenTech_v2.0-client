@@ -17,3 +17,19 @@ body {
     @apply bg-transparent;
     /* dark:bg-[#18122B] */
 }
+
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.5s forwards;
+}

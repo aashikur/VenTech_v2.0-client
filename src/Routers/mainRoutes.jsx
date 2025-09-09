@@ -26,6 +26,7 @@ import SingleBlog from "@/pages/frontend/home/section/SingleBlog";
 import Categories from "@/pages/dashboard/merchant/Categories";
 import CategoriesPage from "@/pages/frontend/categories/CategoriesPage";
 import ProductsPage from "@/pages/frontend/product/ProductsPage";
+import ProductDetails from "@/pages/frontend/product/ProductDetails";
 import BlogsPage from "@/pages/frontend/blogs/BlogsPage";
 
 
@@ -55,6 +56,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: "products",
         element: <ProductsPage />,
+      },
+      {
+        path: "product/:id",
+        element: <ProductDetails></ProductDetails>,
       },
       {
         path: '/sponsor',

@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { motion } from "framer-motion";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import PageBanner from "@/components/shared/PageBanner";
-import ProductArchive from "@/components/archive/ProductArchive";
+import ProductArchiveAll from "@/components/archive/ProductArchiveAll";
 
 const BlogsPage = () => {
   const axiosPublic = useAxiosPublic();
@@ -34,46 +34,52 @@ const BlogsPage = () => {
         breadcrumb="Home → Blogs"
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 lg:grid-cols-4 gap-10">
+      {/* -------- Two Independent Scrollable Columns -------- */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 
+                      grid grid-cols-1 lg:grid-cols-4 gap-10 
+                      h-screen overflow-hidden items-start">
+        
         {/* -------- Left Column: Blog Grid -------- */}
-        <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {loading ? (
-            <SkeletonGrid />
-          ) : allBlogs.length > 0 ? (
-            allBlogs.map((post) => (
-              <motion.div
-                key={post._id}
-                className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <Link to={`/single-blog/${post._id}`}>
-                  <img
-                    src={post.thumbnail}
-                    alt={post.title}
-                    className="h-48 w-full object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
-                      {truncateText(post.title, 50)}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {truncateText(stripHtml(post.content), 80)}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))
-          ) : (
-            <p className="text-gray-700 dark:text-gray-200 col-span-full text-center">
-              No blogs available.
-            </p>
-          )}
+        <div className="lg:col-span-3 h-full overflow-y-auto pr-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {loading ? (
+              <SkeletonGrid />
+            ) : allBlogs.length > 0 ? (
+              allBlogs.map((post) => (
+                <motion.div
+                  key={post._id}
+                  className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Link to={`/single-blog/${post._id}`}>
+                    <img
+                      src={post.thumbnail}
+                      alt={post.title}
+                      className="h-48 w-full object-cover"
+                    />
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-gray-800 dark:text-white mb-2">
+                        {truncateText(post.title, 50)}
+                      </h3>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {truncateText(stripHtml(post.content), 80)}
+                      </p>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))
+            ) : (
+              <p className="text-gray-700 dark:text-gray-200 col-span-full text-center">
+                No blogs available.
+              </p>
+            )}
+          </div>
         </div>
 
         {/* -------- Right Column: Sidebar -------- */}
-        <aside className="space-y-6">
+        <aside className="space-y-6 h-full overflow-y-auto pl-2">
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
             Archives
           </h2>
@@ -109,8 +115,12 @@ const BlogsPage = () => {
               No archived blogs.
             </p>
           )}
+
+          <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+            Archives
+          </h2>
+          <ProductArchiveAll />
         </aside>
-        <ProductArchive/>
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ import ContactUs from "@/components/shared/ContactUs";
 import CategoriesHighlight from "./section/CategoriesHighlight";
 import ProductHighlight from "./section/ProductHighlight";
 import ProductArchive from "@/components/archive/ProductArchive";
+import ProductArchiveAll from "@/components/archive/ProductArchiveAll";
+import ProductArchiveSlider from "@/components/archive/ProductArchiveSlider";
+import ProductArchiveAllRaw2 from "@/components/archive/ProductArchiveAllRaw2";
 
 const Home = () => {
 
@@ -23,7 +26,9 @@ const Home = () => {
 
   return (
     <div className="">
-      <ProductArchive/>
+      <div className="divider"></div>
+
+
 
       <Banner></Banner> 
             <CategoriesHighlight />

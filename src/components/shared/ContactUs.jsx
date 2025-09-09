@@ -10,6 +10,8 @@ import ThemeButton from "../ui/ThemeButton";
 import Lottie, { LottiePlayer } from "lottie-react";
 import animationData from "../../assets/working"; // path to your JSON
 import LottieIcon from "./LottiesPlayer";
+import Banner from "./Banner";
+import PageBanner from "./PageBanner";
 // import logoAnimaton from "../../assets/lottie/working";
 
 const subjects = [
@@ -73,7 +75,13 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center py-12">
+<div> 
+  <PageBanner 
+    title={"Contact Us"}
+    subtitle={"We're here to help and answer any questions you might have. We look forward to hearing from you!"}
+    breadcrumb={"Home → Contact Us"}
+  />
+      <div className="relative min-h-screen flex items-center justify-center py-12"> 
       <div className=" dark:bg-[#18122B]/10 backdrop-blur-[2px] border-gray-700 py-10 dark:border rounded-3xl shadow-lg max-w-[1500px] w-full flex flex-col md:flex-row overflow-hidden">
         {/* Left: Floating Icon */}
         <div className="flex-1 flex items-center justify-center p-8">
@@ -152,5 +160,6 @@ export default function ContactUs() {
         </div>
       </div>
     </div>
+</div>
   );
 }
