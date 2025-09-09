@@ -83,14 +83,16 @@ function ProductCard({ product }) {
         <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
           ${product.retailPrice.toFixed(2)}
         </p>
-        <div className="flex gap-2">
-          <Button3>
+        <div className="flex justify-between gap-2">
+
+          <Button3 className="bg-green-500 hover:bg-green-600">
+            Buy Now
+          </Button3> 
+
+                    <Button3>
             <Link to={`/product/${product._id}`} className="block w-full text-center">
               View Details
             </Link>
-          </Button3>
-          <Button3 className="bg-green-500 hover:bg-green-600">
-            Buy Now
           </Button3>
         </div>
       </div>
