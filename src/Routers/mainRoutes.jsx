@@ -24,6 +24,7 @@ import AddProducts from "@/pages/dashboard/merchant/AddProducts";
 import MyProductsMerchant from "@/pages/dashboard/merchant/ProductsMerchant";
 import SingleBlog from "@/pages/frontend/home/section/SingleBlog";
 import Categories from "@/pages/dashboard/merchant/Categories";
+import CategoriesPage from "@/pages/frontend/categories/CategoriesPage";
 
 
 const mainRoutes = createBrowserRouter([
@@ -61,7 +62,7 @@ const mainRoutes = createBrowserRouter([
       },
       {
         path: '/categories',
-        element: <div>go create component</div>
+        element: <CategoriesPage/>
       },
 
       {

@@ -38,12 +38,12 @@ const Button2 = ({ children = "Join as Merchant", onClick, icon }) => {
 
 import { FaArrowRight } from "react-icons/fa";
 
-const Button3 = ({ children = "View All", onClick , arrow = true , border=false}) => {
+const Button3 = ({ children = "View All", onClick ,className ="", arrow = true , border=false}) => {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 text-sm sm:text-base font-medium 
-      text-orange-500 dark:text-orange-400 hover:underline"
+      className={`${className} flex items-center gap-2 text-sm sm:text-base font-medium 
+      text-orange-500 dark:text-orange-400 hover:underline`}
     >
       {children}
      { arrow && <FaArrowRight className="text-xs sm:text-sm" />}

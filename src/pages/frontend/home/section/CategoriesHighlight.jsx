@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import Section from "@/components/ui/Section";
 
-export default function CategoriesHighlight() {
+export default function CategoriesHighlight({lg = "4", all=false}) {
   const [state, setState] = useState({
     loading: true,
     error: null,
@@ -49,10 +49,17 @@ export default function CategoriesHighlight() {
             {state.error}
           </div>
         ) : state.categories.length > 0 ? (
-          <div className="grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4">
-            {state.categories.slice(0, 8).map((cat) => (
+          <div className={`grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-${lg}`}>
+            {all == true && state.categories.map((cat) => (
               <CategoryCard key={cat._id} cat={cat} />
             ))}
+
+            
+            {all == false && state.categories.slice(0, 8).map((cat) => (
+              <CategoryCard key={cat._id} cat={cat} />
+            ))}
+
+            
           </div>
         ) : (
           <div className="rounded-2xl border border-gray-200/60 dark:border-gray-700/40 bg-white/80 dark:bg-gray-800/50 p-8 text-center shadow-md">

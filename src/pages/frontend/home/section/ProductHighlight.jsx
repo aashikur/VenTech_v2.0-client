@@ -85,7 +85,7 @@ function ProductCard({ product }) {
         </p>
         <div className="flex justify-between gap-2">
 
-          <Button3 className="bg-green-500 hover:bg-green-600">
+          <Button3 arrow={false} className="cursor-pointer">
             Buy Now
           </Button3> 
 
