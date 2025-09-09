@@ -25,6 +25,7 @@ import MyProductsMerchant from "@/pages/dashboard/merchant/ProductsMerchant";
 import SingleBlog from "@/pages/frontend/home/section/SingleBlog";
 import Categories from "@/pages/dashboard/merchant/Categories";
 import CategoriesPage from "@/pages/frontend/categories/CategoriesPage";
+import ProductsPage from "@/pages/frontend/product/ProductsPage";
 
 
 const mainRoutes = createBrowserRouter([
@@ -49,6 +50,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: "contact",
         element: <ContactUs />,
+      },
+      {
+        path: "products",
+        element: <ProductsPage />,
       },
       {
         path: '/sponsor',
