@@ -28,6 +28,7 @@ import CategoriesPage from "@/pages/frontend/categories/CategoriesPage";
 import ProductsPage from "@/pages/frontend/product/ProductsPage";
 import ProductDetails from "@/pages/frontend/product/ProductDetails";
 import BlogsPage from "@/pages/frontend/blogs/BlogsPage";
+import IDCardGenerator from "@/components/certificate/IDCardGenerator";
 
 
 const mainRoutes = createBrowserRouter([
@@ -140,9 +141,14 @@ const mainRoutes = createBrowserRouter([
         path: "/dashboard/funding",
         element: <AllFundingAdmin />,
       },
+
       {
         path: "/dashboard/pending-merchant",
         element: <PendingMerchants/>,
+      },
+      {
+        path: "/dashboard/certificate",
+        element: <IDCardGenerator/>,
       },
       {
         path: "/dashboard/my-products",

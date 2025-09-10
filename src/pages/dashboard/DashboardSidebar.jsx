@@ -9,8 +9,9 @@ import {
   FaPlus,
   FaChartBar,
   FaListAlt,
+  FaDownload,
 } from "react-icons/fa";
-import { BiLogOut } from "react-icons/bi";
+import { BiDownload, BiLogOut } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FiMenu, FiX } from "react-icons/fi";
 import ToggleLightDark from "@/components/ui/ToggleLightDark";
@@ -29,6 +30,7 @@ const LINKS = {
     { to: "/dashboard/pending-merchant", icon: <FaBoxOpen />, label: "Pending Merchants" },
     { to: "/dashboard/mailbox", icon: <FaShoppingCart />, label: "Mail Box" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Analytics" },
+    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
   ],
   merchant: [
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
@@ -38,11 +40,15 @@ const LINKS = {
     { to: "/dashboard/my-requests", icon: <FaShoppingCart />, label: "My Request" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
+    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
+  
   ],
   customer: [
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/my-orders", icon: <FaShoppingCart />, label: "My Orders" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "My Profile" },
+    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
+  
   ],
 };
 
