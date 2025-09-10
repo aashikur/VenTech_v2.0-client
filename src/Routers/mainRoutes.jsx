@@ -29,6 +29,7 @@ import ProductsPage from "@/pages/frontend/product/ProductsPage";
 import ProductDetails from "@/pages/frontend/product/ProductDetails";
 import BlogsPage from "@/pages/frontend/blogs/BlogsPage";
 import IDCardGenerator from "@/components/certificate/IDCardGenerator";
+import ManageProducts from "@/pages/dashboard/admin/product/ManageProducts";
 
 
 const mainRoutes = createBrowserRouter([
@@ -140,6 +141,10 @@ const mainRoutes = createBrowserRouter([
       {
         path: "/dashboard/funding",
         element: <AllFundingAdmin />,
+      },
+      {
+        path: "/dashboard/manageproduct",
+        element: <ManageProducts/>,
       },
 
       {
