@@ -1,305 +1,175 @@
-# 🩸 VenTech Client
+# 🛒 Multi-Vendor Platform
 
 ## 🚀 Live Site
 
-- **Frontend:** [https://blood-aid-now.web.app/](https://blood-aid-now.web.app/)
-- **API:** [http://localhost:5000//](http://localhost:5000//)
+* **Frontend:** [https://example-frontend.com/](https://example-frontend.com/)
+* **API:** [https://example-backend.com/](https://example-backend.com/)
 
 ---
 
-## 🌟 Project Overview ...
+## 🌟 Project Overview
 
-**BloodAid** is a modern, full-stack blood donation platform built with React, Tailwind CSS, Firebase Auth, Stripe, and a Node.js/Express/MongoDB backend.  
-It enables users to request and donate blood, manage their profiles, fund the organization, and access a rich dashboard experience based on their role (admin, volunteer, donor).
+The **Multi-Vendor Platform** is a role-based e-commerce system where **customers, merchants, and admins** collaborate in a secure and interactive marketplace.
+It supports product management, merchant approvals, order handling, stock control, live community chat, and blog publishing—all under one scalable solution.
 
 ---
 
 ## 🖼️ Key Features
 
-- **Role-based Dashboard:**  
-  - Admin, Volunteer, Donor—each with their own dashboard, sidebar, and features
-- **Blood Donation Requests:**  
-  - Create, view, edit, delete, and respond to blood requests
-  - Public search for donors by blood group, district, upazila
-- **Funding (Stripe):**  
-  - Anyone can donate funds via Stripe
-  - Admin/volunteer can view all funding, total funding stats
-- **Blog System:**  
-  - Add, manage, and view blogs (admin/volunteer)
-  - Public blog page with details and category filter
-- **Contact/FAQ:**  
-  - Contact form with subject, message, and login check
-  - FAQ/Accordion section on home page
-- **Authentication & Security:**  
-  - Firebase Auth (email/password, Google)
-  - JWT-protected private routes
-  - Block/unblock user, role management (admin only)
-- **Modern UI:**  
-  - Responsive, rounded, clean, and trustful BloodAid theme
-  - Framer Motion animations, Lottie icons, and more
+* **Role-based Dashboard**
+
+  * Customer, Merchant, Admin—each with their own dashboards and workflows
+* **Merchant Approval Workflow**
+
+  * Regular users can apply to become merchants → admin approval required
+* **Product Management**
+
+  * Merchants can add, update, clear stock, request other merchants’ products, and manage inventory
+* **Orders & Checkout**
+
+  * COD (Cash on Delivery) support with order status tracking
+* **Community Chat & Reports**
+
+  * Public/live chat, problem reporting without login
+* **Blog System**
+
+  * Admin can create/manage blogs visible to everyone
+* **Authentication & Security**
+
+  * User registration, merchant onboarding, admin control
+* **Modern UI/UX**
+
+  * Responsive, clean, and dashboard-driven
 
 ---
 
 ## 🗂️ File Structure (Key Folders)
+
 <pre> ```bash
 ├── src
 │   ├── assets
-│   │   ├── react.svg
-│   │   ├── hfdjfd.png
-│   │   ├── animations
-│   │   │   ├── cooking.json
-│   │   │   ├── happy.json
-│   │   │   ├── loading.json
-│   │   │   ├── loginAnimation.json
-│   │   │   ├── sad.json
-│   │   │   └── lottie
-│   │   │       ├── Fallingheart.json
-│   │   │       ├── blood-pressure.json
-│   │   │       ├── blood-donor.json
-│   │   │       └── heart-beat.json
-│   │   └── images (if you keep necessary graphics only)
-│
-│   ├── Routers
-│   │   ├── PrivateRoute.jsx
-│   │   └── mainRoutes.jsx
-│
+│   │   └── (images, logos, icons)
 │   ├── components
-│   │   ├── Banner.jsx
-│   │   ├── FoodCard.jsx
-│   │   ├── Footer.jsx
 │   │   ├── Header.jsx
-│   │   ├── Social.jsx
-│   │   ├── Sponsor.jsx
-│   │   ├── StripeWrapper.jsx
-│   │   ├── Title.jsx
-│   │   ├── funding
-│   │   │   ├── FundingForm.jsx
-│   │   │   ├── FundingStatCard.jsx
-│   │   │   └── FundingTable.jsx
-│   │   ├── home
-│   │   │   ├── BloodRequestCard.jsx
-│   │   │   ├── ContactUs.jsx
-│   │   │   ├── FAQAccordion.jsx
-│   │   │   ├── StatsCards.jsx
-│   │   │   └── TopNotice.jsx
-│   │   ├── loading
-│   │   │   ├── DashboardLoading.jsx
-│   │   │   └── SidebarLoading.jsx
-│   │   └── ui
-│   │       ├── Badge.jsx
-│   │       ├── Button.jsx
-│   │       ├── PhotoGallery.jsx
-│   │       ├── ScrollToTop.jsx
-│   │       ├── ShinyButton.jsx
-│   │       └── ToggleLightDark.jsx
-│
-│   ├── data
-│   │   ├── bd-districts.json
-│   │   └── bd-upazilas.json
-│
-│   ├── firebase
-│   │   └── firebase.config.js
-│
-│   ├── hooks
-│   │   ├── axiosPublic.js
-│   │   ├── useAxiosSecure.js
-│   │   ├── useCountUp.jsx
-│   │   ├── useDashboardStars.jsx
-│   │   ├── useDistrictUpazila.js
-│   │   └── useRole.jsx
-│
+│   │   ├── Footer.jsx
+│   │   ├── ProductCard.jsx
+│   │   ├── ChatBox.jsx
+│   │   └── BlogCard.jsx
 │   ├── layouts
-│   │   ├── DashboardLayout.jsx
-│   │   └── RootLayout.jsx
-│
+│   │   ├── RootLayout.jsx
+│   │   ├── UserDashboardLayout.jsx
+│   │   ├── MerchantDashboardLayout.jsx
+│   │   └── AdminDashboardLayout.jsx
 │   ├── pages
+│   │   ├── Home.jsx
+│   │   ├── Products.jsx
+│   │   ├── ProductDetails.jsx
+│   │   ├── Blogs.jsx
+│   │   ├── BlogDetails.jsx
+│   │   ├── Contact.jsx
+│   │   ├── auth
+│   │   │   ├── Login.jsx
+│   │   │   └── Register.jsx
 │   │   ├── dashboard
-│   │   │   ├── Dashboard.jsx
-│   │   │   ├── DashboardSidebar.jsx
-│   │   │   ├── DonationRequestsPublic.jsx
-│   │   │   ├── DonorDashboard.jsx
-│   │   │   ├── ProfileDashboard.jsx
-│   │   │   ├── UserDetailsDashboard.jsx
-│   │   │   ├── VolunteerDashboard.jsx
-│   │   │   ├── admin
-│   │   │   │   ├── AdminDashboard.jsx
-│   │   │   │   ├── DashboardSidebarAdmin.jsx
-│   │   │   │   ├── blogs
-│   │   │   │   │   ├── AddBlogAdmin.jsx
-│   │   │   │   │   ├── EditBlogAdmin.jsx
-│   │   │   │   │   ├── ManageBlogs.jsx
-│   │   │   │   │   └── ViewBlogAdmin.jsx
-│   │   │   │   ├── funding
-│   │   │   │   │   ├── AllFundingAdmin.jsx
-│   │   │   │   │   └── ViewFundingAdmin.jsx
-│   │   │   │   ├── requests
-│   │   │   │   │   ├── AllRequestsAdmin.jsx
-│   │   │   │   │   ├── EditRequestAdmin.jsx
-│   │   │   │   │   ├── ManageDonationsAdmin.jsx
-│   │   │   │   │   └── ViewRequestAdmin.jsx
-│   │   │   │   └── users
-│   │   │   │       └── ManageUserAdmin.jsx
-│   │   │   ├── donor
-│   │   │   │   ├── DashboardSidebarDonor.jsx
-│   │   │   │   ├── HomeDonor.jsx
-│   │   │   │   └── requests
-│   │   │   │       ├── CreateDonationRequestDonor.jsx
-│   │   │   │       ├── EditRequestDonor.jsx
-│   │   │   │       └── ViewRequestDonor.jsx
-│   │   │   ├── shared
-│   │   │   │   ├── AddBlogs.jsx
-│   │   │   │   ├── contacts
-│   │   │   │   │   └── ViewContactsDashboard.jsx
-│   │   │   │   ├── funding
-│   │   │   │   │   ├── FundingForm.jsx
-│   │   │   │   │   ├── FundingStatCard.jsx
-│   │   │   │   │   ├── FundingTable.jsx
-│   │   │   │   │   └── MyFundingTable.jsx
-│   │   │   │   ├── requests
-│   │   │   │   │   ├── CreateDonationRequestDashboard.jsx
-│   │   │   │   │   ├── MyDonationRequestsDashboard.jsx
-│   │   │   │   │   ├── MyDonationRequestsDetails.jsx
-│   │   │   │   │   └── MyDonationRequestsDetailsEdit.jsx
-│   │   │   │   └── users
-│   │   │   │       ├── ManageUsers.jsx
-│   │   │   │       └── UserModal.jsx
-│   │   │   └── volunteer
-│   │   │       ├── DashboardSidebarVolunteer.jsx
-│   │   │       ├── HomeVolunteer.jsx
-│   │   │       ├── blogs
-│   │   │       │   ├── AddBlogVolunteer.jsx
-│   │   │       │   ├── EditBlogVolunteer.jsx
-│   │   │       │   └── ManageBlogsVolunteer.jsx
-│   │   │       ├── funding
-│   │   │       │   ├── AllFundingVolunteer.jsx
-│   │   │       │   └── ViewFundingVolunteer.jsx
-│   │   │       └── requests
-│   │   │           ├── AllRequestsVolunteer.jsx
-│   │   │           ├── EditRequestVolunteer.jsx
-│   │   │           └── ViewRequestVolunteer.jsx
-│   │   └── frontend
-│   │       ├── about
-│   │       │   └── About.jsx
-│   │       ├── auth
-│   │       │   ├── Error.jsx
-│   │       │   ├── Login.jsx
-│   │       │   └── Register.jsx
-│   │       ├── blog
-│   │       │   ├── Blog.jsx
-│   │       │   ├── BlogCard.jsx
-│   │       │   ├── BlogCategoryFilter.jsx
-│   │       │   ├── BlogDetails.jsx
-│   │       │   └── BlogList.jsx
-│   │       ├── contact
-│   │       │   └── Contact.jsx
-│   │       ├── funding
-│   │       │   └── FundingPage.jsx
-│   │       ├── home
-│   │       │   ├── CTASection.jsx
-│   │       │   ├── ContactSection.jsx
-│   │       │   ├── DetailsPage.jsx
-│   │       │   ├── Error.jsx
-│   │       │   ├── FeaturesSection.jsx
-│   │       │   ├── HeroSection.jsx
-│   │       │   ├── Home.jsx
-│   │       │   ├── Loading.jsx
-│   │       │   ├── TestimonialsSection.jsx
-│   │       ├── search
-│   │       │   ├── Search.jsx
-│   │       │   └── Search4.jsx
-│   │       └── shared
-│   │           ├── Banner.jsx
-│   │           ├── Footer.jsx
-│   │           ├── Navbar.jsx
-│   │           └── Social.jsx
-│
+│   │   │   ├── user
+│   │   │   │   └── MyOrders.jsx
+│   │   │   ├── merchant
+│   │   │   │   ├── MyProducts.jsx
+│   │   │   │   ├── AddProduct.jsx
+│   │   │   │   ├── StockManagement.jsx
+│   │   │   │   └── ProductRequests.jsx
+│   │   │   └── admin
+│   │   │       ├── ManageUsers.jsx
+│   │   │       ├── ManageMerchants.jsx
+│   │   │       ├── ManageBlogs.jsx
+│   │   │       └── Reports.jsx
+│   ├── hooks
+│   │   └── useAuth.js
 │   ├── providers
 │   │   └── AuthProvider.jsx
-│
+│   ├── firebase
+│   │   └── firebase.config.js
 │   ├── utils
-│   │   └── bdLocationData.json
-│
-│   ├── index.css
+│   │   └── helpers.js
 │   └── main.jsx
-```</pre> 
+```</pre>
+
 ---
 
 ## 🔑 How to Use
 
-- **Home, Blog, Funding, Contact:**  
-  - Publicly accessible, no login required
-- **Dashboard:**  
-  - Login required (role-based access)
-  - Admin/volunteer/donor see different features
-- **Funding:**  
-  - Anyone can donate from the public funding page
-  - Dashboard shows personal funding history (My Funding)
-- **Contact:**  
-  - Only logged-in users can send messages (Swal alert if not logged in)
+* **Home & Products**
+
+  * Browse categories, search products, view details (price, stock, merchant info)
+* **Customer Dashboard**
+
+  * View My Orders, track COD orders & statuses
+* **Merchant Dashboard**
+
+  * Add, edit, clear, or restock products
+  * Request products from other merchants
+  * Manage incoming requests & track sales
+* **Admin Dashboard**
+
+  * Approve/reject merchant requests
+  * Manage blogs, users, and reported problems
 
 ---
 
-## 📝 Main Pages & Components
+## 📝 Main Pages & Routes
 
-- `/` - Home (Banner, Features, FAQ, Contact, Blog preview)
-- `/blog` - Public blog list and details
-- `/funding` - Public funding page (Stripe payment + funding table)
-- `/contact` - Contact form (subject, message, login check)
-- `/search` - Donor search (option-based & dynamic)
-- `/dashboard` - Role-based dashboard (admin, volunteer, donor)
-- `/dashboard/contacts` - Admin/volunteer contact message view (grid)
-- `/dashboard/funding` - All funding (admin/volunteer), My funding (donor)
-- `/dashboard/my-donation-requests` - My blood requests (donor)
-- `/dashboard/all-blood-donation-request` - All requests (admin/volunteer)
-- `/dashboard/profile` - Profile view/edit
+* `/` - Home
+* `/products` - Product listing (categories, filters, search)
+* `/products/:id` - Product details
+* `/blogs` - Blog list (public)
+* `/blogs/:id` - Blog details
+* `/contact` - Contact & problem report (no login required)
+* `/chat` - Community chat (public + live chat for logged-in users)
+* `/dashboard/user/my-orders` - Customer dashboard
+* `/dashboard/merchant/my-products` - Merchant dashboard
+* `/dashboard/admin/manage-merchants` - Admin dashboard
 
 ---
 
 ## 🔐 Authentication
 
-- Firebase Auth (email/password, Google)
-- JWT token for private API calls
-- Role-based access (admin, volunteer, donor)
-- Block/unblock user, role change (admin only)
+* User registration & login
+* Regular users can apply to become merchants (requires admin approval)
+* Merchants must submit shop details (name, license, etc.)
+* JWT-based API security
+* Admin-only features: role management, approval, blog & report handling
 
 ---
 
 ## 💡 Technologies Used
 
-- React, Vite, Tailwind CSS, DaisyUI, Framer Motion, Lottie
-- Firebase Auth
-- Stripe (payment)
-- Axios, React Query
-- Node.js, Express, MongoDB (backend)
+* **Frontend:** React, Vite, Tailwind CSS, DaisyUI
+* **Backend:** Node.js, Express, MongoDB
+* **Auth:** Firebase Auth + JWT
+* **Realtime:** Socket.io (for chat)
+* **Payments (optional):** Stripe / COD support
+* **Other Tools:** Axios, React Query
 
 ---
 
 ## 🛠️ How to Run Locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/blood-aid-client.git
+# Clone repository
+git clone https://github.com/your-username/multivendor-platform.git
 
-# Navigate to project directory
-cd blood-aid-client
+# Navigate to directory
+cd multivendor-platform
 
 # Install dependencies
 npm install
 
-# Create .env file and add your Firebase/Stripe config
+# Create .env file (Firebase, MongoDB, JWT secrets)
 
-# Start the development server
+# Start frontend
 npm run dev
-📢 Need Help?
-For any feature, bug, or extension,
-just ask your AI assistant with this README as context!
-Example:
-"How to add a new blog post page?"
-"How to show only active donors in search?"
-"How to add a new stat card to the dashboard?"
-This README contains all the context, structure, and feature details needed for any AI model or developer to continue, extend, or debug the project without further explanation.
 
-Live Site: https://blood-aid-now.web.app/
-API: http://localhost:5000//
-
+# Start backend
+npm start
+```
 
