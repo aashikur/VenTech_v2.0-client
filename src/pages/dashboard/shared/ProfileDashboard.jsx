@@ -125,16 +125,17 @@ const ProfileDashboard = () => {
           }
           : {}),
       };
-      console.log('Updata', updateData);
 
       await axiosSecure.patch("/api/v1/auth/update-profile", updateData);
 
       const refreshed = await axiosSecure.get("/api/v1/auth/me");
+            const refreshedUser = refreshed.data.user;
+
+      setProfile(refreshedUser.data.user);
       Swal.fire("Success!", "Profile updated successfully.", "success");
       setEdit(false);
 
       // sync form with updated user
-      const refreshedUser = refreshed.data.user;
       setForm({
         name: refreshedUser.name || "",
         email: refreshedUser.email || "",
