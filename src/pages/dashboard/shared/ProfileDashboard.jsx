@@ -125,6 +125,7 @@ const ProfileDashboard = () => {
           }
           : {}),
       };
+      console.log('Updata', updateData);
 
       await axiosSecure.patch("/api/v1/auth/update-profile", updateData);
 
