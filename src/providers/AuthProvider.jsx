@@ -110,7 +110,7 @@ useEffect(() => {
           loginCount: data.user.loginCount,
         });
 
-        console.log("✅ Synced user:", data.user);
+        // console.log("✅ Synced user:", data.user);
       } catch (err) {
         console.error("Auth sync error:", err);
         setUser(null);

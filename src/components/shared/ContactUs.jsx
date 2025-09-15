@@ -16,10 +16,9 @@ import PageBanner from "./PageBanner";
 
 const subjects = [
   "Merchant Pending",
-  "Report a Merchant",
-  "Report a Product",
-  "Report a Bug",
-  "Other"
+  "Report Merchant",
+  "Sponsor VenTech",
+  "Others.",
 ];
 
 export default function ContactUs() {
@@ -35,8 +34,10 @@ export default function ContactUs() {
     email: "",
   });
   const [loading, setLoading] = useState(false);
+  const [feetBack, setFeetBack] = useState("");
 
   const handleChange = (e) => {
+    setFeetBack("");
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -52,12 +53,8 @@ export default function ContactUs() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
-    console.log(form)
-
+    setFeetBack("");
     setLoading(true);
-    console.log("Message sent successfully\n", form);
     try {
       await axiosPublic.post("api/public/mailbox", {
         name: form.name,
@@ -65,6 +62,8 @@ export default function ContactUs() {
         subject: form.subject,
         message: form.message,
       });
+
+      setFeetBack("* We will get back to you as soon as possible.");
 
       Swal.fire("Success!", "Your message has been sent.", "success");
       setForm({ subject: "", message: "" });
@@ -133,7 +132,7 @@ export default function ContactUs() {
               required
               className="px-4 py-3 rounded-full  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
             >
-              <option className="text-gray-500" value="">mail subject</option>
+              <option className="text-gray-500" value="">---- select subject -----</option>
               {subjects.map((subj) => (
                 <option key={subj} value={subj}>{subj}</option>
               ))}
@@ -147,7 +146,8 @@ export default function ContactUs() {
               placeholder="Message : I would like to talk about..."
               rows={4}
               className="px-4 py-3 rounded-2xl  bg-[#FDEDF3] dark:bg-[#393053] outline-none"
-            />
+            /> 
+            <p className="text-sm text-success">{feetBack}</p>
             <ThemeButton
               type="submit"
               disabled={loading}
@@ -155,7 +155,8 @@ export default function ContactUs() {
 
             >
               {loading ? "Sending..." : "Send Message"}
-            </ThemeButton>
+            </ThemeButton> 
+            
           </form>
         </div>
       </div>

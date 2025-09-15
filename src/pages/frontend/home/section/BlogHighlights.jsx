@@ -40,7 +40,7 @@ export default function Blog() {
       description={"Education, community stories, and updates from the VenTech team."}
       subtitle={'Insights & stories'}
      >
-      <div className>
+      <div>
 
         {/* Blog Grid */}
         <section className="w-full py-6">
