@@ -2,15 +2,12 @@ import { useState, useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { AuthContext } from "@/providers/AuthProvider";
-import { useNavigate } from "react-router";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import { FcContacts } from "react-icons/fc";
 import { BiUserCheck } from "react-icons/bi";
 import ThemeButton from "../ui/ThemeButton";
 import Lottie, { LottiePlayer } from "lottie-react";
-import animationData from "../../assets/working"; // path to your JSON
 import LottieIcon from "./LottiesPlayer";
-import Banner from "./Banner";
 import PageBanner from "./PageBanner";
 // import logoAnimaton from "../../assets/lottie/working";
 
@@ -20,12 +17,14 @@ const subjects = [
   "Sponsor VenTech",
   "Others.",
 ];
-
 export default function ContactUs() {
+
+
+
+
   //   const axiosSecure = useAxiosSecure();
   const axiosPublic = useAxiosPublic()
   const { user } = useContext(AuthContext);
-  const navigate = useNavigate();
 
   const [form, setForm] = useState({
     subject: "",

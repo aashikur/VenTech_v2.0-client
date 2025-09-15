@@ -53,44 +53,10 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // ------------------ Observer ------------------
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-  //     setUser(currentUser);
-
-  //     if (currentUser) {
-  //       try {
-  //         // Get Firebase ID token
-  //         const token = await currentUser.getIdToken(true);
-  //         setUser({...currentUser, accessToken: token})
-  //         // console.log(currentUser)
-
-  //         // Save token in localStorage (or you can configure axios interceptor)
-  //         localStorage.setItem("access-token", token);
-
-  //         // Sync with backend
-  //         await axiosPublic.post(
-  //           "/api/v1/auth/sync",
-  //           {},
-  //           {
-  //             headers: { Authorization: `Bearer ${token}` },
-  //           }
-  //         );
-  //       } catch (err) {
-  //         console.error("❌ Error syncing user:", err);
-  //       }
-  //     } else {
-  //       localStorage.removeItem("access-token");
-  //     }
-
-  //     setLoading(false);
-  //   });
-
-  //   return () => unsubscribe();
-  // }, [auth, axiosPublic]);
-  // inside useEffect of AuthProvider
 useEffect(() => {
   const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    console.log('server running:',import.meta.env.VITE_SERVER_URL);
+
     if (currentUser) {
       const token = await currentUser.getIdToken(); // Firebase ID token
       localStorage.setItem("access-token", token);
