@@ -10,6 +10,7 @@ import ProductCard from "@/components/shared/ProductCard";
 import SkeletonGrid from "@/components/loading/SkeletonGrid";
 import PageBanner from "@/components/shared/PageBanner";
 import SectionTitle from "@/components/ui/SectionTitle";
+import { FaSearch } from "react-icons/fa";
 
 export default function ProductsPage() {
     const [state, setState] = useState({
@@ -17,6 +18,8 @@ export default function ProductsPage() {
         error: null,
         products: [],
     });
+    const [searchText, setSearchText] = useState("");
+    const [filteredProducts, setFilteredProducts] = useState([]);
 
     const axiosPublic = useAxiosPublic();
 
@@ -27,6 +30,7 @@ export default function ProductsPage() {
                 const { data } = await axiosPublic.get("/api/v1/products/public");
                 if (active) {
                     setState({ loading: false, error: null, products: data || [] });
+                    setFilteredProducts(data || []); // initialize filtered products
                 }
             } catch (err) {
                 if (active) {
@@ -35,17 +39,31 @@ export default function ProductsPage() {
                         error: "Failed to load products.",
                         products: [],
                     });
+                    setFilteredProducts([]);
                 }
             }
         };
         fetchProducts();
-        return () => {
-            active = false;
-        };
+        return () => { active = false; };
     }, []);
 
-    // ✅ Group products by category
-    const categories = state.products.reduce((acc, product) => {
+    // Filter products by search text
+    useEffect(() => {
+        if (!searchText.trim()) {
+            setFilteredProducts(state.products);
+        } else {
+            const search = searchText.toLowerCase();
+            const matches = state.products.filter(
+                (p) =>
+                    p.title.toLowerCase().includes(search) ||
+                    (p.category && p.category.toLowerCase().includes(search))
+            );
+            setFilteredProducts(matches);
+        }
+    }, [searchText, state.products]);
+
+    // Group filtered products by category
+    const categories = filteredProducts.reduce((acc, product) => {
         const cat = product.category || "Uncategorized";
         if (!acc[cat]) acc[cat] = [];
         acc[cat].push(product);
@@ -54,22 +72,41 @@ export default function ProductsPage() {
 
     return (
         <div className="relative">
-            {/* ---------------- Banner ---------------- */}
-            {/* // make a text for this..  */}
-            <PageBanner title="Products"
+            {/* Banner */}
+            <PageBanner
+                title="Products"
                 subtitle="Explore a wide range of product categories tailored for your needs."
                 breadcrumb="Home → Categories → Products"
             />
 
-            {/* ---------------- Breadcrumb ---------------- */}
+            {/* Breadcrumb */}
             <div className="max-w-7xl mx-auto px-4 py-4 text-sm text-gray-600 dark:text-gray-300">
-                <Link to="/" className="hover:underline">
-                    Home
-                </Link>{" "}
+                <Link to="/" className="hover:underline">Home</Link>{" "}
                 / <span className="text-gray-800 dark:text-white">Products</span>
             </div>
 
-            {/* ---------------- Products by Category ---------------- */}
+            {/* Search Bar */}
+            <div className="w-full max-w-xl mx-auto mb-5 sm:mb-8 sm:mt-12">
+                <div className="flex items-center bg-white dark:bg-gray-900 rounded-full shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                    <FaSearch className="ml-4 text-gray-500 dark:text-gray-400" />
+                    <input
+                        type="text"
+                        value={searchText}
+                        onChange={(e) => setSearchText(e.target.value)}
+                        placeholder="Search products, categories, or brands..."
+                        className="flex-1 px-4 py-3 bg-transparent focus:outline-none text-gray-700 dark:text-gray-200 text-sm sm:text-base"
+                    />
+                    <button
+                        className="px-6 py-3 rounded-r-full font-semibold text-white 
+                                   bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:opacity-90 transition"
+                        onClick={() => {}} // optional if you want button search too
+                    >
+                        Search
+                    </button>
+                </div>
+            </div>
+
+            {/* Products by Category */}
             <div className="max-w-7xl mx-auto px-4 py-10 space-y-16">
                 {state.loading ? (
                     <SkeletonGrid />
@@ -79,11 +116,11 @@ export default function ProductsPage() {
                     </div>
                 ) : Object.keys(categories).length > 0 ? (
                     Object.entries(categories).map(([catName, products]) => (
-                        <section
-                        >
-                            <SectionTitle title={catName} 
-                                 subtitle={`Latest products in ${catName} category`}
-                                description={false} 
+                        <section key={catName}>
+                            <SectionTitle
+                                title={catName}
+                                subtitle={false}
+                                description={false}
                                 topText={false}
                             />
                             <Swiper
@@ -91,10 +128,7 @@ export default function ProductsPage() {
                                 navigation
                                 spaceBetween={20}
                                 slidesPerView={1}
-                                breakpoints={{
-                                    640: { slidesPerView: 2 },
-                                    1024: { slidesPerView: 4 },
-                                }}
+                                breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 4 } }}
                             >
                                 {products.map((product) => (
                                     <SwiperSlide key={product._id}>
@@ -106,11 +140,10 @@ export default function ProductsPage() {
                     ))
                 ) : (
                     <div className="rounded-2xl border border-gray-200/60 dark:border-gray-700/40 bg-white/80 dark:bg-gray-800/50 p-8 text-center shadow-md">
-                        No products available at the moment.
+                        No products found.
                     </div>
                 )}
             </div>
         </div>
     );
 }
-

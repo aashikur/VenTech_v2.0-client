@@ -50,7 +50,7 @@ export default function ProductHighlight() {
           </div>
         ) : state.products.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {state.products.map((product) => (
+            {state.products.slice(0,9).map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
@@ -71,7 +71,7 @@ function ProductCard({ product }) {
         <figure>
           <img
             src={product.images?.[0] || "https://i.ibb.co/jvyTg6vQ/category-product-2.jpg"}
-            alt={product.title}
+            alt={product.title.slice(0, 30)}
             className="h-48 w-full object-cover"
           />
         </figure>
@@ -85,7 +85,7 @@ function ProductCard({ product }) {
         </p>
         <div className="flex justify-between gap-2">
 
-          <Button3 arrow={false} className="cursor-pointer">
+          <Button3 arrow={false} className="opacity-0">
             Buy Now
           </Button3> 
 

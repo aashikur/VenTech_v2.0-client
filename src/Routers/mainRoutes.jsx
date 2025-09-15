@@ -7,12 +7,9 @@ import Error from "@/components/shared/Error";
 import Home from "@/pages/frontend/home/Home";
 import Login from "@/pages/auth/Login";
 
-import Sponsor from "@/components/shared/Sponsor";
 import ProfileDashboard from "@/pages/dashboard/shared/ProfileDashboard";
 import ManageBlogs from "@/pages/dashboard/admin/blogs/ManageBlogs";
-import FundingPage from "@/pages/frontend/funding/FundingPage";
 import RegistrationPage from "@/pages/auth/Register";
-import AllFundingAdmin from "@/pages/dashboard/admin/funding/AllFundingAdmin";
 import PrivateRoute from "./PrivateRoute";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import ContactUs from "@/components/shared/ContactUs";
@@ -64,11 +61,6 @@ const mainRoutes = createBrowserRouter([
         element: <ProductDetails></ProductDetails>,
       },
       {
-        path: '/sponsor',
-        element: <Sponsor></Sponsor>
-
-      },
-      {
         path: '/single-blog/:id',
         element: <SingleBlog></SingleBlog>
 
@@ -82,16 +74,6 @@ const mainRoutes = createBrowserRouter([
         element: <BlogsPage/>
       },
 
-      {
-        path: '/sponsor',
-        element: <Sponsor></Sponsor>
-
-      },
-
-      {
-        path: '/funding',
-        element:  <PrivateRoute><FundingPage></FundingPage></PrivateRoute>
-      },
 
     ],
   },
@@ -138,10 +120,7 @@ const mainRoutes = createBrowserRouter([
         path: "/dashboard/analytics",
         element: <Analytics />,
       },
-      {
-        path: "/dashboard/funding",
-        element: <AllFundingAdmin />,
-      },
+
       {
         path: "/dashboard/manageproduct",
         element: <ManageProducts/>,

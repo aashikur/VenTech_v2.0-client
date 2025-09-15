@@ -1,10 +1,13 @@
 import { useNavigate } from "react-router";
 import { FaSearch, FaStore, FaShoppingCart } from "react-icons/fa";
 import { AuthContext } from "@/providers/AuthProvider";
+import { useContext } from "react";
+import useRole from "@/hooks/useRole";
 
 const Banner = () => {
   const navigate = useNavigate();
 
+  const { user } = useContext(AuthContext);
   return (
     <section className="relative w-full z-10 flex flex-col justify-center items-center text-center h-[90vh] overflow-hidden">
 
@@ -29,17 +32,18 @@ const Banner = () => {
         <div className="flex flex-row gap-4 mb-14 w-full sm:w-auto justify-center">
           {/* Primary CTA (Gradient) */}
           <button
-            onClick={() => navigate("/categories")}
+            onClick={() => navigate("/products")}
             className="flex items-center text-sm justify-center gap-2 w-full sm:w-48 h-12 cursor-pointer rounded-full 
               bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500  sm:text-base
               text-white font-semibold shadow-lg hover:opacity-90 transition"
           >
             <FaShoppingCart /> Shop Now
           </button>
+          
 
           {/* Secondary CTA (Orange) */}
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate(`${user ? "/dashboard" : "/login"}`)}
             className="flex items-center justify-center gap-2 w-full sm:w-48 h-12 cursor-pointer rounded-full 
               border border-orange-500 text-orange-500 text-sm sm:text-base
               dark:text-white dark:border-white/60 
@@ -52,16 +56,19 @@ const Banner = () => {
 
         {/* Search Bar */}
         <div className="w-full max-w-xl mb-5 sm:mb-8 sm:mt-12">
-          <div className="flex items-center bg-white dark:bg-gray-900 rounded-full shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+          <div
+          className="flex items-center bg-white dark:bg-gray-900 rounded-full shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
             <FaSearch className="ml-4 text-gray-500 dark:text-gray-400" />
             <input
               type="text"
               placeholder="Search products, categories, or brands..."
               className="flex-1 px-4 py-3 bg-transparent focus:outline-none text-gray-700 dark:text-gray-200 text-sm sm:text-base"
             />
-            <button className="px-6 py-3 rounded-r-full font-semibold text-white 
+            <button 
+            onClick={() => navigate("/products")}
+            className="px-6 py-3 rounded-r-full font-semibold text-white cursor-pointer
               bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 hover:opacity-90 transition">
-              Search
+              Products
             </button>
           </div>
         </div>

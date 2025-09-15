@@ -14,6 +14,8 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
       try {
         const { data } = await axiosPublic.get(`/api/v1/products/${id}`);
+        console.log("Product details:", data);
+        console.log("added details:", data?.addedByMerchant);
         setProduct(data);
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -22,7 +24,7 @@ const ProductDetails = () => {
       }
     };
     fetchProduct();
-  }, [id, axiosPublic]);
+  }, [id]);
 
   if (loading) {
     return (
@@ -101,6 +103,47 @@ const ProductDetails = () => {
                   Quantity Available: {product.quantity}
                 </p>
               </div>
+                      {/* Metchent Infor small card  */}
+{product?.addedByMerchant && (
+  <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center gap-4">
+    
+    {/* Merchant Avatar */}
+    <img
+      src={product?.addedByMerchant?.photoURL || "/default-avatar.png"}
+      alt={product?.addedByMerchant?.name || "Merchant"}
+      className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600"
+    />
+
+    {/* Merchant Info */}
+    <div className="flex-1 flex flex-col">
+      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+        {product?.addedByMerchant?.name || "Unknown Merchant"}
+      </h3>
+      <p className="text-sm text-gray-500 dark:text-gray-400">
+        {product?.addedByMerchant?.shopDetails?.shopName || "Shop Name"}{" "}
+        ({product?.addedByMerchant?.shopDetails?.shopNumber || "N/A"})
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-400">
+        📞 {product?.addedByMerchant?.phone || "N/A"}
+      </p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+        🏢 {product?.addedByMerchant?.shopDetails?.shopAddress || "Address not available"}
+      </p>
+    </div>
+
+    {/* Optional role/status badge */}
+    <span
+      className={`px-2 py-1 rounded-full text-xs font-medium ${
+        product?.addedByMerchant?.status === "active"
+          ? "bg-green-100 text-green-700"
+          : "bg-red-100 text-red-700"
+      }`}
+    >
+      {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
+    </span>
+  </div>
+)}
+
 
               {/* Buttons */}
               <div className="flex gap-4 mt-6">
@@ -118,6 +161,9 @@ const ProductDetails = () => {
                 </button>
               </div>
             </div>
+
+
+
           </div>
 
           {/* Long Description */}

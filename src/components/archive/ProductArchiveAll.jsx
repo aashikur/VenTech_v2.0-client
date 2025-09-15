@@ -46,9 +46,9 @@ const ProductArchiveAll = ({ maxProducts = 6 }) => {
             </p>
             <Link
               to={`/product/${prod._id}`}
-              className="mt-2 inline-block text-center px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-500 transition"
+              className="mt-2 inline-block text-center px-3 py-1 bg-orange-600 text-white text-sm rounded-full hover:bg-red-500 transition"
             >
-              Buy Now
+              view details
             </Link>
           </div>
         </div>
@@ -58,7 +58,7 @@ const ProductArchiveAll = ({ maxProducts = 6 }) => {
         <div className="text-center mt-6">
           <button
             onClick={() => setShowAll(true)}
-            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-500 transition"
+            className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-red-500 transition"
           >
             Load More Products
           </button>

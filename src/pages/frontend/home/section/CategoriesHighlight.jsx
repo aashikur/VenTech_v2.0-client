@@ -75,7 +75,8 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
 function CategoryCard({ cat }) {
   return (
     <article className="relative border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
-      <Link to={`/category/${cat._id}`}>
+      {/* <Link to={`/category/${cat._id}`}> */}
+      <Link to={`products`}> 
         <figure>
           <img
             src={
