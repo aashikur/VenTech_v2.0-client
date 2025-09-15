@@ -44,7 +44,7 @@ export default function useRole() {
   }, [user, authLoading]); 
 
   // console.log("useRole:", { role, status, loading });
-  console.log("profile:", profile);
+  // console.log("profile:", profile);
 
   return { role, status, profile, setProfile, loading , userID};
 }

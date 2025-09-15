@@ -74,7 +74,7 @@ export default function ProductsPage() {
         <div className="relative">
             {/* Banner */}
             <PageBanner
-                title="Products"
+                title="Browse Products"
                 subtitle="Explore a wide range of product categories tailored for your needs."
                 breadcrumb="Home → Categories → Products"
             />

@@ -10,6 +10,17 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_messagingSenderId,
   appId: import.meta.env.VITE_appId,
 };
+
+
+
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDeiS4kiFlW2AUwPyXrhvN16hWoOY5OJjs",
+//   authDomain: "blood-aid-now.firebaseapp.com",
+//   projectId: "blood-aid-now",
+//   storageBucket: "blood-aid-now.firebasestorage.app",
+//   messagingSenderId: "675520499222",
+//   appId: "1:675520499222:web:65f01658bcb98343496f37",
+// };
 // console.log("🚀 ~ firebaseConfig:", firebaseConfig)
 
 // Initialize Firebase

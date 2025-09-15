@@ -28,7 +28,7 @@ const LINKS = {
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/manage-users", icon: <FaUsers />, label: "Manage Users" },
     { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
-    { to: "/dashboard/manageproduct", icon: '', label: "Manage Products" },
+    // { to: "/dashboard/manageproduct", icon: '', label: "Manage Products" },
     { to: "/dashboard/pending-merchant", icon: <FaBoxOpen />, label: "Pending Merchants" },
     { to: "/dashboard/mailbox", icon: <FaShoppingCart />, label: "Mail Box" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Analytics" },

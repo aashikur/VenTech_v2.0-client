@@ -1,14 +1,16 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { FaCheck, FaTimes } from "react-icons/fa";
+import { FaCheck, FaTimes, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
+import useRole from "@/hooks/useRole";
 
 const PendingMerchants = () => {
+  const { user } = useRole();
   const [merchants, setMerchants] = useState([]);
+  const [expanded, setExpanded] = useState(null);
   const axiosSecure = useAxiosSecure();
 
-  // Fetch pending merchants
   useEffect(() => {
     const fetchMerchants = async () => {
       try {
@@ -43,7 +45,6 @@ const PendingMerchants = () => {
 
   return (
     <section className="p-6 min-h-screen bg-gray-50 dark:bg-[#0f0f14] transition-colors">
-      {/* Header */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -53,7 +54,6 @@ const PendingMerchants = () => {
         Pending Merchant Requests
       </motion.h1>
 
-      {/* Table */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -73,31 +73,55 @@ const PendingMerchants = () => {
           <tbody>
             {merchants.length > 0 ? (
               merchants.map((m, idx) => (
-                <tr
-                  key={m._id}
-                  className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-                >
-                  <td className="px-6 py-4 font-medium">{m.name}</td>
-                  <td className="px-6 py-4">{m.email}</td>
-                  <td className="px-6 py-4">{m.shopDetails?.shopName || "-"}</td>
-                  <td className="px-6 py-4">
-                    {new Date(m.roleRequest.requestedAt).toLocaleString()}
-                  </td>
-                  <td className="px-6 py-4 flex justify-end gap-2">
-                    <button
-                      onClick={() => handleApprove(m._id)}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-500 text-white text-xs font-semibold hover:opacity-90 transition shadow"
-                    >
-                      <FaCheck /> Approve
-                    </button>
-                    <button
-                      onClick={() => handleReject(m._id)}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-500 text-white text-xs font-semibold hover:opacity-90 transition shadow"
-                    >
-                      <FaTimes /> Reject
-                    </button>
-                  </td>
-                </tr>
+                <Fragment key={m._id}>
+                  <tr
+                    className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+                  >
+                    <td className="px-6 py-4 font-medium flex items-center justify-between">
+                      {m.name}
+                      <button
+                        onClick={() => setExpanded(expanded === m._id ? null : m._id)}
+                        className="ml-2 text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                      >
+                        {expanded === m._id ? <FaChevronUp /> : <FaChevronDown />}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">{m.email}</td>
+                    <td className="px-6 py-4">{m.shopDetails?.shopName || "-"}</td>
+                    <td className="px-6 py-4">
+                      {new Date(m.roleRequest.requestedAt).toLocaleString()}
+                    </td>
+                    <td className="px-6 py-4 flex justify-end gap-2">
+                      <button
+                        onClick={() => handleApprove(m._id)}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-green-500 text-white text-xs font-semibold hover:opacity-90 transition shadow"
+                      >
+                        <FaCheck /> Approve
+                      </button>
+                      <button
+                        onClick={() => handleReject(m._id)}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-500 text-white text-xs font-semibold hover:opacity-90 transition shadow"
+                      >
+                        <FaTimes /> Reject
+                      </button>
+                    </td>
+                  </tr>
+                  {expanded === m._id && (
+                    <tr className="bg-gray-50 dark:bg-gray-900">
+                      <td colSpan="5" className="px-6 py-4">
+                        <div className="grid grid-cols-2 gap-4 text-sm">
+                          <div><strong>Phone:</strong> {m.phone || "-"}</div>
+                          <div><strong>District:</strong> {m.district || "-"}</div>
+                          <div><strong>Upazila:</strong> {m.upazila || "-"}</div>
+                          <div><strong>Shop Name:</strong> {m.shopDetails?.shopName || "-"}</div>
+                          <div><strong>Shop Number:</strong> {m.shopDetails?.shopNumber || "-"}</div>
+                          <div><strong>Shop Address:</strong> {m.shopDetails?.shopAddress || "-"}</div>
+                          <div><strong>Trade License:</strong> {m.shopDetails?.tradeLicense || "-"}</div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </Fragment>
               ))
             ) : (
               <tr>

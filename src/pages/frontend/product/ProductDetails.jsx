@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { motion } from "framer-motion";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import ProductArchiveAll from "@/components/archive/ProductArchiveAll";
+import { BsWhatsapp } from "react-icons/bs";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
+    const goto = useNavigate();
+
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
   const [product, setProduct] = useState(null);
@@ -50,6 +54,22 @@ const ProductDetails = () => {
     alert(`Proceeding to buy ${product.title}`);
   };
 
+  const handleOrderNow = () => {
+  Swal.fire({
+    title: "Order Placed! 🎉",
+    text: `${product.title} has been ordered successfully.`,
+    icon: "success",
+    confirmButtonText: "OK",
+    confirmButtonColor: "#f97316", // orange-500 for theme match
+    timer: 2000,
+    timerProgressBar: true,
+  });
+
+setTimeout(() => {
+    goto('/products')
+}, 2000)
+};
+
   return (
     <div className="min-h-screen dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-10 items-start">
@@ -88,11 +108,10 @@ const ProductDetails = () => {
                 </p>
                 <p className="text-sm">
                   <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      product.stockStatus === "in-stock"
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${product.stockStatus === "in-stock"
                         ? "bg-green-100 text-green-700"
                         : "bg-red-100 text-red-700"
-                    }`}
+                      }`}
                   >
                     {product.stockStatus === "in-stock"
                       ? "In Stock"
@@ -103,51 +122,50 @@ const ProductDetails = () => {
                   Quantity Available: {product.quantity}
                 </p>
               </div>
-                      {/* Metchent Infor small card  */}
-{product?.addedByMerchant && (
-  <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center gap-4">
-    
-    {/* Merchant Avatar */}
-    <img
-      src={product?.addedByMerchant?.photoURL || "/default-avatar.png"}
-      alt={product?.addedByMerchant?.name || "Merchant"}
-      className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600"
-    />
+              {/* Metchent Infor small card  */}
+              {product?.addedByMerchant && (
+                <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center gap-4">
 
-    {/* Merchant Info */}
-    <div className="flex-1 flex flex-col">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-        {product?.addedByMerchant?.name || "Unknown Merchant"}
-      </h3>
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        {product?.addedByMerchant?.shopDetails?.shopName || "Shop Name"}{" "}
-        ({product?.addedByMerchant?.shopDetails?.shopNumber || "N/A"})
-      </p>
-      <p className="text-sm text-gray-500 dark:text-gray-400">
-        📞 {product?.addedByMerchant?.phone || "N/A"}
-      </p>
-      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-        🏢 {product?.addedByMerchant?.shopDetails?.shopAddress || "Address not available"}
-      </p>
-    </div>
+                  {/* Merchant Avatar */}
+                  <img
+                    src={product?.addedByMerchant?.photoURL || "/default-avatar.png"}
+                    alt={product?.addedByMerchant?.name || "Merchant"}
+                    className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600"
+                  />
 
-    {/* Optional role/status badge */}
-    <span
-      className={`px-2 py-1 rounded-full text-xs font-medium ${
-        product?.addedByMerchant?.status === "active"
-          ? "bg-green-100 text-green-700"
-          : "bg-red-100 text-red-700"
-      }`}
-    >
-      {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
-    </span>
-  </div>
-)}
+                  {/* Merchant Info */}
+                  <div className="flex-1 flex flex-col">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {product?.addedByMerchant?.name || "Unknown Merchant"}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      {product?.addedByMerchant?.shopDetails?.shopName || "Shop Name"}{" "}
+                      ({product?.addedByMerchant?.shopDetails?.shopNumber || "N/A"})
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      📞 {product?.addedByMerchant?.phone || "N/A"}
+                    </p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                      🏢 {product?.addedByMerchant?.shopDetails?.shopAddress || "Address not available"}
+                    </p>
+                  </div>
+
+                  {/* Optional role/status badge */}
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${product?.addedByMerchant?.status === "active"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                      }`}
+                  >
+                    {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
+                  </span>
+                </div>
+              )}
 
 
               {/* Buttons */}
               <div className="flex gap-4 mt-6">
-                <button
+                {/* <button
                   onClick={handleAddToCart}
                   className="flex-1 px-6 py-3 rounded-xl bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition"
                 >
@@ -158,7 +176,23 @@ const ProductDetails = () => {
                   className="flex-1 px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
                 >
                   Buy Now
+                </button> */}
+                <button
+                  onClick={handleOrderNow}
+                  className="flex-1 px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
+                >
+                  Place a Order
                 </button>
+                <a 
+                  href={`https://wa.me/${product?.addedByMerchant?.phone?.replace(/\D/g, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-100 hover:bg-green-200 transition"
+                >
+                  <BsWhatsapp className="text-green-700 w-6 h-6" />
+                </a>
+
+
               </div>
             </div>
 
