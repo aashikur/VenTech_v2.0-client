@@ -93,7 +93,8 @@ function CategoryCard({ category }) {
       whileHover={{ scale: 1.03 }}
     >
       <Link
-        to={`/categories/${category._id}`}
+        // to={`/categories/${category._id}`}
+        to={'/products'}
         className="flex flex-col items-center text-center"
       >
         <img

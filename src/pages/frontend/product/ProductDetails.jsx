@@ -5,10 +5,15 @@ import useAxiosPublic from "@/hooks/axiosPublic";
 import ProductArchiveAll from "@/components/archive/ProductArchiveAll";
 import { BsWhatsapp } from "react-icons/bs";
 import Swal from "sweetalert2";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
+import useRole from "@/hooks/useRole";
+
 
 const ProductDetails = () => {
-    const goto = useNavigate();
-
+  const { 'profile': profile } = useRole();
+  console.log(profile?._id)
+  const goto = useNavigate();
+  const axiosSecure = useAxiosSecure();
   const { id } = useParams();
   const axiosPublic = useAxiosPublic();
   const [product, setProduct] = useState(null);
@@ -19,7 +24,7 @@ const ProductDetails = () => {
       try {
         const { data } = await axiosPublic.get(`/api/v1/products/${id}`);
         console.log("Product details:", data);
-        console.log("added details:", data?.addedByMerchant);
+        // console.log("added details:", data?.addedByMerchant);
         setProduct(data);
       } catch (err) {
         console.error("Error fetching product:", err);
@@ -54,21 +59,34 @@ const ProductDetails = () => {
     alert(`Proceeding to buy ${product.title}`);
   };
 
-  const handleOrderNow = () => {
-  Swal.fire({
-    title: "Order Placed! 🎉",
-    text: `${product.title} has been ordered successfully.`,
-    icon: "success",
-    confirmButtonText: "OK",
-    confirmButtonColor: "#f97316", // orange-500 for theme match
-    timer: 2000,
-    timerProgressBar: true,
-  });
+const handleOrderNow = async (product, quantity = 1, status = "pending") => {
+  if (!profile) {
+    Swal.fire("Error!", "Please login first", "error");
+    goto('/login');
+    return;
+  }
 
-setTimeout(() => {
-    goto('/products')
-}, 2000)
+  try {
+    // Prepare payload for backend
+    const orderData = {
+      product,                               // full product object
+      quantity,                              // how many items user wants
+      status,                                // default: "pending"
+      orderedBy: profile?._id,               // ✅ user id from profile
+      addedByMerchant: product?.addedByMerchant?._id // ✅ merchant id
+    };
+
+    // POST request to your backend
+    const res = await axiosPublic.post("/api/v1/orders", orderData);
+
+    console.log("Order placed:", res.data);
+    Swal.fire("Success!", "Your order has been placed.", "success");
+  } catch (err) {
+    console.error("Order error:", err.response?.data || err.message);
+    Swal.fire("Error!", "Failed to place order.", "error");
+  }
 };
+
 
   return (
     <div className="min-h-screen dark:bg-gray-900 py-10 px-4 sm:px-6 lg:px-8 relative">
@@ -109,8 +127,8 @@ setTimeout(() => {
                 <p className="text-sm">
                   <span
                     className={`px-3 py-1 rounded-full text-xs font-medium ${product.stockStatus === "in-stock"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
                       }`}
                   >
                     {product.stockStatus === "in-stock"
@@ -153,8 +171,8 @@ setTimeout(() => {
                   {/* Optional role/status badge */}
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${product?.addedByMerchant?.status === "active"
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
                       }`}
                   >
                     {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
@@ -178,12 +196,12 @@ setTimeout(() => {
                   Buy Now
                 </button> */}
                 <button
-                  onClick={handleOrderNow}
+                  onClick={() => handleOrderNow(product)}
                   className="flex-1 px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
                 >
                   Place a Order
                 </button>
-                <a 
+                <a
                   href={`https://wa.me/${product?.addedByMerchant?.phone?.replace(/\D/g, "")}`}
                   target="_blank"
                   rel="noopener noreferrer"

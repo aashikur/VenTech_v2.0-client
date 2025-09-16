@@ -17,7 +17,6 @@ const PrivateRoute = ({ children }) => {
     return children;
   }
 
-  Swal.fire("Error","You Must Login First","error")
   return <Navigate state={location.pathname} to="/login" replace></Navigate>;
 };
 

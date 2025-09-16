@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { FaChevronDown, FaChevronUp, FaSearch } from "react-icons/fa";
+import { FaSearch, FaInbox, FaTag, FaStar } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MailBox = () => {
@@ -29,19 +29,17 @@ const MailBox = () => {
 
   const toggleExpand = (index) => {
     setExpanded(expanded === index ? null : index);
-    setNewArrived((prev) => prev.filter((_, i) => i !== index));
+    setNewArrived(prev => prev.filter((_, i) => i !== index));
   };
 
-  // Filter + Search
+  // Simplified filter - only search by name
   const filteredMails = useMemo(() => {
-    return mails.filter(mail => {
-      const matchesSearch = mail.email.toLowerCase().includes(search.toLowerCase());
-      const matchesFilter = filter === "all" ? true : mail.category === filter;
-      return matchesSearch && matchesFilter;
-    });
-  }, [mails, search, filter]);
+    return mails.filter(mail => 
+      mail.name.toLowerCase().includes(search.toLowerCase()) ||
+      mail.email.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [mails, search]);
 
-  // Pagination
   const totalPages = Math.ceil(filteredMails.length / mailsPerPage);
   const paginatedMails = filteredMails.slice(
     (currentPage - 1) * mailsPerPage,
@@ -49,112 +47,126 @@ const MailBox = () => {
   );
 
   const categories = [
-    "all",
-    "Merchant Pending",
-    "Report a Merchant",
-    "Report a Product",
-    "Report a Bug",
-    "Other",
+    { value: "all", label: "All Messages", icon: <FaInbox /> },
+    { value: "Merchant Pending", label: "Merchant Pending", icon: <FaTag /> },
+    { value: "Report Merchant", label: "Report Merchant", icon: <FaTag /> },
+    { value: "Sponsor VenTech", label: "Sponsor VenTech", icon: <FaStar /> },
+    { value: "Others", label: "Others", icon: <FaTag /> },
   ];
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50 dark:bg-[#0f0f14] transition-colors">
-      <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
-        Mail Box <span className="text-sm font-normal text-gray-500 dark:text-gray-400">({filteredMails.length} messages)</span>
-      </h2>
-
-      {/* Search & Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-        <div className="flex items-center w-full sm:w-80 bg-white dark:bg-gray-900 rounded-full shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
-          <FaSearch className="ml-4 text-gray-500 dark:text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search by email..."
-            value={search}
-            onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
-            className="flex-1 px-4 py-2 bg-transparent focus:outline-none text-gray-700 dark:text-gray-200 text-sm"
-          />
+    <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900/50">
+      <div className="p-4 md:p-6">
+        {/* Search Bar */}
+        <div className="max-w-3xl mx-auto mb-6">
+          <div className="relative">
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400" />
+            <input
+              type="text"
+              placeholder="Search by name or email..."
+              value={search}
+              onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
+              className="w-full pl-12 pr-4 py-3 rounded-lg border border-orange-200 
+                dark:border-orange-800/30 bg-white dark:bg-gray-800 
+                text-gray-900 dark:text-gray-100 
+                focus:ring-2 focus:ring-orange-500/50 focus:border-orange-500 
+                transition-shadow"
+            />
+          </div>
         </div>
 
-        <select
-          value={filter}
-          onChange={(e) => { setFilter(e.target.value); setCurrentPage(1); }}
-          className="px-4 py-2 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 text-sm shadow"
-        >
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat === "all" ? "All Categories" : cat}</option>
-          ))}
-        </select>
-      </div>
+        {/* Messages List */}
+        <div className="max-w-3xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-sm">
+          {paginatedMails.length > 0 ? paginatedMails.map((mail, i) => (
+            <motion.div
+              key={mail._id}
+              layout
+              className={`border-b border-orange-100 dark:border-orange-900/20 last:border-0
+                ${i % 2 === 0 
+                  ? 'bg-orange-50/30 dark:bg-orange-900/5' 
+                  : 'bg-white dark:bg-gray-800'}`}
+            >
+              <button
+                onClick={() => toggleExpand(i)}
+                className="w-full px-6 py-4 text-left hover:bg-orange-100/50 
+                  dark:hover:bg-orange-900/10 transition-colors"
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-4 items-center">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-3">
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {mail.name}
+                      </span>
+                      <span className="text-sm text-orange-600 dark:text-orange-400">
+                        {mail.email}
+                      </span>
+                    </div>
+                    <div className="text-sm text-gray-600 dark:text-gray-400 line-clamp-1">
+                      {mail.message}
+                    </div>
+                  </div>
+                  <span className="text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                    {new Date(mail.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </button>
 
-      {/* Table / Mail List */}
-      <div className="overflow-x-auto">
-        {paginatedMails.length > 0 ? paginatedMails.map((mail, i) => (
-          <motion.div
-            key={mail._id}
-            layout
-            className={`border rounded-xl overflow-hidden cursor-pointer 
-              ${newArrived.includes(mail._id) ? "bg-yellow-50 dark:bg-yellow-900/20 animate-pulse" : "bg-white dark:bg-gray-800"} 
-              border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition mb-3`}
-            onClick={() => toggleExpand(i)}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 p-4 items-center">
-              <p className="font-medium">{(currentPage - 1) * mailsPerPage + i + 1}</p>
-              <p className="truncate">{mail.email}</p>
-              <p className="truncate">{mail.subject}</p>
-              <p className="truncate">{mail.name}</p>
-              <p className="flex justify-between items-center">
-                {newArrived.includes(mail._id) && <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-2"></span>}
-                {new Date(mail.createdAt).toLocaleDateString()}
-                {expanded === i ? <FaChevronUp /> : <FaChevronDown />}
-              </p>
+              <AnimatePresence>
+                {expanded === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="px-6 py-4 bg-orange-50/50 dark:bg-orange-900/5 
+                      border-t border-orange-100 dark:border-orange-900/20"
+                  >
+                    <div className="space-y-4">
+                      <div className="text-gray-900 dark:text-gray-100 whitespace-pre-wrap">
+                        {mail.message}
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          )) : (
+            <div className="py-12 text-center text-gray-500 dark:text-gray-400">
+              No messages found
             </div>
+          )}
+        </div>
 
-            {/* Expandable Drawer */}
-            <AnimatePresence>
-              {expanded === i && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  className="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900"
-                >
-                  <p className="text-gray-800 dark:text-gray-100"><strong>Message:</strong></p>
-                  <p className="mt-2 text-gray-700 dark:text-gray-300">{mail.message}</p>
-                  <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">Category: {mail.category}</p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        )) : (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-            No mails found
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center mt-6 gap-2">
+            <button
+              onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 
+                border border-orange-200 dark:border-orange-800/30
+                disabled:opacity-50 hover:bg-orange-50 dark:hover:bg-orange-900/10 
+                text-orange-600 dark:text-orange-400
+                transition-colors"
+            >
+              Previous
+            </button>
+            <span className="px-4 py-2 text-gray-600 dark:text-gray-300">
+              Page {currentPage} of {totalPages}
+            </span>
+            <button
+              onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 
+                border border-orange-200 dark:border-orange-800/30
+                disabled:opacity-50 hover:bg-orange-50 dark:hover:bg-orange-900/10 
+                text-orange-600 dark:text-orange-400
+                transition-colors"
+            >
+              Next
+            </button>
           </div>
         )}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-4 mt-6">
-          <button
-            onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-            disabled={currentPage === 1}
-            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50"
-          >
-            Prev
-          </button>
-          <span className="text-gray-700 dark:text-gray-300">
-            Page {currentPage} of {totalPages}
-          </span>
-          <button
-            onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      )}
     </div>
   );
 };

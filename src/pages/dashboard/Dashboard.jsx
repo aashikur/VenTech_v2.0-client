@@ -1,9 +1,15 @@
 import useRole from "@/hooks/useRole";
 import AdminDashboard from "./AdminDashboard";
 import CustomerDashboard from "./customer/CustomerDashboard";
+import { useContext } from "react";
+import { AuthContext } from "@/providers/AuthProvider";
+import { useNavigate } from "react-router";
+
 
 export default function Dashboard() {
-  const { role, loading } = useRole();
+  const navigate = useNavigate();
+  const { role, loading } = useRole(); 
+  const { user } = useContext(AuthContext);
 
   if (loading) return <div>Loading dashboard...</div>;
 

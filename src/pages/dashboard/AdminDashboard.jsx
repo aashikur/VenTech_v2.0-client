@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { motion } from "framer-motion";
 import { AuthContext } from "@/providers/AuthProvider";
 import useRole from "@/hooks/useRole";
@@ -77,6 +77,9 @@ const barData = [
 ];
 
 export default function DashboardOverview() {
+  
+  const navigate = useNavigate();
+
   const { user, logOut } = useContext(AuthContext);
   const { role, loading } = useRole();
 
@@ -84,6 +87,7 @@ export default function DashboardOverview() {
 
   const handleLogout = () => {
     logOut().then(() => {
+      navigate("/"); 
       Swal.fire({ icon: "success", title: "Logout Successful" });
     });
   };

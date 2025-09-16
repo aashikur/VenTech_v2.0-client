@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { FaCheck, FaTimes, FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Swal from "sweetalert2";
 import useRole from "@/hooks/useRole";
 
@@ -72,11 +72,9 @@ const PendingMerchants = () => {
           </thead>
           <tbody>
             {merchants.length > 0 ? (
-              merchants.map((m, idx) => (
+              merchants.map((m) => (
                 <Fragment key={m._id}>
-                  <tr
-                    className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-                  >
+                  <tr className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
                     <td className="px-6 py-4 font-medium flex items-center justify-between">
                       {m.name}
                       <button
@@ -106,21 +104,31 @@ const PendingMerchants = () => {
                       </button>
                     </td>
                   </tr>
-                  {expanded === m._id && (
-                    <tr className="bg-gray-50 dark:bg-gray-900">
-                      <td colSpan="5" className="px-6 py-4">
-                        <div className="grid grid-cols-2 gap-4 text-sm">
-                          <div><strong>Phone:</strong> {m.phone || "-"}</div>
-                          <div><strong>District:</strong> {m.district || "-"}</div>
-                          <div><strong>Upazila:</strong> {m.upazila || "-"}</div>
-                          <div><strong>Shop Name:</strong> {m.shopDetails?.shopName || "-"}</div>
-                          <div><strong>Shop Number:</strong> {m.shopDetails?.shopNumber || "-"}</div>
-                          <div><strong>Shop Address:</strong> {m.shopDetails?.shopAddress || "-"}</div>
-                          <div><strong>Trade License:</strong> {m.shopDetails?.tradeLicense || "-"}</div>
-                        </div>
-                      </td>
-                    </tr>
-                  )}
+
+                  <AnimatePresence initial={false}>
+                    {expanded === m._id && (
+                      <motion.tr
+                        key="expanded"
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="bg-gray-50 dark:bg-gray-900 overflow-hidden"
+                      >
+                        <td colSpan="5" className="px-6 py-4">
+                          <div className="grid grid-cols-2 gap-4 text-sm">
+                            <div><strong>Phone:</strong> {m.phone || "-"}</div>
+                            <div><strong>District:</strong> {m.district || "-"}</div>
+                            <div><strong>Upazila:</strong> {m.upazila || "-"}</div>
+                            <div><strong>Shop Name:</strong> {m.shopDetails?.shopName || "-"}</div>
+                            <div><strong>Shop Number:</strong> {m.shopDetails?.shopNumber || "-"}</div>
+                            <div><strong>Shop Address:</strong> {m.shopDetails?.shopAddress || "-"}</div>
+                            <div><strong>Trade License:</strong> {m.shopDetails?.tradeLicense || "-"}</div>
+                          </div>
+                        </td>
+                      </motion.tr>
+                    )}
+                  </AnimatePresence>
                 </Fragment>
               ))
             ) : (
