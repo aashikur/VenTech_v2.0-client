@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useRole from "@/hooks/useRole";
 import EditProductModal from "@/components/manageProduct/EditProductModal";
+import axios from "axios";
+import useAxiosPublic from "@/hooks/axiosPublic";
 
 const gradientBtn =
   "flex items-center cursor-pointer gap-3 px-4 py-2 rounded-lg font-medium transition-all duration-200 \
@@ -18,6 +20,7 @@ const outlineBtn =
 const ProductsMerchant = () => {
   const { profile, loading: roleLoading } = useRole();
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
   const merchantId = profile?._id;
 
   const [products, setProducts] = useState([]);
@@ -100,16 +103,26 @@ const ProductsMerchant = () => {
 
   // Request product
   const handleRequestProduct = async (product) => {
+    const PlayLoad = {
+      requestedByMerchant: merchantId,
+      requestedToMerchant: product.merchantId,
+      productTitle: product.title,
+      productCategory: product.category,
+    }
     try {
-      await axiosSecure.post("/api/v1/myrequest/request-product", {
-        merchantId,
-        productTitle: product.title,
-      });
-      Swal.fire("Requested!", `Request for "${product.title}" sent.`, "success");
+      const res = await axiosPublic.post("http://localhost:3000/api/v1/request-list", PlayLoad)
+
+      console.log("Request saved:", res.data);
+      Swal.fire("Success", "Request sent successfully!", "success");
     } catch (err) {
-      console.error(err);
+      console.error("Error sending request:", err);
       Swal.fire("Error", "Failed to send request", "error");
     }
+
+    console.log("RequestedBy Merchant: ", merchantId)
+    console.log("PlayLoad: ", PlayLoad);
+
+
   };
 
   const filteredProducts = useMemo(() => {
