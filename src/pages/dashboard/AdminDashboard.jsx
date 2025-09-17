@@ -43,7 +43,7 @@ const LINKS = {
     { to: "/dashboard/my-products", icon: <FaBoxOpen />, label: "My Products" },
     { to: "/dashboard/add-product", icon: <FaPlus />, label: "Add Product" },
     { to: "/dashboard/my-orders", icon: <FaShoppingCart />, label: "My Orders" },
-    { to: "/dashboard/shop-analytics", icon: <FaChartBar />, label: "Shop Analytics" },
+    { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
   ],
   customer: [
@@ -95,7 +95,7 @@ export default function DashboardOverview() {
   const roleLinks = LINKS[role || "customer"];
 
   return (
-    <div className="p-6 min-h-screen bg-gray-50 dark:bg-[#0f0f14] transition-colors">
+    <div className=" p-6 min-h-screen bg-gray-50 dark:bg-[#0f0f14] transition-colors">
       {/* Greeting + Profile */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
         <motion.div

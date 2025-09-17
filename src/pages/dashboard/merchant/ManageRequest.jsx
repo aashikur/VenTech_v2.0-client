@@ -81,75 +81,77 @@ const ManageRequest = () => {
   }
 
   return (
-    <motion.div
-      className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-        My Requests
-      </h2>
+<motion.div
+  className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen transition-colors"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+>
+  <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+    My Requests
+  </h2>
 
-      {/* Search */}
-      <div className="max-w-2xl mx-auto mb-6">
-        <input
-          type="text"
-          placeholder="Search by title, category, or merchant..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 shadow-sm"
-        />
+  {/* Search */}
+  <div className="max-w-2xl mx-auto mb-6">
+    <input
+      type="text"
+      placeholder="Search by title, category, or merchant..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="w-full px-5 py-3 rounded-3xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-pink-500 transition-all"
+    />
+  </div>
+
+  {/* Requests Table */}
+  <div className="overflow-x-auto max-w-6xl mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+    {filteredRequests.length === 0 ? (
+      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+        No requests found.
       </div>
-
-      {filteredRequests.length === 0 ? (
-        <div className="text-center py-10 text-gray-500 dark:text-gray-400">
-          No requests found.
-        </div>
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
-            <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
-              <tr>
-                <th className="px-4 py-3 text-left">Requested By</th>
-                <th className="px-4 py-3 text-left">Requested To</th>
-                <th className="px-4 py-3 text-left">Product Title</th>
-                <th className="px-4 py-3 text-left">Category</th>
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredRequests.map((req) => (
-                <tr
-                  key={req._id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+    ) : (
+      <table className="min-w-full text-sm text-gray-700 dark:text-gray-200 rounded-2xl overflow-hidden">
+        <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+          <tr>
+            <th className="px-6 py-3 text-left font-medium">Requested By</th>
+            <th className="px-6 py-3 text-left font-medium">Requested To</th>
+            <th className="px-6 py-3 text-left font-medium">Product Title</th>
+            <th className="px-6 py-3 text-left font-medium">Category</th>
+            <th className="px-6 py-3 text-left font-medium">Date</th>
+            <th className="px-6 py-3 text-left font-medium">Action</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {filteredRequests.map((req) => (
+            <tr
+              key={req._id}
+              className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+            >
+              <td className="px-6 py-3 font-medium">{req.requestedByMerchant.name || req.requestedByMerchant}</td>
+              <td className="px-6 py-3 font-medium">Me</td>
+              <td className="px-6 py-3">{req.productTitle}</td>
+              <td className="px-6 py-3">{req.productCategory}</td>
+              <td className="px-6 py-3">{new Date(req.createdAt).toLocaleString()}</td>
+              <td className="px-6 py-3 flex gap-2">
+                <button
+                  onClick={() => handleApprove(req._id)}
+                  className="px-4 py-1 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
                 >
-                  <td className="px-4 py-3">{req.requestedByMerchant.name || req.requestedByMerchant}</td>
-                  <td className="px-4 py-3">{/*req.requestedToMerchant.name || req.requestedToMerchant*/} Me</td>
-                  <td className="px-4 py-3">{req.productTitle}</td>
-                  <td className="px-4 py-3">{req.productCategory}</td>
-                  <td className="px-4 py-3">{new Date(req.createdAt).toLocaleString()}</td>
-                  <td className="px-4 py-3 flex">
-                    <button
-                      onClick={() => handleApprove(req._id)}
-                      className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleReject(req._id)}
-                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md ml-2"
-                    >
-                      Reject
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </motion.div>
+                  Approve
+                </button>
+                <button
+                  onClick={() => handleReject(req._id)}
+                  className="px-4 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                >
+                  Reject
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</motion.div>
+
   );
 };
 

@@ -80,78 +80,93 @@ const ManageOrder = () => {
   }
 
   return (
-    <motion.div
-      className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-    >
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-        My Orders
-      </h2>
+<motion.div
+  className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen transition-colors"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+>
+  <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+    My Orders
+  </h2>
 
-      {/* Search */}
-      <div className="max-w-2xl mx-auto mb-6">
-        <input
-          type="text"
-          placeholder="Search by product, category, merchant, or status..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 shadow-sm"
-        />
+  {/* Search */}
+  <div className="max-w-2xl mx-auto mb-6">
+    <input
+      type="text"
+      placeholder="Search by product, category, merchant, or status..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="w-full px-5 py-3 rounded-3xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-pink-500 transition-all"
+    />
+  </div>
+
+  {/* Table */}
+  <div className="overflow-x-auto max-w-6xl mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+    {filteredOrders.length === 0 ? (
+      <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+        No orders found.
       </div>
-
-      {/* Table */}
-      <div className="overflow-x-auto">
-        {filteredOrders.length === 0 ? (
-          <div className="text-center py-10 text-gray-500 dark:text-gray-400">
-            No orders found.
-          </div>
-        ) : (
-          <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
-            <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
-              <tr>
-                <th className="px-4 py-3 text-left">#</th>
-                <th className="px-4 py-3 text-left">Product</th>
-                <th className="px-4 py-3 text-left">Category</th>
-                <th className="px-4 py-3 text-left">Quantity</th>
-                <th className="px-4 py-3 text-left">Price</th>
-                {/* <th className="px-4 py-3 text-left">Merchant</th> */}
-                <th className="px-4 py-3 text-left">Status</th>
-                {/* <th className="px-4 py-3 text-left">Ordered By</th> */}
-                <th className="px-4 py-3 text-left">Date</th>
-                <th className="px-4 py-3 text-left">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredOrders.map((order, idx) => (
-                <tr
-                  key={order._id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+    ) : (
+      <table className="min-w-full text-sm text-gray-700 dark:text-gray-200 rounded-2xl overflow-hidden">
+        <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+          <tr>
+            <th className="px-6 py-3 text-left font-medium">#</th>
+            <th className="px-6 py-3 text-left font-medium">Product</th>
+            <th className="px-6 py-3 text-left font-medium">Category</th>
+            <th className="px-6 py-3 text-left font-medium">Quantity</th>
+            <th className="px-6 py-3 text-left font-medium">Price</th>
+            <th className="px-6 py-3 text-left font-medium">Status</th>
+            <th className="px-6 py-3 text-left font-medium">Date</th>
+            <th className="px-6 py-3 text-left font-medium">Action</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          {filteredOrders.map((order, idx) => (
+            <tr
+              key={order._id}
+              className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200"
+            >
+              <td className="px-6 py-3 font-medium">{idx + 1}</td>
+              <td className="px-6 py-3 font-semibold">{order.product.title}</td>
+              <td className="px-6 py-3">{order.product.category}</td>
+              <td className="px-6 py-3">{order.quantity}</td>
+              <td className="px-6 py-3">{order.product.retailPrice * order.quantity} BDT</td>
+              <td className="px-6 py-3">
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                    order.status === "pending"
+                      ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-700/20 dark:text-yellow-400"
+                      : order.status === "sent"
+                      ? "bg-green-100 text-green-700 dark:bg-green-700/20 dark:text-green-400"
+                      : "bg-red-100 text-red-700 dark:bg-red-700/20 dark:text-red-400"
+                  }`}
                 >
-                  <td className="px-4 py-3">{idx + 1}</td>
-                  <td className="px-4 py-3">{order.product.title}</td>
-                  <td className="px-4 py-3">{order.product.category}</td>
-                  <td className="px-4 py-3">{order.quantity}</td>
-                  <td className="px-4 py-3">{order.product.retailPrice * order.quantity} BDT</td>
-                  {/* <td className="px-4 py-3">{order.product.addedByMerchant.name}</td> */}
-                  <td className="px-4 py-3 capitalize">{order.status}</td>
-                  {/* <td className="px-4 py-3">{order.orderedBy}</td> */}
-                  <td className="px-4 py-3">{new Date(order.createdAt).toLocaleString()}</td>
-                  <td className="px-4 py-3 flex gap-2">
-                    <button
-                      onClick={() => handleSentOrder(order._id)}
-                      className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200">Sent</button>
-                    <button
-                      onClick={() => handleCancelOrder(order._id)}
-                      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">Cancel</button>
-                     </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
-    </motion.div>
+                  {order.status}
+                </span>
+              </td>
+              <td className="px-6 py-3">{new Date(order.createdAt).toLocaleString()}</td>
+              <td className="px-6 py-3 flex gap-2">
+                <button
+                  onClick={() => handleSentOrder(order._id)}
+                  className="px-4 py-1 bg-green-500 text-white rounded-full hover:bg-green-600 transition"
+                >
+                  Sent
+                </button>
+                <button
+                  onClick={() => handleCancelOrder(order._id)}
+                  className="px-4 py-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition"
+                >
+                  Cancel
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</motion.div>
+
   );
 };
 

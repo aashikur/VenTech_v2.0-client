@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Swal from "sweetalert2";
 import axios from "axios";
 import useRole from "@/hooks/useRole";
@@ -11,15 +11,17 @@ const MyRequest = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState([]);
-  
-  // console.log("users: ", users);
+
+  const axiosSecure = useAxiosSecure();
+  const { profile, loading: roleLoading } = useRole();
+  const loginMerchant = profile?._id;
 
   // Fetch all request list
   useEffect(() => {
     const fetchRequests = async () => {
       try {
         const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/request-list`);
-        setRequests(res.data.data || []); // data array from backend
+        setRequests(res.data.data || []);
       } catch (err) {
         console.error("Failed to fetch requests:", err);
         Swal.fire("Error", "Failed to fetch requests", "error");
@@ -30,66 +32,66 @@ const MyRequest = () => {
     fetchRequests();
   }, []);
 
-  const handleCancelRequest = (requestId) =>{
+  // Fetch all users
+  useEffect(() => {
+    if (roleLoading) return;
+    const fetchUsers = async () => {
+      try {
+        const res = await axiosSecure.get("/api/v1/admin/users");
+        setUsers(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUsers();
+  }, [roleLoading]);
+
+  const handleCancelRequest = (requestId) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       text: "You won't be able to revert this!",
-      icon: 'warning',
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    })
-    console.log("Canceled requestId: ", requestId);
-  }
-
-    const axiosSecure = useAxiosSecure();
-    const { profile, loading: roleLoading } = useRole();
-    const loginMerchant = profile?._id;
-    console.log("loginMerchant: ", loginMerchant);
-
-  
-    // Fetch all users
-    useEffect(() => {
-      if (roleLoading) return;
-      const fetchUsers = async () => {
-        try {
-          const res = await axiosSecure.get("/api/v1/admin/users");
-          setUsers(res.data);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      fetchUsers();
-    }, [roleLoading]);
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, cancel it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log("Canceled requestId: ", requestId);
+        Swal.fire("Canceled!", "Request has been canceled.", "success");
+      }
+    });
+  };
 
   const filteredRequests = requests
-    .filter((r) => r.requestedByMerchant?._id === loginMerchant) // ✅ only show requests made by this merchant
-  .filter(
-    (r) =>
-      r.productTitle.toLowerCase().includes(search.toLowerCase()) ||
-      r.productCategory.toLowerCase().includes(search.toLowerCase()) ||
-      (r.requestedByMerchant.name || r.requestedByMerchant)
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-      (r.requestedToMerchant.name || r.requestedToMerchant)
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  );
-
-  console.log("filteredRequests: ", filteredRequests);
+    .filter((r) => r.requestedByMerchant?._id === loginMerchant)
+    .filter(
+      (r) =>
+        r.productTitle.toLowerCase().includes(search.toLowerCase()) ||
+        r.productCategory.toLowerCase().includes(search.toLowerCase()) ||
+        (r.requestedByMerchant.name || "")
+          .toLowerCase()
+          .includes(search.toLowerCase()) ||
+        (r.requestedToMerchant.name || "")
+          .toLowerCase()
+          .includes(search.toLowerCase())
+    );
 
   if (loading) {
-    return <div className="text-center py-20 text-gray-500">Loading requests...</div>;
+    return (
+      <div className="text-center py-20 text-gray-500 dark:text-gray-400">
+        Loading requests...
+      </div>
+    );
   }
 
   return (
     <motion.div
-      className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen"
+      className="p-6 bg-gray-50 dark:bg-[#0f0f14] min-h-screen transition-colors"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
-      <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
+      <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-900 dark:text-white">
         My Requests
       </h2>
 
@@ -100,18 +102,19 @@ const MyRequest = () => {
           placeholder="Search by title, category, or merchant..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 shadow-sm"
+          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-pink-500 shadow-sm transition"
         />
       </div>
 
+      {/* Requests Table */}
       {filteredRequests.length === 0 ? (
         <div className="text-center py-10 text-gray-500 dark:text-gray-400">
           No requests found.
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden">
-            <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300">
+        <div className="overflow-x-auto max-w-5xl mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700">
+          <table className="min-w-full text-sm text-gray-700 dark:text-gray-200">
+            <thead className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white">
               <tr>
                 <th className="px-4 py-3 text-left">Requested By</th>
                 <th className="px-4 py-3 text-left">Requested To</th>
@@ -122,19 +125,45 @@ const MyRequest = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-              {filteredRequests.map((req) => (
-                <tr
-                  key={req._id}
-                  className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
-                >
-                  <td className="px-4 py-3">{/*req.requestedByMerchant.name || req.requestedByMerchant*/}Me</td>
-                  <td className="px-4 py-3">{req.requestedToMerchant.name || req.requestedToMerchant}</td>
-                  <td className="px-4 py-3">{req.productTitle}</td>
-                  <td className="px-4 py-3">{req.productCategory}</td>
-                  <td className="px-4 py-3">{new Date(req.createdAt).toLocaleString()}</td>
-                  <td className="px-4 py-3">{req?.status} <button onClick={() => handleCancelRequest(req._id)} className="bg-red-500 text-white px-2 py-1 rounded">Cencel</button></td>
-                </tr>
-              ))}
+              <AnimatePresence>
+                {filteredRequests.map((req) => (
+                  <motion.tr
+                    key={req._id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.3 }}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                  >
+                    <td className="px-4 py-3 font-medium">Me</td>
+                    <td className="px-4 py-3">{req.requestedToMerchant.name || "N/A"}</td>
+                    <td className="px-4 py-3">{req.productTitle}</td>
+                    <td className="px-4 py-3">{req.productCategory}</td>
+                    <td className="px-4 py-3">
+                      {new Date(req.createdAt).toLocaleString()}
+                    </td>
+                    <td className="px-4 py-3 flex items-center gap-2">
+                      <span
+                        className={`hidden px-2 py-1 text-xs rounded-full font-semibold ${
+                          req.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-700/20 dark:text-yellow-400"
+                            : req.status === "approved"
+                            ? "bg-green-100 text-green-700 dark:bg-green-700/20 dark:text-green-400"
+                            : "bg-red-100 text-red-700 dark:bg-red-700/20 dark:text-red-400"
+                        }`}
+                      >
+                        {req.status || "N/A"}
+                      </span>
+                      <button
+                        onClick={() => handleCancelRequest(req._id)}
+                        className="flex items-center gap-1 px-3 py-1 rounded-full bg-red-500 text-white text-xs font-semibold hover:bg-red-600 transition"
+                      >
+                        <FcCancel /> Cancel
+                      </button>
+                    </td>
+                  </motion.tr>
+                ))}
+              </AnimatePresence>
             </tbody>
           </table>
         </div>

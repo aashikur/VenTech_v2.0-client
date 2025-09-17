@@ -152,7 +152,7 @@ const ManageProducts = () => {
                 <td className="px-4 py-3">৳{product.merchantPrice}</td>
                 <td className="px-4 py-3">{product.quantity}</td>
                 <td className="px-4 py-3">{product.stockStatus}</td>
-                <td className="px-4 py-3 space-x-2">
+                <td className="px-4 py-3 space-x-2 flex">
                   <button
                     onClick={() => setEditingProduct(product)}
                     className="px-3 py-1 bg-blue-500 text-white rounded-lg"

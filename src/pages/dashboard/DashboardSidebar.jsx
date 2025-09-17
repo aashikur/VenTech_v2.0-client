@@ -11,49 +11,40 @@ import {
   FaListAlt,
   FaDownload,
 } from "react-icons/fa";
-import { BiDownload, BiLogOut } from "react-icons/bi";
+import { BiLogOut } from "react-icons/bi";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { FiMenu, FiX } from "react-icons/fi";
 import ToggleLightDark from "@/components/ui/ToggleLightDark";
 import { AuthContext } from "@/providers/AuthProvider";
 import useRole from "@/hooks/useRole";
 import SidebarLoading from "@/components/loading/SidebarLoading";
-import Swal from "sweetalert2";
-import { FcManager } from "react-icons/fc";
 
 const LINKS = {
   admin: [
-    
-    
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/manage-users", icon: <FaUsers />, label: "Manage Users" },
-    // { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
-    { to: "/dashboard/manageproduct", icon: '', label: "Manage Products" },
-    { to: "/dashboard/pending-merchant", icon: <FaBoxOpen />, label: "Pending Merchants" },
+    { to: "/dashboard/manageproduct", icon: <FaBoxOpen />, label: "Manage Products" },
+    { to: "/dashboard/pending-merchant", icon: <FaListAlt />, label: "Pending Merchants" },
     { to: "/dashboard/mailbox", icon: <FaShoppingCart />, label: "Mail Box" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Analytics" },
-    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
+    { to: "/dashboard/certificate", icon: <FaDownload />, label: "Certificate" },
   ],
   merchant: [
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/my-products", icon: <FaBoxOpen />, label: "My Products" },
     { to: "/dashboard/add-product", icon: <FaPlus />, label: "Add Product" },
-        // { to: "/dashboard/manageproduct", icon: '', label: "Manage Products" },
-    // { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
-    { to: "/dashboard/my-requests", icon: <FaShoppingCart />, label: "My Request" }, 
-    { to: "/dashboard/manage-order", icon: <FaShoppingCart />, label: "manage-order" }, 
-    { to: "/dashboard/manage-requests", icon: <FaShoppingCart />, label: "Manage Request" },
+    { to: "/dashboard/my-requests", icon: <FaShoppingCart />, label: "My Request" },
+    { to: "/dashboard/manage-order", icon: <FaShoppingCart />, label: "Manage Order" },
+    { to: "/dashboard/manage-requests", icon: <FaShoppingCart />, label: "Manage Requests" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
-    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
-  
+    { to: "/dashboard/certificate", icon: <FaDownload />, label: "Certificate" },
   ],
   customer: [
     { to: "/dashboard", icon: <FaHome />, label: "Dashboard Home" },
     { to: "/dashboard/my-orders", icon: <FaShoppingCart />, label: "My Orders" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "My Profile" },
-    { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },
-  
+    { to: "/dashboard/certificate", icon: <FaDownload />, label: "Certificate" },
   ],
 };
 
@@ -132,19 +123,23 @@ export default function DashboardSidebar() {
             {open ? <BsArrowLeft /> : <BsArrowRight />}
           </button>
         )}
-      {/* Back To VenTech Website */}
-      { (
+
+        {/* Back To VenTech Website */}
         <div className="m-4 translate-y-12">
-          <Link className=" inline-flex border-pink-500/10 items-center border rounded-full  gap-1 text-sm font-bold" to="/">
+          <Link className="inline-flex border-pink-500/10 items-center border rounded-full gap-1 text-sm font-bold" to="/">
             <img
               src="/logo/logo-V.png"
               alt="Logo"
               className="w-8 h-8 rounded object-cover"
-            /> 
-           {open && <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 pr-4 pl-1">VenTech</span>}
-          </Link> 
+            />
+            {open && (
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 pr-4 pl-1">
+                VenTech
+              </span>
+            )}
+          </Link>
         </div>
-      )}
+
         {/* Links */}
         <nav className="flex flex-col gap-1 mt-16 px-2">{renderLinks()}</nav>
 

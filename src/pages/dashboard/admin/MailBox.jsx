@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
+import { motion, AnimatePresence } from "framer-motion";
 
 const MailBox = () => {
   const [mails, setMails] = useState([]);
@@ -36,10 +37,15 @@ const MailBox = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-4 md:p-6">
+    <section className="min-h-screen bg-gray-50 dark:bg-[#0f0f14] p-4 md:p-6 transition-colors">
       {/* Header & Search */}
-      <div className="max-w-3xl mx-auto mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="max-w-3xl mx-auto mb-8"
+      >
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
           Messages
         </h2>
         <input
@@ -50,63 +56,81 @@ const MailBox = () => {
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-orange-500 outline-none shadow-sm"
+          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none text-sm sm:text-base transition"
         />
-      </div>
+      </motion.div>
 
       {/* Messages List */}
       <div className="max-w-3xl mx-auto space-y-4">
-        {paginatedMails.length > 0 ? (
-          paginatedMails.map((mail) => (
-            <div
-              key={mail._id}
-              className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-sm"
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <p className="font-semibold text-gray-900 dark:text-gray-100">
-                    {mail.name} <span className="text-sm text-gray-500 dark:text-gray-400">({mail.email})</span>
-                  </p>
-                  <p className="mt-2 text-gray-500 text-sm dark:text-gray-200  sm:text-lg leading-relaxed">
-                    {mail.message}
-                  </p>
+        <AnimatePresence>
+          {paginatedMails.length > 0 ? (
+            paginatedMails.map((mail) => (
+              <motion.div
+                key={mail._id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white dark:bg-[#18122B] border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-md hover:shadow-xl transition-all"
+              >
+                <div className="flex flex-col sm:flex-row justify-between gap-4">
+                  <div>
+                    <p className="font-semibold text-gray-900 dark:text-gray-100 text-base sm:text-lg">
+                      {mail.name}{" "}
+                      <span className="text-sm text-gray-500 dark:text-gray-400">
+                        ({mail.email})
+                      </span>
+                    </p>
+                    <p className="mt-2 text-gray-600 dark:text-gray-300 sm:text-base leading-relaxed">
+                      {mail.message}
+                    </p>
+                  </div>
+                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap self-start sm:self-center">
+                    {new Date(mail.createdAt).toLocaleString()}
+                  </span>
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                  {new Date(mail.createdAt).toLocaleString()}
-                </span>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
-            No messages found
-          </div>
-        )}
+              </motion.div>
+            ))
+          ) : (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-12 text-gray-500 dark:text-gray-400"
+            >
+              No messages found
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex justify-center mt-6 gap-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="flex justify-center mt-8 gap-3 flex-wrap"
+        >
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="px-5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
           >
             Previous
           </button>
-          <span className="px-4 py-2 text-gray-600 dark:text-gray-300">
+          <span className="px-4 py-2 text-gray-700 dark:text-gray-300 text-sm sm:text-base">
             Page {currentPage} of {totalPages}
           </span>
           <button
             onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="px-5 py-2 rounded-xl border border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
           >
             Next
           </button>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </section>
   );
 };
 

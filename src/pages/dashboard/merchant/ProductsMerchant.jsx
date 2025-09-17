@@ -5,6 +5,7 @@ import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useRole from "@/hooks/useRole";
 import EditProductModal from "@/components/manageProduct/EditProductModal";
 import useAxiosPublic from "@/hooks/axiosPublic";
+import { useNavigate } from "react-router";
 
 const gradientBtn =
   "flex items-center cursor-pointer gap-3 px-4 py-2 rounded-lg font-medium transition-all duration-200 \
@@ -29,6 +30,7 @@ const ProductsMerchant = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [users, setUsers] = useState([]);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
+  const goto = useNavigate();
 
   // Fetch all users
   useEffect(() => {
@@ -134,6 +136,7 @@ const ProductsMerchant = () => {
 
       console.log("😎Request saved:", res.data);
       Swal.fire("Success", "Request sent successfully!", "success");
+      goto('/dashboard/my-requests');
     } catch (err) {
       console.error("Error sending request:", err);
       Swal.fire("Error", "Failed to send request", "error");

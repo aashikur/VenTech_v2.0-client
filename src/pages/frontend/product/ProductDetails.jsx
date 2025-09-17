@@ -81,6 +81,7 @@ const handleOrderNow = async (product, quantity = 1, status = "pending") => {
 
     console.log("Order placed:", res.data);
     Swal.fire("Success!", "Your order has been placed.", "success");
+    goto('/dashboard/my-orders');
   } catch (err) {
     console.error("Order error:", err.response?.data || err.message);
     Swal.fire("Error!", "Failed to place order.", "error");

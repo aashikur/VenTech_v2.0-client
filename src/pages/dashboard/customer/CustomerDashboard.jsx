@@ -9,76 +9,58 @@ const CustomerDashboard = ({ customerName = "Customer" }) => {
     {
       title: "My Orders",
       description: "View and track your orders",
-      link: "/customer/orders",
+      link: "/dashboard/my-orders",
     },
     {
       title: "My Profile",
       description: "Update your personal details",
-      link: "/customer/profile",
+      link: "/dashboard/profile",
     },
     {
       title: "Documents",
       description: "Manage your important documents",
-      link: "/customer/documents",
+      link: "/dashboard/profile",
     },
     {
       title: "Wishlist",
       description: "Check your saved products",
-      link: "/customer/wishlist",
+      link: "/dashboard/profile",
     },
     {
       title: "Support Tickets",
       description: "Raise or view support requests",
-      link: "/customer/support",
+      link: "/dashboard/profile",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 lg:px-8 py-10">
-      {/* ---------------- Welcome + Date ---------------- */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md flex flex-col justify-center items-start">
-          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            Welcome
-          </h2>
-          <p className="text-xl font-bold text-gray-900 dark:text-white mt-2">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 px-4 sm:px-6 lg:px-8 py-12">
+      {/* ---------------- Welcome ---------------- */}
+      <div className="max-w-3xl mx-auto text-center mb-14">
+        <h1 className="text-3xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">
+          Welcome,{" "}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500">
             {customerName}
-          </p>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md flex flex-col justify-center items-start">
-          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            Today
-          </h2>
-          <p className="text-xl font-bold text-gray-900 dark:text-white mt-2">
-            {today}
-          </p>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md flex flex-col justify-center items-start">
-          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
-            Customer
-          </h2>
-          <p className="text-xl font-bold text-gray-900 dark:text-white mt-2">
-            Dashboard
-          </p>
-        </div>
+          </span>
+          !
+        </h1>
+        <p className="mt-3 text-gray-500 dark:text-gray-400 text-lg">{today}</p>
       </div>
 
       {/* ---------------- Cards Section ---------------- */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-4xl mx-auto">
         {cards.map((card) => (
           <Link
             key={card.title}
             to={card.link}
-            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1"
+            className="relative bg-white dark:bg-gray-800 p-10 rounded-3xl shadow-xl hover:shadow-2xl transition transform hover:-translate-y-2 border-2 border-transparent hover:border-gradient-to-r hover:from-pink-500 hover:via-red-500 hover:to-yellow-500"
           >
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
               {card.title}
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-              {card.description}
-            </p>
+            <p className="mt-4 text-gray-500 dark:text-gray-400 text-lg">{card.description}</p>
+            {/* Optional gradient bar at bottom */}
+            <div className="absolute bottom-0 left-0 w-full h-1 rounded-b-3xl bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
           </Link>
         ))}
       </div>
