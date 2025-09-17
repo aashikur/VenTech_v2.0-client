@@ -19,7 +19,7 @@ import Error from "@/components/shared/Error";
 // Dashboard Pages
 import Dashboard from "@/pages/dashboard/Dashboard";
 import ProfileDashboard from "@/pages/dashboard/shared/ProfileDashboard";
-import Order from "@/pages/frontend/shared/Order";
+import Order from "@/pages/frontend/shared/MyOrder";
 
 // Admin Pages
 import ManageAllUsers from "@/pages/dashboard/admin/users/ManageAllUser";
@@ -37,6 +37,7 @@ import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import IDCardGenerator from "@/components/certificate/IDCardGenerator";
 import MyRequest from "@/pages/dashboard/merchant/MyRequest";
 import ManageRequest from "@/pages/dashboard/merchant/ManageRequest";
+import ManageOrder from "@/pages/frontend/shared/ManageOrder";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -81,6 +82,7 @@ const mainRoutes = createBrowserRouter([
       { path: "categories", element: <Categories /> },
       { path: "add-product", element: <AddProducts /> },
       { path: "my-products", element: <MyProductsMerchant /> },
+      { path: "manage-order", element: <ManageOrder /> },
       { path: "certificate", element: <IDCardGenerator /> },
       { path: "my-requests", element: <MyRequest /> }, 
       { path: "manage-requests", element: <ManageRequest /> }, 

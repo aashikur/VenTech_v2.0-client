@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import useAxiosPublic from "@/hooks/axiosPublic";
+import useRole from "@/hooks/useRole";
 
-const Order = () => {
+const MyOrder = () => {
   const axiosPublic = useAxiosPublic();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const { profile } = useRole();
+
+  const LoginCustomer = profile?._id;
+  console.log("LoginCustomer: ", LoginCustomer);
 
   // Fetch all orders from backend
   const fetchOrders = async () => {
@@ -24,17 +29,40 @@ const Order = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, [axiosPublic]);
+  }, []);
 
-  const filteredOrders = orders.filter(
-    (order) =>
-      order.product.title.toLowerCase().includes(search.toLowerCase()) ||
-      order.product.category.toLowerCase().includes(search.toLowerCase()) ||
-      order.status.toLowerCase().includes(search.toLowerCase()) ||
-      (order.product.addedByMerchant.name || "")
-        .toLowerCase()
-        .includes(search.toLowerCase())
-  );
+  const handleDeleteOrder = (id) => {
+    Swal.fire({
+      title: "Are you sure you want to delete this order?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Deleted!", "Your order has been deleted.", "success");
+      }
+    });
+
+    console.log("Deleted orderId: ", id);
+  }
+
+  // ✅ Filter orders: only those placed by the logged-in customer
+  const filteredOrders = orders
+    .filter((order) => order.orderedBy === LoginCustomer)
+    .filter(
+      (order) =>
+        order.product.title.toLowerCase().includes(search.toLowerCase()) ||
+        order.product.category.toLowerCase().includes(search.toLowerCase()) ||
+        order.status.toLowerCase().includes(search.toLowerCase()) ||
+        (order.product.addedByMerchant.name || "")
+          .toLowerCase()
+          .includes(search.toLowerCase())
+    );
+
+  console.log("filteredOrders: ", filteredOrders);
 
   if (loading) {
     return <div className="text-center py-20 text-gray-500">Loading orders...</div>;
@@ -47,7 +75,7 @@ const Order = () => {
       animate={{ opacity: 1 }}
     >
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-        All Orders
+        My Orders
       </h2>
 
       {/* Search */}
@@ -80,6 +108,7 @@ const Order = () => {
                 <th className="px-4 py-3 text-left">Status</th>
                 <th className="px-4 py-3 text-left">Ordered By</th>
                 <th className="px-4 py-3 text-left">Date</th>
+                <th className="px-4 py-3 text-left">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -95,8 +124,13 @@ const Order = () => {
                   <td className="px-4 py-3">{order.product.retailPrice * order.quantity} BDT</td>
                   <td className="px-4 py-3">{order.product.addedByMerchant.name}</td>
                   <td className="px-4 py-3 capitalize">{order.status}</td>
-                  <td className="px-4 py-3">{order.orderedBy}</td>
+                  <td className="px-4 py-3">{/*order.orderedBy*/} Me</td>
                   <td className="px-4 py-3">{new Date(order.createdAt).toLocaleString()}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      onClick={() => handleDeleteOrder(order._id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition-colors duration-200">Cancel Order</button>
+                     </td>
                 </tr>
               ))}
             </tbody>
@@ -107,4 +141,4 @@ const Order = () => {
   );
 };
 
-export default Order;
+export default MyOrder;
