@@ -12,8 +12,9 @@ const Categories = () => {
   const [loadingEdit, setLoadingEdit] = useState(false);
 
   const axiosPublic = useAxiosPublic();
-  const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
-
+  // const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
+  const imgbbApiKey = 'dff59569a81c30696775e74f040e20bb';
+  
   // Fetch categories
   useEffect(() => {
     fetchCategories();

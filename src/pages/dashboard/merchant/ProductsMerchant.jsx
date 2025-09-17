@@ -1,10 +1,9 @@
 import { useState, useEffect, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useRole from "@/hooks/useRole";
 import EditProductModal from "@/components/manageProduct/EditProductModal";
-import axios from "axios";
 import useAxiosPublic from "@/hooks/axiosPublic";
 
 const gradientBtn =
@@ -28,6 +27,22 @@ const ProductsMerchant = () => {
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [selectedMerchant, setSelectedMerchant] = useState(null);
+
+  // Fetch all users
+  useEffect(() => {
+    if (roleLoading) return;
+    const fetchUsers = async () => {
+      try {
+        const res = await axiosSecure.get("/api/v1/admin/users");
+        setUsers(res.data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchUsers();
+  }, [roleLoading]);
 
   // Fetch products
   useEffect(() => {
@@ -65,7 +80,9 @@ const ProductsMerchant = () => {
       if (action === "decrement") newQty = Math.max(0, newQty - 1);
       if (action === "out") newQty = 0;
 
-      await axiosSecure.patch(`/api/v1/products/${productId}/update-stock`, { quantity: newQty });
+      await axiosSecure.patch(`/api/v1/products/${productId}/update-stock`, {
+        quantity: newQty,
+      });
 
       setProducts((prev) =>
         prev.map((p) => (p._id === productId ? { ...p, quantity: newQty } : p))
@@ -108,21 +125,19 @@ const ProductsMerchant = () => {
       requestedToMerchant: product.merchantId,
       productTitle: product.title,
       productCategory: product.category,
-    }
+    };
     try {
-      const res = await axiosPublic.post("http://localhost:3000/api/v1/request-list", PlayLoad)
+      const res = await axiosPublic.post(
+        `${import.meta.env.VITE_SERVER_URL}/api/v1/request-list`,
+        PlayLoad
+      );
 
-      console.log("Request saved:", res.data);
+      console.log("😎Request saved:", res.data);
       Swal.fire("Success", "Request sent successfully!", "success");
     } catch (err) {
       console.error("Error sending request:", err);
       Swal.fire("Error", "Failed to send request", "error");
     }
-
-    console.log("RequestedBy Merchant: ", merchantId)
-    console.log("PlayLoad: ", PlayLoad);
-
-
   };
 
   const filteredProducts = useMemo(() => {
@@ -134,7 +149,9 @@ const ProductsMerchant = () => {
   }, [products, search]);
 
   if (!profile || roleLoading || loading) {
-    return <div className="text-center py-20 text-gray-500">Loading...</div>;
+    return (
+      <div className="text-center py-20 text-gray-500">Loading...</div>
+    );
   }
 
   return (
@@ -160,10 +177,16 @@ const ProductsMerchant = () => {
 
       {/* Filter */}
       <div className="flex justify-center gap-4 mb-8">
-        <button className={filter === "my" ? gradientBtn : outlineBtn} onClick={() => setFilter("my")}>
+        <button
+          className={filter === "my" ? gradientBtn : outlineBtn}
+          onClick={() => setFilter("my")}
+        >
           My Products
         </button>
-        <button className={filter === "other" ? gradientBtn : outlineBtn} onClick={() => setFilter("other")}>
+        <button
+          className={filter === "other" ? gradientBtn : outlineBtn}
+          onClick={() => setFilter("other")}
+        >
           Other Merchant Products
         </button>
       </div>
@@ -171,7 +194,9 @@ const ProductsMerchant = () => {
       {/* Table */}
       <div className="overflow-x-auto">
         {filteredProducts.length === 0 ? (
-          <div className="text-center py-6 text-gray-500 dark:text-gray-400">No products found.</div>
+          <div className="text-center py-6 text-gray-500 dark:text-gray-400">
+            No products found.
+          </div>
         ) : (
           <table className="table-auto w-full text-sm md:text-base rounded-xl shadow overflow-hidden">
             <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
@@ -183,16 +208,24 @@ const ProductsMerchant = () => {
                 <th className="px-4 py-3">Merchant Price</th>
                 <th className="px-4 py-3">Qty</th>
                 <th className="px-4 py-3">Stock</th>
-                {filter === "other" && <th className="px-4 py-3">Added By Merchant</th>}
+                {filter === "other" && (
+                  <th className="px-4 py-3 text-center">Added By</th>
+                )}
                 <th className="px-4 py-3 text-center">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
               {filteredProducts.map((p) => (
-                <tr key={p._id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+                <tr
+                  key={p._id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
                   <td className="px-4 py-3">
                     <img
-                      src={p.images?.[0] || "https://i.ibb.co/jvyTg6vQ/category-product-2.jpg"}
+                      src={
+                        p.images?.[0] ||
+                        "https://i.ibb.co/jvyTg6vQ/category-product-2.jpg"
+                      }
                       alt={p.title}
                       className="w-16 h-16 object-cover rounded"
                     />
@@ -202,9 +235,25 @@ const ProductsMerchant = () => {
                   <td className="px-4 py-3">{p.retailPrice}</td>
                   <td className="px-4 py-3">{p.merchantPrice}</td>
                   <td className="px-4 py-3">{p.quantity}</td>
-                  <td className="px-4 py-3">{p.quantity > 0 ? "In Stock" : "Out of Stock"}</td>
+                  <td className="px-4 py-3">
+                    {p.quantity > 0 ? "In Stock" : "Out of Stock"}
+                  </td>
 
-                  {filter === "other" && <td className="px-4 py-3">{p.merchantId}</td>}
+                  {/* Eye button for merchant details */}
+                  {filter === "other" && (
+                    <td className="px-4 py-3 text-center">
+                      <button
+                        onClick={() =>
+                          setSelectedMerchant(
+                            users.find((user) => user._id === p.merchantId)
+                          )
+                        }
+                        className="text-blue-500 hover:text-blue-700 text-lg"
+                      >
+                        👁️
+                      </button>
+                    </td>
+                  )}
 
                   <td className="px-4 py-3 flex gap-2 justify-center">
                     {filter === "my" ? (
@@ -222,7 +271,9 @@ const ProductsMerchant = () => {
                           onClose={() => setEditingProduct(null)}
                           onUpdated={(updated) =>
                             setProducts((prev) =>
-                              prev.map((prod) => (prod._id === updated._id ? updated : prod))
+                              prev.map((prod) =>
+                                prod._id === updated._id ? updated : prod
+                              )
                             )
                           }
                         />
@@ -235,13 +286,17 @@ const ProductsMerchant = () => {
                         </button>
 
                         <button
-                          onClick={() => handleStockChange(p._id, "increment")}
+                          onClick={() =>
+                            handleStockChange(p._id, "increment")
+                          }
                           className="px-3 py-1 bg-green-500 text-white rounded-lg"
                         >
                           +
                         </button>
                         <button
-                          onClick={() => handleStockChange(p._id, "decrement")}
+                          onClick={() =>
+                            handleStockChange(p._id, "decrement")
+                          }
                           className="px-3 py-1 bg-yellow-500 text-white rounded-lg"
                         >
                           -
@@ -268,6 +323,59 @@ const ProductsMerchant = () => {
           </table>
         )}
       </div>
+
+      {/* Merchant Details Modal */}
+      <AnimatePresence>
+        {selectedMerchant && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
+          >
+            <motion.div
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -50, opacity: 0 }}
+              className="bg-white dark:bg-gray-900 p-6 rounded-2xl shadow-lg w-full max-w-md"
+            >
+              <h3 className="text-lg font-bold mb-4 text-gray-800 dark:text-gray-200">
+                Merchant Details
+              </h3>
+
+              <div className="space-y-2 text-gray-700 dark:text-gray-300">
+                <p>
+                  <strong>Name:</strong> {selectedMerchant.name}
+                </p>
+                <p>
+                  <strong>Shop Name:</strong>{" "}
+                  {selectedMerchant.shopDetails?.shopName}
+                </p>
+                <p>
+                  <strong>Shop No:</strong>{" "}
+                  {selectedMerchant.shopDetails?.shopNumber}
+                </p>
+                <p>
+                  <strong>Address:</strong>{" "}
+                  {selectedMerchant.shopDetails?.shopAddress}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {selectedMerchant.phone}
+                </p>
+              </div>
+
+              <div className="mt-6 flex justify-end">
+                <button
+                  onClick={() => setSelectedMerchant(null)}
+                  className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

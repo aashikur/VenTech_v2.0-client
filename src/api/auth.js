@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000/api/v1/auth"; // backend URL
+
+const BASE_URL = `${import.meta.env.VITE_SERVER_URL}/api/v1/auth`; // backend URL
+console.log('auth.js => triggered')
 
 export const registerUser = async (data) => {
   const res = await axios.post(`${BASE_URL}/register`, data);

@@ -2,17 +2,23 @@ import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import axios from "axios";
+import useRole from "@/hooks/useRole";
+import useAxiosSecure from "@/hooks/useAxiosSecure";
 
 const MyRequest = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  
+  const [users, setUsers] = useState([]);
+  
+  console.log("users: ", users);
 
   // Fetch all request list
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/v1/request-list");
+        const res = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/v1/request-list`);
         setRequests(res.data.data || []); // data array from backend
       } catch (err) {
         console.error("Failed to fetch requests:", err);
@@ -23,6 +29,25 @@ const MyRequest = () => {
     };
     fetchRequests();
   }, []);
+
+
+
+    const axiosSecure = useAxiosSecure();
+    const { loading: roleLoading } = useRole();
+  
+    // Fetch all users
+    useEffect(() => {
+      if (roleLoading) return;
+      const fetchUsers = async () => {
+        try {
+          const res = await axiosSecure.get("/api/v1/admin/users");
+          setUsers(res.data);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchUsers();
+    }, [roleLoading]);
 
   const filteredRequests = requests.filter(
     (r) =>

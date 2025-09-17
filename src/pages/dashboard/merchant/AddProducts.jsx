@@ -40,7 +40,8 @@ const showInactiveAccountAlert = () => {
   });
 };
   // 🔑 replace with your imgbb API key
-  const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
+  // const imgbbApiKey = import.meta.env.VITE_IMGBB_API_KEY;
+  const imgbbApiKey = "dff59569a81c30696775e74f040e20bb"
 
   const pcCategories = [
     { id: 1, name: "Processor (CPU)" },
