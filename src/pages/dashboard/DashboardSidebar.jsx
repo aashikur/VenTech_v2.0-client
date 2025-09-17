@@ -41,6 +41,7 @@ const LINKS = {
         // { to: "/dashboard/manageproduct", icon: '', label: "Manage Products" },
     // { to: "/dashboard/categories", icon: <FaListAlt />, label: "Categories" },
     { to: "/dashboard/my-requests", icon: <FaShoppingCart />, label: "My Request" },
+    { to: "/dashboard/manage-requests", icon: <FaShoppingCart />, label: "Manage Request" },
     { to: "/dashboard/analytics", icon: <FaChartBar />, label: "Shop Analytics" },
     { to: "/dashboard/profile", icon: <FaUser />, label: "Shop Profile" },
     { to: "/dashboard/certificate", icon: <FaDownload/>, label: "Certificate" },

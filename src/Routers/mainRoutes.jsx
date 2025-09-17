@@ -36,6 +36,7 @@ import Categories from "@/pages/dashboard/merchant/Categories";
 import AddBlogs from "@/pages/dashboard/shared/AddBlogs";
 import IDCardGenerator from "@/components/certificate/IDCardGenerator";
 import MyRequest from "@/pages/dashboard/merchant/MyRequest";
+import ManageRequest from "@/pages/dashboard/merchant/ManageRequest";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -81,7 +82,8 @@ const mainRoutes = createBrowserRouter([
       { path: "add-product", element: <AddProducts /> },
       { path: "my-products", element: <MyProductsMerchant /> },
       { path: "certificate", element: <IDCardGenerator /> },
-      { path: "my-requests", element: <MyRequest /> },
+      { path: "my-requests", element: <MyRequest /> }, 
+      { path: "manage-requests", element: <ManageRequest /> }, 
       
       // Error Route
       { path: "*", element: <Error /> },

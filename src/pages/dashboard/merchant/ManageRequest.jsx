@@ -4,9 +4,8 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import useRole from "@/hooks/useRole";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
-import { FcCancel } from "react-icons/fc";
 
-const MyRequest = () => {
+const ManageRequest = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -30,24 +29,22 @@ const MyRequest = () => {
     fetchRequests();
   }, []);
 
-  const handleCancelRequest = (requestId) =>{
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    })
-    console.log("Canceled requestId: ", requestId);
-  }
+
 
     const axiosSecure = useAxiosSecure();
     const { profile, loading: roleLoading } = useRole();
     const loginMerchant = profile?._id;
     console.log("loginMerchant: ", loginMerchant);
 
+    const handleApprove = (id) => {
+      console.log("ID to approve: ", id); // Log the ID to be approved hereid: ", id);
+      Swal.fire("Approved!", "Request approved successfully", "success");
+    }
+
+    const handleReject = (id) => {
+      console.log("ID to reject: ", id); // Log the ID to be rejected here
+      Swal.fire("Rejected!", "Request rejected successfully", "info");
+    }
   
     // Fetch all users
     useEffect(() => {
@@ -64,7 +61,7 @@ const MyRequest = () => {
     }, [roleLoading]);
 
   const filteredRequests = requests
-    .filter((r) => r.requestedByMerchant?._id === loginMerchant) // ✅ only show requests made by this merchant
+    .filter((r) => r.requestedToMerchant?._id === loginMerchant) // ✅ only requests sent TO me
   .filter(
     (r) =>
       r.productTitle.toLowerCase().includes(search.toLowerCase()) ||
@@ -127,12 +124,25 @@ const MyRequest = () => {
                   key={req._id}
                   className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
                 >
-                  <td className="px-4 py-3">{/*req.requestedByMerchant.name || req.requestedByMerchant*/}Me</td>
-                  <td className="px-4 py-3">{req.requestedToMerchant.name || req.requestedToMerchant}</td>
+                  <td className="px-4 py-3">{req.requestedByMerchant.name || req.requestedByMerchant}</td>
+                  <td className="px-4 py-3">{/*req.requestedToMerchant.name || req.requestedToMerchant*/} Me</td>
                   <td className="px-4 py-3">{req.productTitle}</td>
                   <td className="px-4 py-3">{req.productCategory}</td>
                   <td className="px-4 py-3">{new Date(req.createdAt).toLocaleString()}</td>
-                  <td className="px-4 py-3">{req?.status} <button onClick={() => handleCancelRequest(req._id)} className="bg-red-500 text-white px-2 py-1 rounded">Cencel</button></td>
+                  <td className="px-4 py-3 flex">
+                    <button
+                      onClick={() => handleApprove(req._id)}
+                      className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-md"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => handleReject(req._id)}
+                      className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md ml-2"
+                    >
+                      Reject
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -143,4 +153,4 @@ const MyRequest = () => {
   );
 };
 
-export default MyRequest;
+export default ManageRequest;
