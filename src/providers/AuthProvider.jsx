@@ -71,9 +71,9 @@ useEffect(() => {
         setUser({
           ...currentUser,
           accessToken: token,
-          role: data.user.role,
-          status: data.user.status,
-          loginCount: data.user.loginCount,
+          role: data?.user?.role,
+          status: data?.user?.status,
+          loginCount: data?.user?.loginCount,
         });
 
         // console.log("✅ Synced user:", data.user);
