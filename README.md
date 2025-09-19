@@ -2,8 +2,8 @@
 
 ## 🚀 Live Site
 
-* **Frontend:** [https://example-frontend.com/](https://example-frontend.com/)
-* **API:** [https://example-backend.com/](https://example-backend.com/)
+* **Frontend:** [https://example-frontend.com/](/)
+* **API:** [https://example-backend.com/]()
 
 ---
 
