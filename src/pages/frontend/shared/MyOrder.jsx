@@ -10,6 +10,8 @@ const MyOrder = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const { profile } = useRole();
+  const [demoProduct, setDemoProduct] = useState([]);
+  const [number, setNumber] = useState(0);
 
   const LoginCustomer = profile?._id;
   console.log("LoginCustomer: ", LoginCustomer);
@@ -29,7 +31,7 @@ const MyOrder = () => {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+  }, [number]);
 
   const handleDeleteOrder = (id) => {
     Swal.fire({
@@ -43,10 +45,19 @@ const MyOrder = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire("Deleted!", "Your order has been deleted.", "success");
+
+        // Cancel The order 
+        axiosPublic.delete(`/api/v1/cancel-orders/${id}`).then((res)=> {
+          console.log("Deleted order: ", res.data);
+          setNumber(number + 1);
+        }).catch(err => {
+          console.error("Error deleting order: ", err);
+        })
       }
     });
 
-    console.log("Deleted orderId: ", id);
+
+
   }
 
   // ✅ Filter orders: only those placed by the logged-in customer
@@ -62,7 +73,7 @@ const MyOrder = () => {
           .includes(search.toLowerCase())
     );
 
-  console.log("filteredOrders: ", filteredOrders);
+  // console.log("filteredOrders: ", filteredOrders);
 
   if (loading) {
     return <div className="text-center py-20 text-gray-500">Loading orders...</div>;
