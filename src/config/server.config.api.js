@@ -1,4 +1,4 @@
-export const base_api = import.meta.VITE_SERVER_URL
+export const base_api = import.meta.VITE_SERVER_URL 
 
 export const ENDPOINT = {
     auth: {
@@ -7,6 +7,7 @@ export const ENDPOINT = {
 
     }
 }
+
 
 
 

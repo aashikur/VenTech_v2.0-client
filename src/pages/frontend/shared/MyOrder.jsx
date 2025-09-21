@@ -10,7 +10,6 @@ const MyOrder = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const { profile } = useRole();
-  const [demoProduct, setDemoProduct] = useState([]);
   const [number, setNumber] = useState(0);
 
   const LoginCustomer = profile?._id;

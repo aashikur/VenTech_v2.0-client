@@ -47,20 +47,26 @@ const MyRequest = () => {
   }, [roleLoading]);
 
   const handleCancelRequest = (requestId) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, cancel it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        console.log("Canceled requestId: ", requestId);
-        Swal.fire("Canceled!", "Request has been canceled.", "success");
-      }
-    });
+
+
+      console.log(requestId)
+
+
+
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to revert this!",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#d33",
+    //   cancelButtonColor: "#3085d6",
+    //   confirmButtonText: "Yes, cancel it!",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     console.log("Canceled requestId: ", requestId);
+    //     Swal.fire("Canceled!", "Request has been canceled.", "success");
+    //   }
+    // });
   };
 
   const filteredRequests = requests
