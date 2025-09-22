@@ -5,6 +5,7 @@ import axios from "axios";
 import useRole from "@/hooks/useRole";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import { FcCancel } from "react-icons/fc";
+import useAxiosPublic from "@/hooks/axiosPublic";
 
 const MyRequest = () => {
   const [requests, setRequests] = useState([]);
@@ -13,6 +14,8 @@ const MyRequest = () => {
   const [users, setUsers] = useState([]);
 
   const axiosSecure = useAxiosSecure();
+  const axiosPublic = useAxiosPublic();
+  const [number, setNumber] = useState(0);
   const { profile, loading: roleLoading } = useRole();
   const loginMerchant = profile?._id;
 
@@ -30,7 +33,7 @@ const MyRequest = () => {
       }
     };
     fetchRequests();
-  }, []);
+  }, [number]);
 
   // Fetch all users
   useEffect(() => {
@@ -47,11 +50,17 @@ const MyRequest = () => {
   }, [roleLoading]);
 
   const handleCancelRequest = (requestId) => {
-
-
       console.log(requestId)
 
+    // Delete this request axiosPublic 
+    axiosPublic.delete(`/api/v1/merchant/cancel-request/${requestId}`).then((res)=> {
+      console.log("Deleted order: ", res.data);
+      setNumber(number + 1);
+    }).catch(err => {
+      console.error("Error deleting order: ", err);
+    })
 
+ 
 
     // Swal.fire({
     //   title: "Are you sure?",
@@ -98,7 +107,7 @@ const MyRequest = () => {
       animate={{ opacity: 1 }}
     >
       <h2 className="text-3xl sm:text-4xl font-bold mb-6 text-center text-gray-900 dark:text-white">
-        My Requests
+        My Requests : {filteredRequests.length}
       </h2>
 
       {/* Search */}
