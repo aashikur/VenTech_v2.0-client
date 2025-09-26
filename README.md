@@ -2,7 +2,7 @@
 
 ## 🚀 Live Site
 
-* **Frontend:** [https://example-frontend.com/](https://ventech.netlify.app/)]
+* **Frontend:** [https://ventech.netlify.app/](https://ventech.netlify.app/)]
 
 ---
 
