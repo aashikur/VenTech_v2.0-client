@@ -6,7 +6,7 @@ const MailBox = () => {
   const [mails, setMails] = useState([]);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const mailsPerPage = 10;
+  const mailsPerPage = 12; // smaller per page for grid
 
   const axiosSecure = useAxiosSecure();
 
@@ -43,10 +43,10 @@ const MailBox = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-3xl mx-auto mb-8"
+        className="max-w-6xl mx-auto mb-10"
       >
-        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-3">
-          Messages
+        <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
+          📩 Inbox
         </h2>
         <input
           type="text"
@@ -60,37 +60,45 @@ const MailBox = () => {
         />
       </motion.div>
 
-      {/* Messages List */}
-      <div className="max-w-3xl mx-auto space-y-4">
+      {/* Messages Grid */}
+      <div className="max-w-6xl mx-auto">
         <AnimatePresence>
           {paginatedMails.length > 0 ? (
-            paginatedMails.map((mail) => (
-              <motion.div
-                key={mail._id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3 }}
-                className="bg-white dark:bg-[#18122B] border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-md hover:shadow-xl transition-all"
-              >
-                <div className="flex flex-col sm:flex-row justify-between gap-4">
-                  <div>
-                    <p className="font-semibold text-gray-900 dark:text-gray-100 text-base sm:text-lg">
-                      {mail.name}{" "}
-                      <span className="text-sm text-gray-500 dark:text-gray-400">
-                        ({mail.email})
-                      </span>
-                    </p>
-                    <p className="mt-2 text-gray-600 dark:text-gray-300 sm:text-base leading-relaxed">
-                      {mail.message}
-                    </p>
+            <motion.div
+              layout
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {paginatedMails.map((mail) => (
+                <motion.div
+                  key={mail._id}
+                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                  animate={{ opacity: 1, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-white dark:bg-[#18122B] border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
+                >
+                  {/* Header */}
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <p className="font-semibold text-gray-900 dark:text-gray-100 text-base sm:text-lg">
+                        {mail.name}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 break-words">
+                        {mail.email}
+                      </p>
+                    </div>
+                    <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+                      {new Date(mail.createdAt).toLocaleDateString()}
+                    </span>
                   </div>
-                  <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 whitespace-nowrap self-start sm:self-center">
-                    {new Date(mail.createdAt).toLocaleString()}
-                  </span>
-                </div>
-              </motion.div>
-            ))
+
+                  {/* Body */}
+                  <p className="mt-3 text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-4">
+                    {mail.message}
+                  </p>
+                </motion.div>
+              ))}
+            </motion.div>
           ) : (
             <motion.div
               initial={{ opacity: 0 }}
@@ -109,7 +117,7 @@ const MailBox = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-center mt-8 gap-3 flex-wrap"
+          className="flex justify-center mt-12 gap-3 flex-wrap"
         >
           <button
             onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
