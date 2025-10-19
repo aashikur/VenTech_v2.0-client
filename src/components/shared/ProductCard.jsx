@@ -1,5 +1,7 @@
 import { Link } from "react-router";
 import { Button3 } from "../ui/Button";
+import { FaStar } from "react-icons/fa";
+import { FaStarHalfAlt } from "react-icons/fa";
 
 
 function ProductCard({ product }) {
@@ -18,13 +20,29 @@ function ProductCard({ product }) {
         <h3 className="text-lg font-bold text-gray-700 dark:text-white mb-2">
           {product.title.slice(0, 35)}
         </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-          ${product.retailPrice.toFixed(2)}
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 flex justify-between items-center">
+          <span>
+            ${product.retailPrice.toFixed(2)}
+          </span>
+
+          <span className="flex items-center gap-1">
+            4.5
+            <span className="flex items-center gap-0.5 text-orange-400">
+              {[...Array(5)].map((_, i) => {
+                if (i < 4) return <FaStar key={i} />;
+                return <FaStarHalfAlt key={i} />;
+              })}
+            </span>
+          </span>
+
+
         </p>
         <div className="flex justify-between gap-2">
 
-          <Button3 arrow={false} className="opacity-0">
+          <Button3 arrow={false} className="">
+            <Link to={`/product/${product._id}`} className="block w-full text-center">
             Buy Now
+            </Link>
           </Button3>
 
           <Button3>

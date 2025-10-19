@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import useAxiosPublic from "@/hooks/axiosPublic";
 import Section from "@/components/ui/Section";
 import { Button3 } from "@/components/ui/Button";
+import ProductCard from "@/components/shared/ProductCard";
 
 export default function ProductHighlight() {
   const [state, setState] = useState({
@@ -66,41 +67,7 @@ export default function ProductHighlight() {
   );
 }
 
-function ProductCard({ product }) {
-  return (
-    <article className="border border-gray-200 relative dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800 ">
-      <Link to={`/product/${product._id}`}>
-        <figure>
-          <img
-            src={product.images?.[0] || "https://i.ibb.co/jvyTg6vQ/category-product-2.jpg"}
-            alt={product.title.slice(0, 30)}
-            className="h-48 w-full object-cover"
-          />
-        </figure>
-      </Link>
-      <div className="p-4 flex flex-col justify-between">
-        <h3 className="text-lg font-bold text-gray-700 dark:text-white mb-2">
-          {product.title}
-        </h3>
-        <p className="text-sm text-gray-600 dark:text-gray-300 mb-4">
-          ${product.retailPrice.toFixed(2)}
-        </p>
-        <div className="flex justify-between gap-2">
 
-          <Button3 arrow={false} className="opacity-0">
-            Buy Now
-          </Button3>
-
-          <Button3>
-            <Link to={`/product/${product._id}`} className="block w-full text-center">
-              View Details
-            </Link>
-          </Button3>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 /* -------------------- Skeleton -------------------- */
 function SkeletonGrid() {
