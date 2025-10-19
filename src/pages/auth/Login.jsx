@@ -1,7 +1,5 @@
 import { useContext, useState } from "react";
-import Lottie from "lottie-react";
 import { BiEnvelope, BiKey } from "react-icons/bi";
-import { FcGoogle } from "react-icons/fc";
 import { useNavigate, Link } from "react-router";
 import { AuthContext } from "@/providers/AuthProvider";
 import { motion } from "framer-motion";
@@ -9,11 +7,13 @@ import Swal from "sweetalert2";
 import Loading from "../../components/shared/Loading";
 import LottieIcon from "@/components/shared/LottiesPlayer";
 import GoogleButton from "@/components/auth/shared/GoogleButton";
+import LoginForm from "@/components/auth/shared/LoginForm";
 
 const Login = () => {
   const { signIn, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [error, setError] = useState("");
+  
   if (user?.email) {
     navigate("/dashboard");
     return null;
@@ -83,85 +83,7 @@ const Login = () => {
           </div>
 
           {/* Right Form */}
-          <div className="flex-1 flex items-center justify-center">
-            <form
-              onSubmit={handleSubmit}
-              className="w-full max-w-lg bg-white dark:bg-gray-900 rounded-3xl shadow-2xl p-10"
-            >
-              {/* Title */}
-              <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent text-center mb-4">
-                Login to VenTech
-              </h2>
-              <p className="text-center text-gray-600 dark:text-gray-400 mb-8">
-                Access your vendor dashboard or marketplace account
-              </p>
-
-              {/* Google Login */}
-              <GoogleButton />
-
-
-              {/* <GoogleButton/> */}
-              <div className="divider text-gray-500">or</div>
-
-              {/* Email */}
-              <div className="mb-5">
-                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Email</label>
-                <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
-                  <BiEnvelope className="text-orange-500 mr-2" />
-                  <input
-                    className="bg-transparent flex-1 py-3 outline-none text-gray-700 dark:text-gray-200"
-                    type="email"
-                    name="email"
-                    placeholder="Enter your email"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div className="mb-5">
-                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Password</label>
-                <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
-                  <BiKey className="text-orange-500 mr-2" />
-                  <input
-                    className="bg-transparent flex-1 py-3 outline-none text-gray-700 dark:text-gray-200"
-                    type="password"
-                    name="pass"
-                    placeholder="Enter your password"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Error */}
-              {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
-
-              {/* Remember Me */}
-              <div className="flex items-center gap-2 mb-6 text-gray-600 dark:text-gray-400">
-                <input type="checkbox" name="remember" className="rounded" />
-                <span className="text-sm">Remember Me</span>
-                <span className="ml-auto text-sm cursor-pointer hover:underline">
-                  Forgot password?
-                </span>
-              </div>
-
-              {/* Login Button */}
-              <button
-                type="submit"
-                className="w-full py-3 rounded-full bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 text-white font-semibold shadow-lg hover:opacity-90 transition flex items-center justify-center gap-2"
-              >
-                Login Now
-              </button>
-
-              {/* Registration Redirect */}
-              <div className="text-center text-sm mt-6 text-gray-600 dark:text-gray-400">
-                Don&apos;t have an account?{" "}
-                <Link to="/registration" className="text-orange-500 font-semibold hover:underline">
-                  Register here
-                </Link>
-              </div>
-            </form>
-          </div>
+          <LoginForm/>
         </div>
       </div>
 

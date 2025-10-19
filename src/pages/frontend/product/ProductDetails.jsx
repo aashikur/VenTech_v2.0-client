@@ -10,6 +10,7 @@ import useRole from "@/hooks/useRole";
 import SpecificationCard from "@/components/review/SpecificationCard";
 import DescriptionCard from "@/components/review/DescriptionCard";
 import DescriptionTabs from "@/pages/frontend/product/DescriptionTabs";
+import QuickLoginModal from "@/components/auth/shared/QuickLoginModal";
 
 
 const ProductDetails = () => {
@@ -21,6 +22,7 @@ const ProductDetails = () => {
   const axiosPublic = useAxiosPublic();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [quickLoginModalOpen, setQuickLoginModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -54,18 +56,9 @@ const ProductDetails = () => {
     );
   }
 
-  const handleAddToCart = () => {
-    alert(`${product.title} added to cart`);
-  };
-
-  const handleBuyNow = () => {
-    alert(`Proceeding to buy ${product.title}`);
-  };
-
   const handleOrderNow = async (product, quantity = 1, status = "pending") => {
     if (!profile) {
-      Swal.fire("Error!", "Please login first", "error");
-      goto('/login');
+      setQuickLoginModalOpen(true);
       return;
     }
 
@@ -248,6 +241,14 @@ const ProductDetails = () => {
           <ProductArchiveAll size="small" />
         </aside>
       </div>
+
+       {/* quickLoginModalOpen  */}
+      {quickLoginModalOpen && (
+        <QuickLoginModal
+          setQuickLoginModalOpen={setQuickLoginModalOpen}
+          onClose={() => setQuickLoginModalOpen(false)}
+        />
+      )}
     </div>
   );
 };
