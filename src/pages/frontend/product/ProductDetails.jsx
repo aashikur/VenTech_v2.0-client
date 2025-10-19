@@ -7,6 +7,9 @@ import { BsWhatsapp } from "react-icons/bs";
 import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useRole from "@/hooks/useRole";
+import SpecificationCard from "@/components/review/SpecificationCard";
+import DescriptionCard from "@/components/review/DescriptionCard";
+import DescriptionTabs from "@/pages/frontend/product/DescriptionTabs";
 
 
 const ProductDetails = () => {
@@ -59,34 +62,34 @@ const ProductDetails = () => {
     alert(`Proceeding to buy ${product.title}`);
   };
 
-const handleOrderNow = async (product, quantity = 1, status = "pending") => {
-  if (!profile) {
-    Swal.fire("Error!", "Please login first", "error");
-    goto('/login');
-    return;
-  }
+  const handleOrderNow = async (product, quantity = 1, status = "pending") => {
+    if (!profile) {
+      Swal.fire("Error!", "Please login first", "error");
+      goto('/login');
+      return;
+    }
 
-  try {
-    // Prepare payload for backend
-    const orderData = {
-      product,                               // full product object
-      quantity,                              // how many items user wants
-      status,                                // default: "pending"
-      orderedBy: profile?._id,               // ✅ user id from profile
-      addedByMerchant: product?.addedByMerchant?._id // ✅ merchant id
-    };
+    try {
+      // Prepare payload for backend
+      const orderData = {
+        product,                               // full product object
+        quantity,                              // how many items user wants
+        status,                                // default: "pending"
+        orderedBy: profile?._id,               // ✅ user id from profile
+        addedByMerchant: product?.addedByMerchant?._id // ✅ merchant id
+      };
 
-    // POST request to your backend
-    const res = await axiosPublic.post("/api/v1/orders", orderData);
+      // POST request to your backend
+      const res = await axiosPublic.post("/api/v1/orders", orderData);
 
-    console.log("Order placed:", res.data);
-    Swal.fire("Success!", "Your order has been placed.", "success");
-    goto('/dashboard/my-orders');
-  } catch (err) {
-    console.error("Order error:", err.response?.data || err.message);
-    Swal.fire("Error!", "Failed to place order.", "error");
-  }
-};
+      console.log("Order placed:", res.data);
+      Swal.fire("Success!", "Your order has been placed.", "success");
+      goto('/dashboard/my-orders');
+    } catch (err) {
+      console.error("Order error:", err.response?.data || err.message);
+      Swal.fire("Error!", "Failed to place order.", "error");
+    }
+  };
 
 
   return (
@@ -141,45 +144,6 @@ const handleOrderNow = async (product, quantity = 1, status = "pending") => {
                   Quantity Available: {product.quantity}
                 </p>
               </div>
-              {/* Metchent Infor small card  */}
-              {product?.addedByMerchant && (
-                <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center gap-4">
-
-                  {/* Merchant Avatar */}
-                  <img
-                    src={product?.addedByMerchant?.photoURL || "/default-avatar.png"}
-                    alt={product?.addedByMerchant?.name || "Merchant"}
-                    className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600"
-                  />
-
-                  {/* Merchant Info */}
-                  <div className="flex-1 flex flex-col">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      {product?.addedByMerchant?.name || "Unknown Merchant"}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      {product?.addedByMerchant?.shopDetails?.shopName || "Shop Name"}{" "}
-                      ({product?.addedByMerchant?.shopDetails?.shopNumber || "N/A"})
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      📞 {product?.addedByMerchant?.phone || "N/A"}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                      🏢 {product?.addedByMerchant?.shopDetails?.shopAddress || "Address not available"}
-                    </p>
-                  </div>
-
-                  {/* Optional role/status badge */}
-                  <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${product?.addedByMerchant?.status === "active"
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
-                      }`}
-                  >
-                    {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
-                  </span>
-                </div>
-              )}
 
 
               {/* Buttons */}
@@ -218,16 +182,62 @@ const handleOrderNow = async (product, quantity = 1, status = "pending") => {
 
 
           </div>
+          {/* Metchent Infor small card  */}
+          {product?.addedByMerchant && (
+            <div className="mt-6 p-4 border border-gray-200 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 shadow-sm flex items-center gap-4">
 
-          {/* Long Description */}
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-              Product Description
-            </h2>
-            <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
-              {product.description}
-            </p>
-          </div>
+              {/* Merchant Avatar */}
+              <img
+                src={product?.addedByMerchant?.photoURL || "/default-avatar.png"}
+                alt={product?.addedByMerchant?.name || "Merchant"}
+                className="w-16 h-16 rounded-full object-cover border border-gray-300 dark:border-gray-600"
+              />
+
+              {/* Merchant Info */}
+              <div className="flex-1 flex flex-col">
+                <span className="flex items-center justify-between gap-2">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {product?.addedByMerchant?.name || "Unknown Merchant"}
+                  </h3>
+
+                  <span
+                    className={`px-2 md:hidden block py-1 rounded-full text-xs font-medium ${product?.addedByMerchant?.status === "active"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                      }`}
+                  >
+                    {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
+                  </span>
+                </span>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {product?.addedByMerchant?.shopDetails?.shopName || "Shop Name"}{" "}
+                  ({product?.addedByMerchant?.shopDetails?.shopNumber || "N/A"})
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  📞 {product?.addedByMerchant?.phone || "N/A"}
+                </p>
+                <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
+                  🏢 {product?.addedByMerchant?.shopDetails?.shopAddress || "Address not available"}
+                </p>
+              </div>
+
+              {/* Optional role/status badge */}
+              <span
+                className={`px-2 hidden md:block py-1 rounded-full text-xs font-medium ${product?.addedByMerchant?.status === "active"
+                  ? "bg-green-100 text-green-700"
+                  : "bg-red-100 text-red-700"
+                  }`}
+              >
+                {product?.addedByMerchant?.role?.toUpperCase() || "ROLE"}
+              </span>
+            </div>
+          )}
+
+
+          {/* Long Description Tab here  */}
+          <DescriptionTabs/>
+
+
         </div>
 
         {/* ---------- Sidebar ---------- */}
