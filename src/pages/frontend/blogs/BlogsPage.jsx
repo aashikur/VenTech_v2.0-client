@@ -37,7 +37,7 @@ const BlogsPage = () => {
       {/* -------- Two Independent Scrollable Columns -------- */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 
                       grid grid-cols-1 lg:grid-cols-4 gap-10 
-                      h-screen overflow-hidden items-start">
+                      h-[150vh] overflow-hidden items-start">
         
         {/* -------- Left Column: Blog Grid -------- */}
         <div className="lg:col-span-3 h-full overflow-y-auto pr-2">

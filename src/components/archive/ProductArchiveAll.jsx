@@ -58,7 +58,7 @@ const ProductArchiveAll = ({ maxProducts = 6 }) => {
         <div className="text-center mt-6">
           <button
             onClick={() => setShowAll(true)}
-            className="px-4 py-2 bg-orange-600 text-white rounded-full hover:bg-red-500 transition"
+            className="px-5 py-2 text-sm bg-orange-600 text-white rounded-full hover:bg-red-500 transition"
           >
             Load More Products
           </button>

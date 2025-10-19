@@ -62,7 +62,7 @@ const CategoriesPage = () => {
             <div className="text-center mt-8">
               <button
                 onClick={() => setShowAll(true)}
-                className="px-6 py-2 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
+                className="px-6 py-2 rounded-full text-sm bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
               >
                 Load More
               </button>

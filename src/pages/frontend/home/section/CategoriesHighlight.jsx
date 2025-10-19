@@ -42,6 +42,9 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
       subtitle="Latest categories"
       viewAll={false}>
       <section className="w-full py-6 pt-0  -mb-55 relative">
+        <h1 className="text-xl mb-5 md:text-4xl font-semibold
+          bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
+          bg-clip-text text-transparent">Categories</h1>
         {state.loading ? (
           <SkeletonGrid />
         ) : state.error ? (
