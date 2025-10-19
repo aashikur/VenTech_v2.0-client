@@ -43,10 +43,10 @@ const MailBox = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-6xl mx-auto mb-10"
+        className="max-w-6xl mx-auto mb-10 flex items-center justify-between"
       >
         <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-4">
-          📩 Inbox
+          All Inbox
         </h2>
         <input
           type="text"
@@ -56,7 +56,7 @@ const MailBox = () => {
             setSearch(e.target.value);
             setCurrentPage(1);
           }}
-          className="w-full px-5 py-3 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none text-sm sm:text-base transition"
+          className="w-full max-w-[400px] px-5 py-2 rounded-full text-sm border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 shadow-sm focus:ring-2 focus:ring-orange-500 outline-none sm:text-base transition"
         />
       </motion.div>
 
