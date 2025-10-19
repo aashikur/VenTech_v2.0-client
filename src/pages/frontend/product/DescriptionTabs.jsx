@@ -16,9 +16,8 @@ const DescriptionTabs = ({ product }) => {
         defaultChecked
       />
       <div className="tab-content bg-white dark:bg-gray-800  p-6  text-sm max-w-2xl">
-        {product?.description}
-        <br />
-        <DescriptionCard />
+
+        <DescriptionCard  product={product}/>
       </div>
 
       {/* Specification Tab */}

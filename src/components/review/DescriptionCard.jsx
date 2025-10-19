@@ -3,18 +3,16 @@ import React from 'react';
 // DescriptionCard.jsx — Demo description card for an electronic product
 // To be used inside a tab layout as shown in your example.
 
-const DescriptionCard = () => {
+const DescriptionCard = ({ product }) => {
+
+
   return (
     <div className="mt-5">
       <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-        Product Overview — Smart Voltage Regulator 3000W
+        Product Overview : {product?.title}
       </h2>
       <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
-        The <strong>Smart Voltage Regulator 3000W</strong> is designed to protect your home and office
-        appliances from voltage fluctuations. Built with premium-grade copper winding and a digital
-        microcontroller, it ensures stable power output for sensitive electronics like computers,
-        refrigerators, and televisions. With automatic cutoff and lightning surge protection, this
-        device guarantees consistent performance and longevity for your equipment.
+        {product?.description.slice(0, 300)} ...
       </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">

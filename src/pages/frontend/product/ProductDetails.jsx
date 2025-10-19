@@ -235,7 +235,7 @@ const ProductDetails = () => {
 
 
           {/* Long Description Tab here  */}
-          <DescriptionTabs/>
+          <DescriptionTabs product={product}/>
 
 
         </div>
