@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import useAxiosSecure from "@/hooks/useAxiosSecure";
 import useRole from "@/hooks/useRole";
 import EditProductModal from "@/components/manageProduct/EditProductModal";
+import { FaTrashAlt } from "react-icons/fa";
 
 const ManageProducts = () => {
   const { profile, role, loading } = useRole();
@@ -120,6 +121,7 @@ const ManageProducts = () => {
         <table className="w-full text-sm text-left">
           <thead className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white text-sm">
             <tr>
+              <th className="px-4 py-3">#</th>
               <th className="px-4 py-3">Image</th>
               <th className="px-4 py-3">Title</th>
               <th className="px-4 py-3">Category</th>
@@ -136,6 +138,8 @@ const ManageProducts = () => {
                 key={product._id}
                 className="border-t border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
               >
+                <td className="px-4 py-3">{1 + products.indexOf(product)}</td>
+
                 <td className="px-4 py-3">
                   <img
                     src={
@@ -155,8 +159,9 @@ const ManageProducts = () => {
                 <td className="px-4 py-3 space-x-2 flex">
                   <button
                     onClick={() => setEditingProduct(product)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded-lg"
-                  >
+                    className="
+                      bg-green-100 text-green-800 px-4 py-1.5 rounded-full border border-green-500 text-xs font-semibold hover:bg-green-50 dark:hover:bg-green-900/20 transition
+                    " >
                     Edit
                   </button>
 
@@ -173,13 +178,13 @@ const ManageProducts = () => {
                       );
                     }}
                   />
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-red-500 text-red-500 text-xs font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                    >
+                      <FaTrashAlt /> Delete
+                    </button>
 
-                  <button
-                    onClick={() => handleDelete(product._id)}
-                    className="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white text-xs font-semibold"
-                  >
-                    Delete
-                  </button>
                 </td>
               </tr>
             ))}
