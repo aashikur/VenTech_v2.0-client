@@ -90,16 +90,18 @@ const ManageProducts = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="mb-8"
+        className="mb-8 flex flex-col md:flex-row justify-between items-center"
       >
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {role === "admin" ? "All Products" : "My Products"}
-        </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          {role === "admin"
-            ? "Manage all products in the system."
-            : "Here are the products you’ve added."}
-        </p>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            {role === "admin" ? "All Products" : "My Products"}
+          </h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            {role === "admin"
+              ? "Manage all products in the system."
+              : "Here are the products you’ve added."}
+          </p>
+        </div>
 
         {/* Search input */}
         <input
@@ -107,7 +109,7 @@ const ManageProducts = () => {
           placeholder="Search by title or category..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="mt-3 w-full max-w-md px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#18122B] text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-pink-500 outline-none"
+          className="mt-3 w-full max-w-md px-4 py-2 rounded-full text-sm border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#18122B] text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-pink-500 outline-none"
         />
       </motion.div>
 
@@ -178,12 +180,12 @@ const ManageProducts = () => {
                       );
                     }}
                   />
-                    <button
-                      onClick={() => handleDelete(product._id)}
-                      className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-red-500 text-red-500 text-xs font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition"
-                    >
-                      <FaTrashAlt /> Delete
-                    </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="flex items-center gap-1 px-3 py-1.5 rounded-full border border-red-500 text-red-500 text-xs font-semibold hover:bg-red-50 dark:hover:bg-red-900/20 transition"
+                  >
+                    <FaTrashAlt /> Delete
+                  </button>
 
                 </td>
               </tr>
