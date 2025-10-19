@@ -14,7 +14,7 @@ export default function FaqStrip() {
       title={'Frequently Asked Questions'}
       subtitle={'Quick Answers'}
       id={'faq'}
-      viewAll={'View Full FAQ'}
+      viewAll={false}
       description={'Everything you need to know before you donate or request.'}
       className="">
       <div>

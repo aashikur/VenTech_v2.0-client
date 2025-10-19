@@ -40,7 +40,7 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
     noTitle={false}
       title="Categories"
       subtitle="Latest categories"
-      viewAll="false">
+      viewAll={false}>
       <section className="w-full py-6 pt-0  -mb-55 relative">
         {state.loading ? (
           <SkeletonGrid />

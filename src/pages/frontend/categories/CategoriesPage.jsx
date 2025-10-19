@@ -24,7 +24,7 @@ const CategoriesPage = () => {
   }, []);
 
   // show first 9 categories unless load more clicked
-  const visibleCategories = showAll ? categories : categories.slice(0, 9);
+  const visibleCategories = showAll ? categories : categories.slice(0, 15);
 
   return (
     <div className="min-h-screen relative dark:bg-gray-900">
@@ -38,7 +38,7 @@ const CategoriesPage = () => {
       <div
         className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 
         grid grid-cols-1 lg:grid-cols-3 gap-10 
-        h-screen overflow-hidden "
+       overflow-hidden "
       >
         {/* -------- Left Column -------- */}
         <div className="lg:col-span-2 overflow-y-auto pr-2">
@@ -58,7 +58,7 @@ const CategoriesPage = () => {
           </div>
 
           {/* Load More Button */}
-          {categories.length > 9 && !showAll && (
+          {categories.length > 15 && !showAll && (
             <div className="text-center mt-8">
               <button
                 onClick={() => setShowAll(true)}
@@ -72,13 +72,15 @@ const CategoriesPage = () => {
 
         {/* -------- Right Column: Blog Sidebar -------- */}
         <aside className="space-y-6 overflow-y-auto pl-2">
-          <BlogSidebar />
 
           {/* Extra section like BlogsPage */}
           <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
             Archives
           </h2>
           <ProductArchiveAll size={"small"} />
+
+          <BlogSidebar />
+
         </aside>
       </div>
     </div>

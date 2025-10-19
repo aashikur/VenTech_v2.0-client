@@ -40,7 +40,9 @@ export default function ProductHighlight() {
       title={"Featured Products"}
       description={"Check out some of our highlighted products."}
       subtitle={"Top Picks"}
-    >
+      viewAllLink="/products"
+
+      >
       <section className="w-full py-6">
         {state.loading ? (
           <SkeletonGrid />

@@ -1,12 +1,14 @@
 // SectionTitle.jsx
 import React from "react";
 import { Button3 } from "./Button";
+import { Link } from "react-router";
 
 const SectionTitle = ({
     topText = "Discover More",
     title = "Section Title",
     subtitle = "This is a short description about the section content.",
     viewAll,
+    viewAllLink,
 }) => {
     return (
         <section className="w-full py-10 text-left relative flex items-center">
@@ -39,7 +41,7 @@ const SectionTitle = ({
                 )}
             </div>
             <div>
-                {viewAll && <Button3> {viewAll}</Button3>}
+                {viewAll && <Link to={viewAllLink}><Button3> {viewAll}</Button3>   </Link>}
             </div>
         </section>
     );

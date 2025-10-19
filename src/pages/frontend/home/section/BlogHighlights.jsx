@@ -39,6 +39,7 @@ export default function Blog() {
       title={"Blog"}
       description={"Education, community stories, and updates from the VenTech team."}
       subtitle={'Insights & stories'}
+      viewAllLink={'/blog'}
      >
       <div>
 
