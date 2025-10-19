@@ -118,7 +118,7 @@ const ManageProducts = () => {
         className="max-w-6xl mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#18122B] overflow-hidden"
       >
         <table className="w-full text-sm text-left">
-          <thead className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+          <thead className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white text-sm">
             <tr>
               <th className="px-4 py-3">Image</th>
               <th className="px-4 py-3">Title</th>
