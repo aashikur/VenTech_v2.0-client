@@ -9,6 +9,7 @@ const SectionTitle = ({
     subtitle = "This is a short description about the section content.",
     viewAll,
     viewAllLink,
+    className,
 }) => {
     return (
         <section className="w-full py-10 text-left relative flex items-center">
@@ -24,9 +25,9 @@ const SectionTitle = ({
                 {/* Title */}
                 {title !== false && (
                     <h2
-                        className="text-2xl md:text-4xl font-semibold
+                        className={`text-2xl md:text-4xl font-semibold
           bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 
-          bg-clip-text text-transparent"
+          bg-clip-text text-transparent ${className}`}
                     >
                         {title || "Section Title"}
                     </h2>

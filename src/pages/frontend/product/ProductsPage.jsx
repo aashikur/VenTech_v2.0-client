@@ -116,19 +116,17 @@ export default function ProductsPage() {
                     </div>
                 ) : Object.keys(categories).length > 0 ? (
                     Object.entries(categories).map(([catName, products]) => (
-                        <section key={catName}>
-                            <SectionTitle
-                                title={catName}
-                                subtitle={false}
-                                description={false}
-                                topText={false}
-                            />
+                        <section key={catName} className="mb-6">
+                            <section>
+                                <h2 className="text-2xl mb-5 text-orange-500">{catName}</h2>
+                            </section>
                             <Swiper
                                 modules={[Navigation]}
                                 navigation
                                 spaceBetween={20}
+                                
                                 slidesPerView={1}
-                                breakpoints={{ 640: { slidesPerView: 2 }, 1024: { slidesPerView: 4 } }}
+                                breakpoints={{ 640: { slidesPerView: 2 }, 960: { slidesPerView: 4 }, 1200: { slidesPerView: 5 } }}
                             >
                                 {products.map((product) => (
                                     <SwiperSlide key={product._id}>
