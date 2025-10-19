@@ -15,11 +15,11 @@ const Home = () => {
 
 
 
-// axios.get('/get-user-role')
-//   .then(function (response) {
-//     // handle success
-//     console.log(response);
-//   })
+  // axios.get('/get-user-role')
+  //   .then(function (response) {
+  //     // handle success
+  //     console.log(response);
+  //   })
 
 
 
@@ -30,10 +30,10 @@ const Home = () => {
 
 
 
-      <Banner></Banner> 
-            <CategoriesHighlight />
-            <ProductHighlight/>
-      <BlogHighlights/>
+      <Banner/>
+      <CategoriesHighlight />
+      <ProductHighlight />
+      <BlogHighlights />
 
       {/* <StatsCards/> */}
       {/* <ShortageTicker sticky/> */}
@@ -48,9 +48,9 @@ const Home = () => {
       {/* <ContactUs /> */}
       {/* <Section></Section> */}
 
-      <ContactUs/>
-      <div 
-      className="bg-transparent">
+      <ContactUs />
+      <div
+        className="bg-transparent">
         <div className="py-100 bg-transparent text-center text-3xl font-bold max-w-2xl mx-auto">
           Hello VenTech Community ~   👋 We are building An Amizing Business Solutions ~ this is only Fronted for now
         </div>

@@ -75,7 +75,7 @@ const MailBox = () => {
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95, y: 10 }}
                   transition={{ duration: 0.3 }}
-                  className="bg-white dark:bg-[#18122B] border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
+                  className="bg-white  dark:bg-[#18122B] border border-gray-200 dark:border-gray-700 rounded-2xl p-6 shadow-md hover:shadow-xl transition-all flex flex-col justify-between"
                 >
                   {/* Header */}
                   <div className="flex justify-between items-start">

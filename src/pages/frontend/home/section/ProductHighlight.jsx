@@ -50,7 +50,7 @@ export default function ProductHighlight() {
           </div>
         ) : state.products.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {state.products.slice(0,9).map((product) => (
+            {state.products.slice(0, 9).map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>
@@ -66,7 +66,7 @@ export default function ProductHighlight() {
 
 function ProductCard({ product }) {
   return (
-    <article className="border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
+    <article className="border border-gray-200 relative dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1 bg-white dark:bg-gray-800 ">
       <Link to={`/product/${product._id}`}>
         <figure>
           <img
@@ -87,9 +87,9 @@ function ProductCard({ product }) {
 
           <Button3 arrow={false} className="opacity-0">
             Buy Now
-          </Button3> 
+          </Button3>
 
-                    <Button3>
+          <Button3>
             <Link to={`/product/${product._id}`} className="block w-full text-center">
               View Details
             </Link>

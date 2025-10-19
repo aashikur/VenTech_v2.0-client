@@ -36,12 +36,12 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
   }, []);
 
   return (
-    <Section className="-translate-y-20"
+    <Section className="-translate-y-20 "
     noTitle={false}
       title="Categories"
       subtitle="Latest categories"
-      viewAll="View Categories">
-      <section className="w-full py-6 pt-0  relative">
+      viewAll="false">
+      <section className="w-full py-6 pt-0  -mb-55 relative">
         {state.loading ? (
           <SkeletonGrid />
         ) : state.error ? (
@@ -74,21 +74,23 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
 /* -------------------- Card -------------------- */
 function CategoryCard({ cat }) {
   return (
-    <article className="relative border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
+    <article 
+    className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition" 
+    >
       {/* <Link to={`/category/${cat._id}`}> */}
       <Link to={`products`}> 
-        <figure>
+        <figure className="flex flex-col items-center text-center">
           <img
             src={
               cat.image ||
               "https://daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.jpg"
             }
             alt={cat.name}
-            className="h-48 w-full object-cover"
+             className="h-24 w-24 object-cover rounded-lg mb-3 border border-gray-200 dark:border-gray-700"
           />
         </figure>
         <div className="p-4 text-center">
-          <h3 className="text-lg font-extrabold text-gray-700 dark:text-white transition group-hover:text-orange-400">
+          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
             {cat.name}
           </h3>
         </div>

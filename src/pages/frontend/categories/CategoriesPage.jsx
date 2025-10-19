@@ -103,7 +103,7 @@ function CategoryCard({ category }) {
           className="h-24 w-24 object-cover rounded-lg mb-3"
         />
         <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
-          {category.name}
+          {category.name} 
         </h3>
       </Link>
     </motion.div>

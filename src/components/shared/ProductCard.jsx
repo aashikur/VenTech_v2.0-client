@@ -25,9 +25,9 @@ function ProductCard({ product }) {
 
           <Button3 arrow={false} className="opacity-0">
             Buy Now
-          </Button3> 
+          </Button3>
 
-                    <Button3>
+          <Button3>
             <Link to={`/product/${product._id}`} className="block w-full text-center">
               View Details
             </Link>
