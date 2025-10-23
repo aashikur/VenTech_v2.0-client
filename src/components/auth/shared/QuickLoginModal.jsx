@@ -1,9 +1,7 @@
-import GoogleButton from '@/components/auth/shared/GoogleButton';
-import LoginForm from '@/components/auth/shared/LoginForm';
 import LoginForm2 from '@/components/auth/shared/LoginForm2';
-import Login from '@/pages/auth/Login';
+import { IoCloseOutline } from "react-icons/io5";
+
 import React from 'react';
-import { BiCloset } from 'react-icons/bi';
 
 const QuickLoginModal = ({setQuickLoginModalOpen}) => {
     return (
@@ -11,7 +9,7 @@ const QuickLoginModal = ({setQuickLoginModalOpen}) => {
 
             <div className=' max-w-[500px] w-11/12 absolute top-10 left-1/2 transform -translate-x-1/2 -'>
             <button>
-                <BiCloset className='text-2xl absolute top-2 right-2' onClick={() => setQuickLoginModalOpen(false)}/>
+                <IoCloseOutline className='text-2xl absolute top-2 -right-5 cursor-pointer hover:opacity-75' onClick={() => setQuickLoginModalOpen(false)}/>
             </button>
 
                 <LoginForm2 />

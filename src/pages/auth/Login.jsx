@@ -20,14 +20,6 @@ const Login = () => {
   }
 
 
-// need to add login as Guest button  
-// guest.customer@ventech.com
-// guest.merchent@ventech.com
-// guest.admin@ventech.com
-
-// Guest1234.
-
-
 
 
 

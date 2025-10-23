@@ -68,7 +68,7 @@ const LoginForm2 = () => {
       >
         {/* Title */}
         <h2 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 bg-clip-text text-transparent text-center mb-4">
-          Quick Login/Guest
+          Login/Guest
         </h2>
 
 
@@ -84,7 +84,7 @@ const LoginForm2 = () => {
 
         {/* Email */}
         <div className="mb-5">
-          <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Email</label>
+          {/* <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Email</label> */}
           <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
             <BiEnvelope className="text-orange-500 mr-2" />
             <input
@@ -99,7 +99,7 @@ const LoginForm2 = () => {
 
         {/* Password */}
         <div className="mb-5">
-          <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Password</label>
+          {/* <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Password</label> */}
           <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
             <BiKey className="text-orange-500 mr-2" />
             <input
