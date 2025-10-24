@@ -83,7 +83,7 @@ export default function DashboardOverview() {
   const { user, logOut } = useContext(AuthContext);
   const { role, loading } = useRole();
 
-  if (loading) return <SidebarLoading />;
+  // if (loading) return;
 
   const handleLogout = () => {
     logOut().then(() => {

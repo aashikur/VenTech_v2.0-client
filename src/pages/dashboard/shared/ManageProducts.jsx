@@ -80,7 +80,9 @@ const ManageProducts = () => {
   }, [products, search]);
 
   if (loading || loadingProducts) {
-    return <div className="text-center py-20 text-gray-500">Loading...</div>;
+    return <div className="flex items-center justify-center h-screen">
+      <span className="loading loading-spinner text-error"></span>
+    </div>
   }
 
   return (
