@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen flex bg-[#F9FAFB] dark:bg-[#18122B]">
+    <div className="min-h-screen flex bg-[#F9FAFB] dark:bg-[#0F0F14]">
       {/* Sidebar */}
       <DashboardSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
@@ -31,7 +31,7 @@ const DashboardLayout = () => {
 // 🔹 Top Navbar Component
 export function DashboardNavbar({ setSidebarOpen }) {
   return (
-    <header className="sticky top-0 z-30 bg-white dark:bg-[#1f1b2e] shadow flex items-center justify-between px-4 py-3">
+    <header className="border-b border-[#c30027]/10 sticky top-0 z-30 bg-[#FFFFFF] dark:bg-[#18122B] shadow flex items-center justify-between px-4 py-3">
       {/* Left: Toggle + Title */}
       <div className="flex items-center gap-3">
         <button
