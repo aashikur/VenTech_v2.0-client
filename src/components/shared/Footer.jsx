@@ -1,6 +1,6 @@
 const Footer = () => (
-  <footer className="bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 px-6 py-12">
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+  <footer className="bg-gray-50 dark:bg-gray-950/90 dark:border-t dark:border-gray-800 text-gray-700 dark:text-gray-300 px-6 py-12">
+    <div className="max-w-[1400px] mx-auto  grid grid-cols-1 md:grid-cols-4 gap-10">
       {/* Logo & About */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center gap-2">

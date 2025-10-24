@@ -39,6 +39,7 @@ import MyRequest from "@/pages/dashboard/merchant/MyRequest";
 import ManageRequest from "@/pages/dashboard/merchant/ManageRequest";
 import ManageOrder from "@/pages/frontend/shared/ManageOrder";
 import TermsPages from "@/pages/frontend/terms/TermsPages";
+import PrivacyPolicyPage from "@/pages/frontend/privacy/PrivacyPolicyPage";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -56,7 +57,8 @@ const mainRoutes = createBrowserRouter([
       { path: "categories", element: <CategoriesPage /> },
       { path: "blogs", element: <BlogsPage /> },
       { path: "terms", element: <TermsPages /> },
-      
+      { path: "privacy", element: <PrivacyPolicyPage /> },
+
 
     ],
   },
