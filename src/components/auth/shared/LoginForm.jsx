@@ -1,4 +1,5 @@
 import GoogleButton from '@/components/auth/shared/GoogleButton';
+import GuestLogin from '@/components/auth/shared/GuestLogin';
 import { AuthContext } from '@/providers/AuthProvider';
 import React, { useContext, useState } from 'react';
 import { BiEnvelope, BiKey } from 'react-icons/bi';
@@ -73,6 +74,8 @@ const LoginForm = () => {
                 Access your vendor dashboard or marketplace account
               </p>
 
+              <GuestLogin/>
+
               {/* Google Login */}
               <GoogleButton />
 
@@ -82,7 +85,7 @@ const LoginForm = () => {
 
               {/* Email */}
               <div className="mb-5">
-                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Email</label>
+                {/* <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Email</label> */}
                 <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
                   <BiEnvelope className="text-orange-500 mr-2" />
                   <input
@@ -97,7 +100,7 @@ const LoginForm = () => {
 
               {/* Password */}
               <div className="mb-5">
-                <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Password</label>
+                {/* <label className="block mb-2 font-semibold text-gray-700 dark:text-gray-300">Password</label> */}
                 <div className="flex items-center rounded-full px-4 bg-gray-50 dark:bg-gray-800 shadow-inner">
                   <BiKey className="text-orange-500 mr-2" />
                   <input

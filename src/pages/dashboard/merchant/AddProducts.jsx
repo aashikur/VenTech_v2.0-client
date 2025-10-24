@@ -169,7 +169,7 @@ const showInactiveAccountAlert = () => {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
-        className="max-w-4xl mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#18122B] p-6"
+        className=" mx-auto rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#18122B] p-6"
       >
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           {/* Title */}

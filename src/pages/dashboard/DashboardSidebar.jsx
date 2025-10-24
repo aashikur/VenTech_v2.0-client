@@ -80,10 +80,9 @@ export default function DashboardSidebar() {
         to={item.to}
         className={({ isActive }) =>
           `flex items-center gap-3 px-4 py-2 rounded-lg font-medium transition-all duration-200
-          ${
-            isActive
-              ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow"
-              : "text-[#18122B] dark:text-white hover:bg-gradient-to-r hover:from-pink-500/10 hover:via-red-500/10 hover:to-yellow-500/10"
+          ${isActive
+            ? "bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow"
+            : "text-[#18122B] dark:text-white hover:bg-gradient-to-r hover:from-pink-500/10 hover:via-red-500/10 hover:to-yellow-500/10"
           }
           ${open ? "justify-start" : "justify-center"}`
         }
@@ -114,38 +113,9 @@ export default function DashboardSidebar() {
           ${open ? (isMobile ? "w-full" : "w-64") : "w-0 md:w-16"}
           border-r border-pink-500/10 fixed z-40 overflow-hidden`}
       >
-        {/* Desktop collapse button */}
-        {!isMobile && (
-          <button
-            onClick={toggleSidebar}
-            className="absolute transition-all duration-300 cursor-pointer hover:scale-110 focus:scale-95 top-4 right-[17px] p-1 rounded-full shadow text-white bg-gradient-to-r from-pink-500 to-yellow-500 hover:shadow-lg z-50"
-          >
-            {open ? <BsArrowLeft /> : <BsArrowRight />}
-          </button>
-        )}
-
-        {/* Back To VenTech Website */}
-        <div className="m-4 translate-y-12">
-          <Link className="inline-flex border-pink-500/10 items-center border rounded-full gap-1 text-sm font-bold" to="/">
-            <img
-              src="/logo/logo-V.png"
-              alt="Logo"
-              className="w-8 h-8 rounded object-cover"
-            />
-            {open && (
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 pr-4 pl-1">
-                VenTech
-              </span>
-            )}
-          </Link>
-        </div>
-
-        {/* Links */}
-        <nav className="flex flex-col gap-1 mt-16 px-2">{renderLinks()}</nav>
-
         {/* Bottom Profile + Theme + Logout */}
         {open && (
-          <div className="mt-auto border-t border-pink-500/10 p-4 flex flex-col items-center gap-3">
+          <div className="mt-15 border-b border-pink-500/10 p-4 flex flex-col items-center gap-3">
             <div className="flex flex-col items-center">
               <img
                 src={user?.photoURL || "/logo/logo-V.png"}
@@ -171,6 +141,39 @@ export default function DashboardSidebar() {
             </div>
           </div>
         )}
+
+
+
+        {/* Desktop collapse button */}
+        {!isMobile && (
+          <button
+            onClick={toggleSidebar}
+            className="absolute transition-all duration-300 cursor-pointer hover:scale-110 focus:scale-95 top-4 right-[17px] p-1 rounded-full shadow text-white bg-gradient-to-r from-pink-500 to-yellow-500 hover:shadow-lg z-50"
+          >
+            {open ? <BsArrowLeft /> : <BsArrowRight />}
+          </button>
+        )}
+
+        {/* Back To VenTech Website */}
+        <div className="m-4 translate-y-12">
+          <Link className="inline-flex border-pink-500/10 items-center border rounded-full gap-1 text-sm font-bold" to="/">
+            <img
+              src="/logo/icon-site.png"
+              alt="Logo"
+              className="w-8 h-8 rounded object-cover"
+            />
+            {open && (
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 pr-4 pl-1">
+                VenTech
+              </span>
+            )}
+          </Link>
+        </div>
+
+        {/* Links */}
+        <nav className="flex flex-col gap-1 mt-16 px-2">{renderLinks()}</nav>
+
+
       </aside>
     </>
   );
