@@ -38,6 +38,7 @@ import IDCardGenerator from "@/components/certificate/IDCardGenerator";
 import MyRequest from "@/pages/dashboard/merchant/MyRequest";
 import ManageRequest from "@/pages/dashboard/merchant/ManageRequest";
 import ManageOrder from "@/pages/frontend/shared/ManageOrder";
+import TermsPages from "@/pages/frontend/terms/TermsPages";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -54,6 +55,9 @@ const mainRoutes = createBrowserRouter([
       { path: "single-blog/:id", element: <SingleBlog /> },
       { path: "categories", element: <CategoriesPage /> },
       { path: "blogs", element: <BlogsPage /> },
+      { path: "terms", element: <TermsPages /> },
+      
+
     ],
   },
   {
