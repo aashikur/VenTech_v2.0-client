@@ -12,7 +12,7 @@ const IDCardGenerator = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("access-token"); // or your token key
+        const token = localStorage.getItem("access-token");
         if (!token) return;
 
         const { data } = await axiosPublic.get("/api/v1/auth/me", {
@@ -44,64 +44,67 @@ const IDCardGenerator = () => {
   };
 
   return (
-<div className="p-6 space-y-6 max-w-4xl mx-auto">
-  <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
-    Employee ID Card
-  </h2>
+    <div className="p-6 space-y-6 max-w-4xl mx-auto">
+      <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+        Employee ID Card
+      </h2>
 
-  {/* ID Card Preview */}
-  <div
-    ref={cardRef}
-    className="w-[350px] h-[220px] border border-gray-200 dark:border-gray-700 relative rounded-xl overflow-hidden shadow-2xl bg-gradient-to-r from-red-600 to-red-400 text-white mx-auto"
-  >
-    {/* Top Bar */}
-    <div className="absolute top-0 left-0 w-full h-10 bg-black/30 flex items-center px-4 text-sm font-semibold uppercase tracking-wide">
-      VenTech Corporation
+      {/* ID Card Preview */}
+      <div
+        ref={cardRef}
+        className="w-[350px] h-[220px] border border-gray-300 dark:border-gray-700 relative rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 mx-auto"
+      >
+        {/* Top Bar */}
+        <div className="absolute top-0 left-0 w-full h-10 bg-black/10 dark:bg-white/10 flex items-center px-4 text-sm font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-100">
+          VenTech Corporation
+        </div>
+
+        {/* Photo */}
+        <div className="absolute top-12 left-4">
+          <img
+            src={
+              user?.photoURL ||
+              "https://via.placeholder.com/80x80.png?text=Photo"
+            }
+            alt="employee"
+            className="w-20 h-20 rounded-full border border-gray-300 dark:border-gray-600 object-cover shadow-md"
+          />
+        </div>
+
+        {/* Details */}
+        <div className="absolute top-12 left-28 space-y-1">
+          <p className="font-semibold text-lg sm:text-xl leading-tight">
+            {user?.name || "Employee Name"}
+          </p>
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+            Phone: {user?.phone || "000-0000000"}
+          </p>
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+            ID: {user?._id?.slice(-6) || "EMP-XXX"}
+          </p>
+          <p className="text-xs sm:text-sm opacity-90 text-gray-600 dark:text-gray-400">
+            Role: {user?.role || "staff"} | Status:{" "}
+            <span className="capitalize">{user?.status || "active"}</span>
+          </p>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="absolute bottom-0 left-0 w-full h-10 bg-black/5 dark:bg-white/5 flex justify-between items-center px-4 text-xs sm:text-sm text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
+          <span>Issued: {user?.createdAt?.slice(0, 10) || "2025-01-01"}</span>
+          <span>Valid: 1 Year</span>
+        </div>
+      </div>
+
+      {/* Download Button */}
+      <div className="text-center">
+        <button
+          onClick={handleDownload}
+          className="bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 border border-gray-400 dark:border-gray-600"
+        >
+          Download ID Card
+        </button>
+      </div>
     </div>
-
-    {/* Photo */}
-    <div className="absolute top-12 left-4">
-      <img
-        src={
-          user?.photoURL ||
-          "https://via.placeholder.com/80x80.png?text=Photo"
-        }
-        alt="employee"
-        className="w-20 h-20 rounded-full border-2 border-white object-cover shadow-md"
-      />
-    </div>
-
-    {/* Details */}
-    <div className="absolute top-12 left-28 space-y-1">
-      <p className="font-bold text-lg sm:text-xl leading-tight">
-        {user?.name || "Employee Name"}
-      </p>
-      <p className="text-sm sm:text-base">Phone: {user?.phone || "000-0000000"}</p>
-      <p className="text-sm sm:text-base">ID: {user?._id?.slice(-6) || "EMP-XXX"}</p>
-      <p className="text-xs sm:text-sm opacity-90">
-        Role: {user?.role || "staff"} | Status:{" "}
-        <span className="capitalize">{user?.status || "active"}</span>
-      </p>
-    </div>
-
-    {/* Bottom Bar */}
-    <div className="absolute bottom-0 left-0 w-full h-10 bg-black/40 flex justify-between items-center px-4 text-xs sm:text-sm">
-      <span>Issued: {user?.createdAt?.slice(0, 10) || "2025-01-01"}</span>
-      <span>Valid: 1 Year</span>
-    </div>
-  </div>
-
-  {/* Download Button */}
-  <div className="text-center">
-    <button
-      onClick={handleDownload}
-      className="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-xl shadow-md transition transform hover:scale-105"
-    >
-      Download ID Card
-    </button>
-  </div>
-</div>
-
   );
 };
 
