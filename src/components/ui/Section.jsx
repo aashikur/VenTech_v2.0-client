@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 const Section = ({ id, title, topText, subtitle, children, viewAllLink ='/', className, viewAll = "View All", noTitle = true }) => {
     return (
         <section id={id} className={`w-full pb-18 text-gray-700 relative dark:text-gray-300  ${className}`}>
-            <div className="mx-auto max-w-7xl px-4 md:px-6 py-12 relative">
+            <div className="mx-auto max-w-[1440px] px-4 md:px-6 py-12 relative">
                 {/* Hero Header */}
                 {noTitle && <SectionTitle
                     topText={topText}

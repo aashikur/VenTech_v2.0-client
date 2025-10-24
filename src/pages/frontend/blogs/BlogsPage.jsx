@@ -35,7 +35,7 @@ const BlogsPage = () => {
       />
 
       {/* -------- Two Independent Scrollable Columns -------- */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 
                       grid grid-cols-1 lg:grid-cols-4 gap-10 
                       h-[150vh] overflow-hidden items-start">
         
