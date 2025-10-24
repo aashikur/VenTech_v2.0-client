@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="min-h-screen flex bg-[#FDEDF3] dark:bg-[#18122B]">
+    <div className="min-h-screen flex bg-[#F9FAFB] dark:bg-[#18122B]">
       {/* Sidebar */}
       <DashboardSidebar open={sidebarOpen} setOpen={setSidebarOpen} />
 
