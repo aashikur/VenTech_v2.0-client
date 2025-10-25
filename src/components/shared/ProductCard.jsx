@@ -17,9 +17,9 @@ function ProductCard({ product }) {
         </figure>
       </Link>
       <div className="p-4 flex flex-col justify-between border-t border-gray-200 dark:border-gray-700">
-        <h3 className="text-lg font-bold text-gray-700 dark:text-white mb-2 truncate">
+        <Link to={`/product/${product._id}`} className="text-lg font-bold text-gray-700 dark:text-white mb-2 truncate">
           {product.title} 
-        </h3>
+        </Link>
         <p className="text-sm opacity-50 text-gray-600 dark:text-gray-300 mb-4 flex justify-between items-center">
           <span>
             ${product.retailPrice.toFixed(2)}

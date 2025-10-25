@@ -91,7 +91,7 @@ const ProductDetails = () => {
         {/* ---------- Main Product Section ---------- */}
         <div className="lg:col-span-3 space-y-10">
           {/* Top Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 border border-gray-200 dark:border-gray-700">
             {/* Product Image */}
             <motion.img
               src={product.images?.[0] || "/no-image.png"}
@@ -155,7 +155,7 @@ const ProductDetails = () => {
                 </button> */}
                 <button
                   onClick={() => handleOrderNow(product)}
-                  className="flex-1 px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
+                  className="flex-1 px-6 py-3 rounded-full bg-orange-600 text-white font-semibold hover:bg-orange-700 transition"
                 >
                   Place a Order
                 </button>

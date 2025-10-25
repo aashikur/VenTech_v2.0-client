@@ -52,10 +52,13 @@ const IDCardGenerator = () => {
       {/* ID Card Preview */}
       <div
         ref={cardRef}
-        className="w-[350px] h-[220px] border border-gray-300 dark:border-gray-700 relative rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-gray-100 mx-auto"
+        className="w-[350px] h-[220px] border border-gray-300 dark:border-gray-700 relative rounded-xl overflow-hidden shadow-xl bg-gradient-to-br from-pink-50 to-orange-200 text-gray-900 dark:text-gray-900 mx-auto"
       >
         {/* Top Bar */}
-        <div className="absolute top-0 left-0 w-full h-10 bg-black/10 dark:bg-white/10 flex items-center px-4 text-sm font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-100">
+        <div className="absolute top-0 left-0 w-full h-10  flex items-center px-4 text-sm font-semibold uppercase tracking-wide
+        bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow
+          justify-start
+        ">
           VenTech Corporation
         </div>
 
@@ -67,19 +70,19 @@ const IDCardGenerator = () => {
               "https://via.placeholder.com/80x80.png?text=Photo"
             }
             alt="employee"
-            className="w-20 h-20 rounded-full border border-gray-300 dark:border-gray-600 object-cover shadow-md"
+            className="w-20 h-20 rounded-full border border-pink-300 dark:border-gray-600 object-cover shadow-md"
           />
         </div>
 
         {/* Details */}
-        <div className="absolute top-12 left-28 space-y-1">
+        <div className="absolute top-12 left-28 space-y-1 ">
           <p className="font-semibold text-lg sm:text-xl leading-tight">
             {user?.name || "Employee Name"}
           </p>
-          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-500">
             Phone: {user?.phone || "000-0000000"}
           </p>
-          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
+          <p className="text-sm sm:text-base text-gray-700 dark:text-gray-500">
             ID: {user?._id?.slice(-6) || "EMP-XXX"}
           </p>
           <p className="text-xs sm:text-sm opacity-90 text-gray-600 dark:text-gray-400">
@@ -89,7 +92,10 @@ const IDCardGenerator = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="absolute bottom-0 left-0 w-full h-10 bg-black/5 dark:bg-white/5 flex justify-between items-center px-4 text-xs sm:text-sm text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-gray-700">
+        <div className="absolute bottom-0 left-0 w-full h-10 bg-black/5 dark:bg-white/5 flex justify-between items-center px-4 text-xs sm:text-sm
+        bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow
+        
+        ">
           <span>Issued: {user?.createdAt?.slice(0, 10) || "2025-01-01"}</span>
           <span>Valid: 1 Year</span>
         </div>
@@ -99,7 +105,8 @@ const IDCardGenerator = () => {
       <div className="text-center">
         <button
           onClick={handleDownload}
-          className="bg-black dark:bg-white text-white dark:text-black px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 border border-gray-400 dark:border-gray-600"
+          className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow
+          justify-start px-6 py-2 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105 border border-gray-400 dark:border-gray-600"
         >
           Download ID Card
         </button>

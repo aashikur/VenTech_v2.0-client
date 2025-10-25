@@ -52,13 +52,13 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
             {state.error}
           </div>
         ) : state.categories.length > 0 ? (
-          <div className={`grid gap-6 grid-cols-2 sm:grid-cols-3 lg:grid-cols-${lg}`}>
+          <div className={`grid gap-1 grid-cols-3 sm:grid-cols-4 lg:grid-cols-6`}>
             {all == true && state.categories.map((cat) => (
               <CategoryCard key={cat._id} cat={cat} />
             ))}
 
             
-            {all == false && state.categories.slice(0, 8).map((cat) => (
+            {all == false && state.categories.slice(0, 12).map((cat) => (
               <CategoryCard key={cat._id} cat={cat} />
             ))}
 
@@ -78,7 +78,7 @@ export default function CategoriesHighlight({lg = "4", all=false}) {
 function CategoryCard({ cat }) {
   return (
     <article 
-    className="p-6 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition" 
+    className="py-4 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm bg-white dark:bg-gray-800 hover:shadow-md transition" 
     >
       {/* <Link to={`/category/${cat._id}`}> */}
       <Link to={`products`}> 
@@ -92,8 +92,8 @@ function CategoryCard({ cat }) {
              className="h-24 w-24 object-cover rounded-lg mb-3 border border-gray-200 dark:border-gray-700"
           />
         </figure>
-        <div className="p-4 text-center">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+        <div className="text-center">
+          <h3 className="text-xs leading-3 font-semibold text-gray-800 dark:text-gray-200">
             {cat.name}
           </h3>
         </div>

@@ -108,7 +108,8 @@ const MyOrder = () => {
           </div>
         ) : (
           <table className="min-w-full text-sm md:text-base">
-            <thead className="bg-gray-100 dark:bg-gray-900 text-gray-700 dark:text-gray-300 uppercase text-xs tracking-wider">
+            <thead className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white shadow
+          justify-start uppercase text-xs tracking-wider">
               <tr>
                 <th className="px-6 py-3 text-left">#</th>
                 <th className="px-6 py-3 text-left">Product</th>
@@ -122,7 +123,7 @@ const MyOrder = () => {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody className="divide-y divide-gray-200 dark:divide-gray-700 text-sm">
               {filteredOrders.map((order, idx) => (
                 <motion.tr
                   key={order._id}
