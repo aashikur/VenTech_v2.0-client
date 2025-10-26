@@ -40,6 +40,7 @@ import ManageRequest from "@/pages/dashboard/merchant/ManageRequest";
 import ManageOrder from "@/pages/frontend/shared/ManageOrder";
 import TermsPages from "@/pages/frontend/terms/TermsPages";
 import PrivacyPolicyPage from "@/pages/frontend/privacy/PrivacyPolicyPage";
+import CheckoutPage from "@/pages/frontend/checkout/CheckoutPage";
 
 const mainRoutes = createBrowserRouter([
   {
@@ -58,6 +59,7 @@ const mainRoutes = createBrowserRouter([
       { path: "blogs", element: <BlogsPage /> },
       { path: "terms", element: <TermsPages /> },
       { path: "privacy", element: <PrivacyPolicyPage /> },
+      { path: "CheckoutPage", element: <CheckoutPage /> },
 
 
     ],
