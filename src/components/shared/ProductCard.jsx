@@ -6,7 +6,7 @@ import { FaStarHalfAlt } from "react-icons/fa";
 
 function ProductCard({ product }) {
   return (
-    <article className="border   bg-white dark:bg-[#131B25]/50 backdrop-blur-[10px] border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
+    <article className="border max-w-[450px]  bg-white dark:bg-[#131B25]/50 backdrop-blur-[10px] border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-transform transform hover:-translate-y-1">
       <Link to={`/product/${product._id}`}>
         <figure>
           <img
@@ -37,16 +37,16 @@ function ProductCard({ product }) {
 
 
         </p>
-        <div className="flex justify-between gap-2 opacity-50 hover:opacity-100">
+        <div className="flex justify-between gap-2 opacity-50 hover:opacity-100 ">
 
           <Button3 arrow={false} className="">
-            <Link to={`/product/${product._id}`} className="block w-full text-center">
+            <Link to={`/product/${product._id}`} className="block w-full text-center text-gray-500">
             Buy Now
             </Link>
           </Button3>
 
           <Button3>
-            <Link to={`/product/${product._id}`} className="block w-full text-center">
+            <Link to={`/product/${product._id}`} className="block w-full text-center text-gray-500">
               View Details
             </Link>
           </Button3>
